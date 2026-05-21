@@ -1,0 +1,208 @@
+schema_id: calibration_profile_schema
+schema_version: 1
+project: traders-market-read
+schema_status: ACTIVE_FOUNDATION
+purpose: "Machine-readable contract for future calibration profiles. Profiles supply empirically derived parameter values for detection specs while preserving the project's non-executional boundary."
+profile_location: "calibration/profiles/"
+profile_values_created_by_this_schema: false
+
+required_top_level_fields:
+  - schema_version
+  - profile_id
+  - instrument
+  - session_scope
+  - timeframe_scope
+  - regime_scope
+  - data_sample
+  - parameter_values
+  - validation_rules
+  - forbidden_behavior
+
+field_definitions:
+  schema_version:
+    expected_type: integer
+    required: true
+    purpose: "Identifies the calibration profile contract version."
+  profile_id:
+    expected_type: string
+    required: true
+    allowed_values: "Stable lowercase identifier for one calibration profile; no product values are defined by this schema."
+    purpose: "Uniquely identifies a scoped calibration artifact."
+  instrument:
+    expected_type: string
+    required: true
+    purpose: "Names the instrument or product family to which the profile applies."
+  session_scope:
+    expected_type: string_or_list
+    required: true
+    purpose: "Declares the session or sessions covered by the calibration sample."
+  timeframe_scope:
+    expected_type: string_or_list
+    required: true
+    purpose: "Declares the timeframe or aggregation scope covered by the profile."
+  regime_scope:
+    expected_type: string_or_object
+    required: true
+    purpose: "Declares the volatility, liquidity, event, or other market-regime scope where the values are valid."
+  data_sample:
+    expected_type: object
+    required: true
+    required_fields:
+      - source
+      - start_date
+      - end_date
+      - sample_size
+      - exclusions
+    purpose: "Documents the empirical sample used to derive parameter values."
+    field_definitions:
+      source:
+        expected_type: string_or_list
+        required: true
+      start_date:
+        expected_type: date
+        required: true
+      end_date:
+        expected_type: date
+        required: true
+      sample_size:
+        expected_type: string_or_integer
+        required: true
+      exclusions:
+        expected_type: list
+        required: true
+  parameter_values:
+    expected_type: list
+    required: true
+    purpose: "Scoped empirical values for named parameters declared by detection specs. This schema defines field shape only and does not assign values."
+    item_required_fields:
+      - concept_id
+      - parameter_name
+      - value
+      - unit
+      - derivation_method
+      - confidence
+      - last_calibrated
+      - notes
+    item_field_definitions:
+      concept_id:
+        expected_type: string
+        required: true
+        purpose: "Detection-spec concept_id owning the parameter."
+      parameter_name:
+        expected_type: string
+        required: true
+        purpose: "Exact parameter name from the detection spec inventory."
+      value:
+        expected_type: scalar_or_object
+        required: true
+        purpose: "Empirical value supplied by a future calibration profile, never by this schema."
+      unit:
+        expected_type: string
+        required: true
+        purpose: "Measurement unit or method unit for the value."
+      derivation_method:
+        expected_type: string
+        required: true
+        purpose: "How the value was estimated, reviewed, or selected from the data sample."
+      confidence:
+        expected_type: enum
+        required: true
+        allowed_values:
+          - LOW
+          - MEDIUM
+          - HIGH
+          - REVIEW_REQUIRED
+          - INSUFFICIENT_SAMPLE
+        purpose: "Confidence in the scoped calibration value."
+      last_calibrated:
+        expected_type: date
+        required: true
+        purpose: "Date the parameter value was last calibrated or reviewed."
+      notes:
+        expected_type: string
+        required: true
+        purpose: "Implementation cautions, sample caveats, or scope limitations."
+  validation_rules:
+    expected_type: object
+    required: true
+    purpose: "Rules a profile validator must enforce before calibrated values can be consumed."
+    required_checks:
+      - concept_id_and_parameter_name_must_match_detection_inventory
+      - profile_scope_must_match_instrument_session_timeframe_regime
+      - data_sample_must_be_declared
+      - stale_or_out_of_regime_profiles_must_not_be_applied_silently
+      - missing_parameter_values_must_emit_insufficient_evidence_or_refusal
+      - parameter_values_must_not_override_detection_spec_non_executional_boundaries
+  forbidden_fields:
+    expected_type: list
+    required: true
+    values:
+      - trade_permission
+      - entry_instruction
+      - exit_instruction
+      - stop_instruction
+      - target_instruction
+      - position_sizing_instruction
+      - add_or_reduce_instruction
+      - broker_action
+      - order_action
+      - account_instruction
+      - fill_or_pnl_instruction
+      - autonomous_trade_call
+    purpose: "Fields that calibration profiles must never contain."
+  forbidden_behavior:
+    expected_type: object
+    required: true
+    no_trade_permission: true
+    no_entries_stops_targets_sizing: true
+    no_broker_order_account_fill_pnl_fields: true
+    no_uncalibrated_universal_constants: true
+    purpose: "Calibration profiles may provide scoped empirical parameter values only; they must never create trading behavior or universal market constants."
+
+minimum_future_profile_template:
+  schema_version: 1
+  profile_id: null
+  instrument: null
+  session_scope: null
+  timeframe_scope: null
+  regime_scope: null
+  data_sample:
+    source: null
+    start_date: null
+    end_date: null
+    sample_size: null
+    exclusions: []
+  parameter_values:
+    - concept_id: null
+      parameter_name: null
+      value: null
+      unit: null
+      derivation_method: null
+      confidence: null
+      last_calibrated: null
+      notes: null
+  validation_rules:
+    enforce_inventory_match: true
+    enforce_scope_match: true
+    enforce_data_sample_declared: true
+    forbid_silent_stale_profile_use: true
+    forbid_silent_out_of_regime_profile_use: true
+    require_refusal_or_insufficient_evidence_when_missing: true
+  forbidden_fields:
+    - trade_permission
+    - entry_instruction
+    - exit_instruction
+    - stop_instruction
+    - target_instruction
+    - position_sizing_instruction
+    - add_or_reduce_instruction
+    - broker_action
+    - order_action
+    - account_instruction
+    - fill_or_pnl_instruction
+    - autonomous_trade_call
+  forbidden_behavior:
+    no_trade_permission: true
+    no_entries_stops_targets_sizing: true
+    no_broker_order_account_fill_pnl_fields: true
+    no_uncalibrated_universal_constants: true
