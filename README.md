@@ -26,7 +26,7 @@ The core discipline of the project is simple:
 
 ## Project Status
 
-The repository currently contains the full twelve-chapter semantic glossary structure, quality-assurance artifacts, detection specification files, calibration schemas, and agent-facing operating documents.
+The repository currently contains the full twelve-chapter semantic glossary structure, 110 per-concept detection specifications, generated detector/catalog artifacts, calibration contract schema, validation scripts, and quality-assurance artifacts.
 
 Current repository layout:
 
@@ -50,41 +50,30 @@ Current repository layout:
     chapter_12_setup_quality_action_vocabulary.md
 
   qa/
-    chapter_corpus_inventory.md
-    semantic_quality_checklist.md
-    detection_spec_quality_checklist.md
-    concept_coverage_matrix.csv
     glossary_to_spec_traceability.csv
+    calibration_parameter_inventory.csv
+    detector_contract_catalog_summary.md
+    examples/
+      detector_output_valid.example.json
+      detector_output_invalid_execution.example.json
+    p20/p21/p22/p23 reports and prior QA artifacts
 
   spec/
     concept_registry.yaml
     detection_spec_schema.yaml
+    detector_contract_catalog.json
+    detector_output_schema.yaml
     detection_specs/
-      level_interaction.yaml
-      auction_market_profile.yaml
-      tape_microstructure.yaml
-      momentum_day_types.yaml
-      traps_positioning.yaml
-      session_context.yaml
-      volatility_regime.yaml
-      intermarket_confirmation.yaml
-      catalyst_interpretation.yaml
-      trade_state_management.yaml
-      setup_quality.yaml
+      110 per-concept YAML specs
 
   calibration/
     calibration_profile_schema.yaml
-    example_profiles/
-      ES_intraday.example.yaml
-      NQ_intraday.example.yaml
-      CL_intraday.example.yaml
-      6E_intraday.example.yaml
-      MGC_intraday.example.yaml
 
-  agent/
-    AGENTS.md
-    CLAUDE.md
-    mission_templates.md
+  scripts/
+    validate_detection_specs.py
+    extract_calibration_inventory.py
+    build_detector_contract_catalog.py
+    validate_detector_output.py
 ```
 
 ---
@@ -511,26 +500,27 @@ Expected responsibilities:
 - Known failure modes.
 - Test expectations.
 
-### Domain Detection Specs
+#### `spec/detector_contract_catalog.json`
 
-The `spec/detection_specs/` directory contains domain-specific detection contracts.
+Generated machine-readable catalog compiled from all detection specs. It normalizes each concept's declared inputs, parameters, emitted states, allowed non-executional action labels, refusal behavior, failure modes, and boundary flags.
+
+#### `spec/detector_output_schema.yaml`
+
+Minimal output contract for future detector implementations. It defines the allowed non-executional output shape and forbids execution fields such as entries, stops, targets, sizing, broker/order/account/fill/P&L behavior, and autonomous trading instructions.
+
+### Per-Concept Detection Specs
+
+The `spec/detection_specs/` directory contains 110 per-concept YAML detection contracts.
 
 ```text
 spec/detection_specs/
-  level_interaction.yaml
-  auction_market_profile.yaml
-  tape_microstructure.yaml
-  momentum_day_types.yaml
-  traps_positioning.yaml
-  session_context.yaml
-  volatility_regime.yaml
-  intermarket_confirmation.yaml
-  catalyst_interpretation.yaml
-  trade_state_management.yaml
-  setup_quality.yaml
+  ch01_*.yaml
+  ch02_*.yaml
+  ...
+  ch12_*.yaml
 ```
 
-Each file should map directly back to one or more glossary chapters.
+Each file maps one glossary concept to a bounded detector contract.
 
 Detection specs should never invent data. If a concept requires DOM, footprint, cumulative delta, breadth, primary-source news, event-calendar data, profile data, or intermarket inputs, the spec must say so explicitly.
 
@@ -631,7 +621,7 @@ The `calibration/` directory prevents false precision.
 calibration/calibration_profile_schema.yaml
 ```
 
-This schema defines how calibration profiles should express instrument-specific parameters.
+This schema defines how future calibration profiles should express instrument-specific parameters.
 
 Calibration should account for:
 
@@ -647,18 +637,7 @@ Calibration should account for:
 - Feed assumptions.
 - Regime constraints.
 
-### Example Profiles
-
-```text
-calibration/example_profiles/
-  ES_intraday.example.yaml
-  NQ_intraday.example.yaml
-  CL_intraday.example.yaml
-  6E_intraday.example.yaml
-  MGC_intraday.example.yaml
-```
-
-These files are examples, not universal truth.
+No real instrument calibration profiles exist yet.
 
 The project explicitly rejects the idea that a threshold calibrated for one product automatically applies to another. ES, NQ, CL, 6E, and MGC behave differently. MGC is Micro Gold and should not be casually treated as equivalent to GC.
 
@@ -758,53 +737,24 @@ Expected responsibilities:
 
 This file is critical because it prevents orphaned glossary concepts and orphaned detection specs.
 
----
+### `qa/calibration_parameter_inventory.csv`
 
-## Agent Layer
+Generated inventory of named calibration/configuration parameters declared by the detection specs. It records parameter names and metadata only; it does not assign values.
 
-The `agent/` directory contains instructions for coding agents and doctrine-maintenance agents.
+### `qa/detector_contract_catalog_summary.md`
 
-### `agent/AGENTS.md`
+Lightweight summary of the generated detector contract catalog.
 
-General operating instructions for agents working in this repository.
+### `qa/examples/`
 
-Expected responsibilities:
+Contains minimal detector-output validation examples:
 
-- Respect the project protocol.
-- Preserve semantic/spec/calibration separation.
-- Avoid execution leakage.
-- Do not invent thresholds.
-- Do not assume unavailable feeds.
-- Keep cross-links and traceability current.
-- Run relevant validation checks after edits.
+- `detector_output_valid.example.json`
+- `detector_output_invalid_execution.example.json`
 
-### `agent/CLAUDE.md`
+### P20-P23 Reports and Prior QA Artifacts
 
-Claude Code-specific guidance.
-
-Expected responsibilities:
-
-- Bounded file scope.
-- Direct repo edits where authorized.
-- No broad, unfocused repo fan-out.
-- Targeted verification.
-- Completion report format.
-- Respect for project doctrine and non-execution boundaries.
-
-### `agent/mission_templates.md`
-
-Reusable mission templates for common project tasks.
-
-Expected templates may include:
-
-- Build or revise a glossary chapter.
-- Add detection specs for a concept family.
-- Update the concept registry.
-- Reconcile glossary-to-spec traceability.
-- Add or update calibration profiles.
-- Run QA consistency review.
-- Produce a chapter-quality report.
-- Produce a detection-spec-quality report.
+The `qa/` directory also contains phase reports and earlier quality artifacts used to track validation, traceability, calibration-contract, catalog, and detector-output work.
 
 ---
 
@@ -821,7 +771,7 @@ Deliverables:
 - Updated `chapter_corpus_inventory.md`.
 - Confirmed chapter list.
 - Confirmed spec file list.
-- Confirmed calibration profile list.
+- Confirmed calibration schema and calibration-profile status.
 - Confirmed protocol alignment.
 
 Do not silently promote old drafts, uploaded files, or unrelated project protocols into source of truth.
@@ -1220,7 +1170,7 @@ Any contributor or coding agent working in this repo must follow these rules:
 
 ---
 
-## Suggested Validation Commands
+## Validation Commands
 
 The exact commands depend on the local tooling selected for the repository. At minimum, validation should cover:
 
@@ -1229,6 +1179,7 @@ python3 scripts/validate_detection_specs.py
 python3 scripts/validate_detection_specs.py --traceability-csv qa/glossary_to_spec_traceability.csv
 python3 scripts/extract_calibration_inventory.py
 python3 scripts/build_detector_contract_catalog.py
+python3 scripts/validate_detector_output.py qa/examples/detector_output_valid.example.json
 ```
 
 ```bash
@@ -1236,7 +1187,7 @@ python3 scripts/build_detector_contract_catalog.py
 find . -maxdepth 3 -type f | sort
 
 # Check Markdown files exist
-find glossary qa agent -name "*.md" -type f | sort
+find glossary qa -name "*.md" -type f | sort
 
 # Check YAML files exist
 find spec calibration -name "*.yaml" -type f | sort
@@ -1250,9 +1201,9 @@ If schema validation tooling is added, use it to validate:
 ```text
 spec/concept_registry.yaml
 spec/detection_spec_schema.yaml
+spec/detector_output_schema.yaml
 spec/detection_specs/*.yaml
 calibration/calibration_profile_schema.yaml
-calibration/example_profiles/*.yaml
 ```
 
 If link-checking tooling is added, use it to validate internal glossary references and glossary-to-spec traceability.
@@ -1278,10 +1229,10 @@ Recommended commit message examples:
 
 ```text
 docs(glossary): refine acceptance versus rejection doctrine
-spec(levels): add calibrated detection contract for failed acceptance
+spec(ch02): add calibrated detection contract for failed acceptance
 qa(traceability): map chapter 2 concepts to level interaction specs
-calibration(es): add example intraday acceptance parameters
-agent: update mission template for glossary-to-spec reconciliation
+calibration: update profile schema or parameter inventory
+qa(catalog): rebuild detector contract catalog summary
 ```
 
 ---
@@ -1300,9 +1251,9 @@ A developer can use the detection specs to understand what data is required, whi
 
 A reviewer can use the QA files to verify that every concept has traceability, determinism classification, data dependencies, and bounded output behavior.
 
-### Agent-Orchestrated Maintenance
+### Scripted Maintenance
 
-Coding agents can use `agent/` instructions and mission templates to perform bounded edits, registry updates, traceability reconciliation, and schema validation without drifting into doctrine invention or execution leakage.
+Coding agents and maintainers can use the validation scripts and QA artifacts to perform bounded edits, registry updates, traceability reconciliation, catalog generation, and schema validation without drifting into doctrine invention or execution leakage.
 
 ---
 
