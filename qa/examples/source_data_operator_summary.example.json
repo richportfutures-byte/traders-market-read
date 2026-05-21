@@ -1,0 +1,2084 @@
+{
+  "calibrated_non_refusal_count": 27,
+  "catalog_path": "/Users/stu/Projects/traders-market-read/spec/detector_contract_catalog.json",
+  "computable_non_refusal_count": 9,
+  "context_only_count": 7,
+  "counts_by_chapter": {
+    "10: Catalyst Interpretation": 7,
+    "11: Trade-State Management": 9,
+    "12: Setup Quality & Action Vocabulary": 9,
+    "1: Read Discipline & Interpretation Method": 8,
+    "2: Level Interaction & Acceptance": 9,
+    "3: Auction & Market Profile": 15,
+    "4: Tape Reading & Microstructure": 10,
+    "5: Momentum, Follow-Through & Day Types": 7,
+    "6: Traps & Positioning": 7,
+    "7: Session Context & Sequencing": 8,
+    "8: Volatility Regime": 8,
+    "9: Intermarket Confirmation": 13
+  },
+  "counts_by_determinism_class": {
+    "CALIBRATED": 27,
+    "COMPUTABLE": 9,
+    "CONTEXT_ONLY": 7,
+    "JUDGMENT_ASSISTED": 64,
+    "NOT_DETECTABLE_WITH_CURRENT_FEEDS": 3
+  },
+  "counts_by_route": {
+    "calibrated": 27,
+    "computable": 9,
+    "context_only": 7,
+    "judgment_assisted_review": 64,
+    "not_detectable_blocked": 3
+  },
+  "counts_by_state": {
+    "ACCEPTED_ABOVE": 1,
+    "ACCEPTED_COMPRESSION_BREAK": 1,
+    "ASIA_REPRICING_CONTEXT": 1,
+    "AUCTION_ACCEPTED": 1,
+    "BALANCE_TO_IMBALANCE_TRANSITION": 1,
+    "BLOCKED_BY_FEEDS": 2,
+    "BREADTH_CONFIRMS_PRICE": 1,
+    "BREAKOUT_CONTINUATION": 1,
+    "CASCADE_LIKE_BEHAVIOR": 1,
+    "COMPLETED_AUCTION": 1,
+    "COMPRESSION_STATE": 1,
+    "CONTEXT_ONLY": 4,
+    "CONTEXT_ONLY_LABEL": 1,
+    "CONTEXT_ONLY_OBSERVATION": 1,
+    "DEALER_GAMMA_FEEDS_UNAVAILABLE": 1,
+    "EXCESS_HIGH": 1,
+    "EXPANDED_VOLATILITY_ENVIRONMENT_BLOCK": 1,
+    "FOLLOW_THROUGH_CONFIRMED": 1,
+    "GRIND_MOVE": 1,
+    "IMPULSIVE_BREAK_TEXTURE": 1,
+    "INSIDE_DAY": 1,
+    "INSUFFICIENT_EVIDENCE": 3,
+    "LEVEL_EXHAUSTION_REVIEW": 1,
+    "LEVEL_MAGNETISM_CONTEXT": 1,
+    "LOW_VOLUME_NODE_IDENTIFIED": 1,
+    "OBSERVED": 4,
+    "ONE_TIMEFRAMING_HIGHER": 1,
+    "OPEN_INSIDE_OVERNIGHT_RANGE": 1,
+    "OUTSIDE_VALUE_REJECTED": 1,
+    "POLARITY_FLIP_CONFIRMED": 1,
+    "POST_EVENT_NORMALIZATION": 1,
+    "POST_SWEEP_CONTINUATION": 1,
+    "POWER_HOUR_REVIEW_REQUIRED": 1,
+    "PRODUCT_SPECIFIC_CONTEXT_ONLY": 1,
+    "PROVISIONAL_INVENTORY_READ": 1,
+    "REVIEW_REQUIRED": 59,
+    "SINGLE_PRINTS_PRESENT": 1,
+    "SNAP_BACK_CONFIRMED": 1,
+    "SPREAD_STABLE": 1,
+    "SWEEP_RECLAIMED_FALSE_BREAK": 1,
+    "TAPE_FAST": 1,
+    "VALUE_MIGRATING_HIGHER": 1,
+    "VOLATILITY_ENVIRONMENT_BLOCKED": 1
+  },
+  "degraded_inputs_by_concept": {
+    "ch01_confirmation_and_invalidation_discipline": [
+      "tape",
+      "value",
+      "intermarket"
+    ],
+    "ch01_context_vs_execution_permission": [
+      "review_notes_or_higher_context"
+    ],
+    "ch01_false_precision_and_observation_tracking": [
+      "calibration_data"
+    ],
+    "ch01_leading_vs_coincident_signals": [
+      "spread",
+      "delta",
+      "intermarket"
+    ],
+    "ch01_product_specific_behavior": [
+      "calibration_profiles"
+    ],
+    "ch01_signal_conflict_taxonomy": [
+      "feed_quality_metadata"
+    ],
+    "ch01_tape_confirms_narrative_rule": [
+      "cumulative_delta",
+      "source_timestamps"
+    ],
+    "ch01_the_read_vs_the_touch": [
+      "volume_at_price",
+      "cumulative_delta",
+      "tape"
+    ],
+    "ch02_mechanical_levels_and_obvious_traps": [
+      "sentiment",
+      "positioning",
+      "order_book_data"
+    ],
+    "ch03_fresh_flow_vs_weak_strong_hands": [
+      "delta_or_aggression",
+      "retest_response",
+      "positioning_proxy"
+    ],
+    "ch03_initiative_vs_responsive_activity": [
+      "delta_or_aggression",
+      "volume_at_price",
+      "structural_references"
+    ],
+    "ch03_overnight_inventory_and_inventory_correction": [
+      "overnight_profile",
+      "early_rth_tape",
+      "positioning_proxy"
+    ],
+    "ch03_short_covering_vs_long_liquidation_auctions": [
+      "cumulative_delta",
+      "aggression_metrics",
+      "positioning_proxy"
+    ],
+    "ch04_absorption": [
+      "dom_or_refreshing_size",
+      "structural_reference"
+    ],
+    "ch04_chasing_vs_pressing": [
+      "cumulative_delta",
+      "depth_or_spread",
+      "value_behavior"
+    ],
+    "ch04_cumulative_delta_and_delta_divergence": [
+      "tape_quality",
+      "footprint_imbalances",
+      "profile_context"
+    ],
+    "ch04_tape_vs_narrative": [
+      "source_quality"
+    ],
+    "ch05_close_quality": [
+      "value_migration",
+      "tape_or_delta_into_close",
+      "close_imbalance_data"
+    ],
+    "ch05_day_type_taxonomy": [
+      "value_profile",
+      "one_timeframing_state",
+      "tape_or_delta"
+    ],
+    "ch05_exhaustion": [
+      "delta",
+      "footprint"
+    ],
+    "ch05_momentum_ignition_stall_and_exhaustion": [
+      "cumulative_delta",
+      "footprint_or_dom",
+      "session_context"
+    ],
+    "ch06_crowded_trades_and_pain_trades": [
+      "options_open_interest",
+      "tape_quality",
+      "catalyst_context"
+    ],
+    "ch06_mechanical_flows_rebalance_month_end_roll": [
+      "contract_volume_open_interest"
+    ],
+    "ch06_short_covering_rally": [
+      "cumulative_delta",
+      "tape_quality",
+      "positioning_proxy"
+    ],
+    "ch06_strong_hands_defending": [
+      "absorption_evidence",
+      "dom_depth",
+      "higher_timeframe_context"
+    ],
+    "ch06_trapped_traders": [
+      "cumulative_delta",
+      "tape_quality",
+      "positioning_proxy"
+    ],
+    "ch07_intraday_time_windows": [
+      "depth_series",
+      "close_imbalance_feed",
+      "event_calendar"
+    ],
+    "ch07_london_initiative_and_traps": [
+      "value_behavior",
+      "cumulative_delta",
+      "ny_response"
+    ],
+    "ch07_ny_inheritance_vs_rejection": [
+      "delta",
+      "footprint",
+      "dom",
+      "internals",
+      "intermarket"
+    ],
+    "ch07_opening_type_taxonomy": [
+      "delta",
+      "dom",
+      "footprint",
+      "profile",
+      "internals"
+    ],
+    "ch07_session_quality_vs_session_completion": [
+      "tape",
+      "delta",
+      "dom",
+      "imbalance",
+      "settlement_data"
+    ],
+    "ch07_session_sequencing": [
+      "session_profile",
+      "cumulative_delta",
+      "event_calendar"
+    ],
+    "ch08_event_volatility_regime": [
+      "tape",
+      "depth",
+      "options",
+      "intermarket"
+    ],
+    "ch08_expansion_outcomes_trend_chop_exhaustion": [
+      "value_behavior",
+      "tape_quality",
+      "event_calendar"
+    ],
+    "ch08_liquidity_driven_and_mechanical_volatility": [
+      "dom",
+      "tick",
+      "footprint",
+      "options_flow_data"
+    ],
+    "ch09_crude_fundamentals_inventories_and_cracks": [
+      "spr",
+      "calendar_spreads",
+      "brent_wti"
+    ],
+    "ch09_crude_spreads_and_geopolitical_premium": [
+      "opec_communication",
+      "dollar",
+      "risk_tone"
+    ],
+    "ch09_euro_dollar_drivers": [
+      "equities",
+      "credit",
+      "volatility"
+    ],
+    "ch09_euro_event_windows_and_carry": [
+      "dom",
+      "tick",
+      "futures_order_flow"
+    ],
+    "ch09_gold_demand_channels": [
+      "etf_comex_oi",
+      "physical_lbma_data"
+    ],
+    "ch09_gold_drivers_real_yields_dxy_breakevens": [
+      "vix",
+      "credit",
+      "silver",
+      "miners"
+    ],
+    "ch09_intermarket_confirmation_general_principle": [
+      "dom",
+      "footprint",
+      "delta"
+    ],
+    "ch09_nq_es_relative_strength_and_index_internals": [
+      "etf_flow",
+      "options_data"
+    ],
+    "ch09_the_yield_curve_and_rate_repricing": [
+      "cross_asset_feeds"
+    ],
+    "ch09_treasury_auctions_and_supply": [
+      "bid_to_cover_takedown_detail",
+      "curve",
+      "cross_asset_feeds"
+    ],
+    "ch09_treasury_cash_futures_and_basis": [
+      "basis",
+      "ctd",
+      "repo",
+      "swap_data"
+    ],
+    "ch09_vix_credit_and_cross_asset_risk_tone": [
+      "options_dealer_gamma_estimates"
+    ],
+    "ch10_catalyst_effect_on_thesis": [
+      "review_notes_or_higher_context"
+    ],
+    "ch10_catalyst_to_trade_translation": [
+      "review_notes_or_higher_context"
+    ],
+    "ch10_narrative_consensus_and_disagreement": [
+      "sentiment_news_clustering"
+    ],
+    "ch10_new_information_vs_recycled_context": [
+      "tape",
+      "intermarket"
+    ],
+    "ch10_pricing_in": [
+      "options_event_pricing",
+      "tape",
+      "intermarket"
+    ],
+    "ch10_source_quality": [
+      "market_reaction",
+      "intermarket"
+    ],
+    "ch10_transmission_mechanism_and_order_effects": [
+      "source_detail"
+    ],
+    "ch11_active_trade_state_vs_market_thesis_state": [
+      "trade_timestamp",
+      "tape",
+      "catalyst",
+      "intermarket"
+    ],
+    "ch11_maintenance_conditions": [
+      "specialized_feeds"
+    ],
+    "ch11_review_reduce_stand_aside_state": [
+      "review_notes_or_higher_context"
+    ],
+    "ch11_thesis_confirmation_vs_execution_permission": [
+      "review_notes_or_higher_context"
+    ],
+    "ch11_thesis_invalidation": [
+      "tape",
+      "catalyst",
+      "intermarket"
+    ],
+    "ch11_thesis_replacement_and_bias_flip": [
+      "tape",
+      "catalyst",
+      "intermarket"
+    ],
+    "ch11_thesis_staleness_and_expiration": [
+      "tape"
+    ],
+    "ch11_thesis_state_lifecycle": [
+      "tape"
+    ],
+    "ch11_thesis_weakening_and_degradation": [
+      "specialized_order_flow_feeds"
+    ],
+    "ch12_action_vocabulary": [
+      "review_notes_or_higher_context"
+    ],
+    "ch12_alignment_across_dimensions": [
+      "review_notes_or_higher_context"
+    ],
+    "ch12_asymmetry_and_practical_r_r": [
+      "profile",
+      "liquidity_data"
+    ],
+    "ch12_invalidation_and_confirmation_clarity": [
+      "tape",
+      "profile",
+      "intermarket"
+    ],
+    "ch12_location_quality": [
+      "profile",
+      "spread",
+      "intermarket"
+    ],
+    "ch12_setup_cleanliness_and_timing": [
+      "profile",
+      "tape"
+    ],
+    "ch12_setup_expression_and_no_clean_expression": [
+      "profile",
+      "tape",
+      "intermarket"
+    ],
+    "ch12_setup_fragility": [
+      "tape",
+      "profile"
+    ]
+  },
+  "duplicate_outputs": [],
+  "guardrail_failures": [],
+  "input_path": "qa/examples/source_data_operator_runtime_output.example.json",
+  "judgment_assisted_review_count": 64,
+  "missing_inputs_by_concept": {
+    "ch01_confirmation_and_invalidation_discipline": [
+      "thesis_premise",
+      "per_layer_market_behavior",
+      "feed_quality_and_scope_status"
+    ],
+    "ch01_false_precision_and_observation_tracking": [
+      "observation_records",
+      "outcomes",
+      "review_windows",
+      "feed_quality_and_scope_status"
+    ],
+    "ch01_leading_vs_coincident_signals": [
+      "price_sequence",
+      "signal_timing_context",
+      "feed_quality_and_scope_status"
+    ],
+    "ch01_signal_conflict_taxonomy": [
+      "multi_layer_reads_structure",
+      "tape",
+      "catalyst",
+      "intermarket",
+      "timeframe_context",
+      "feed_quality_and_scope_status"
+    ],
+    "ch01_tape_confirms_narrative_rule": [
+      "catalyst_input",
+      "live_tape",
+      "structural_context",
+      "feed_quality_and_scope_status"
+    ],
+    "ch01_the_read_vs_the_touch": [
+      "price_level_interaction_sequence",
+      "structural_levels",
+      "session_state",
+      "feed_quality_and_scope_status"
+    ],
+    "ch02_mechanical_levels_and_obvious_traps": [
+      "structural_level",
+      "price_behavior_around_it",
+      "feed_quality_and_scope_status"
+    ],
+    "ch03_fresh_flow_vs_weak_strong_hands": [
+      "price_sequence",
+      "value_behavior",
+      "location_quality_context"
+    ],
+    "ch03_initiative_vs_responsive_activity": [
+      "value_area_reference",
+      "price_sequence",
+      "session_clock"
+    ],
+    "ch03_overnight_inventory_and_inventory_correction": [
+      "overnight_session_bars",
+      "rth_open",
+      "prior_rth_references"
+    ],
+    "ch03_short_covering_vs_long_liquidation_auctions": [
+      "price_sequence",
+      "value_behavior",
+      "structural_references"
+    ],
+    "ch04_absorption": [
+      "price_behavior_at_reference",
+      "aggression_or_delta_feed",
+      "volume_or_time_at_price"
+    ],
+    "ch04_chasing_vs_pressing": [
+      "price_sequence",
+      "volume_or_trade_activity"
+    ],
+    "ch04_cumulative_delta_and_delta_divergence": [
+      "bid_ask_classified_trades",
+      "price_sequence",
+      "structural_location"
+    ],
+    "ch04_liquidity_pulls_and_replenishment": [
+      "live_depth_updates",
+      "session_clock"
+    ],
+    "ch04_refreshing_liquidity": [
+      "live_order_book_depth",
+      "executed_trade_sequence"
+    ],
+    "ch04_tape_vs_narrative": [
+      "catalyst_news_timestamps",
+      "price",
+      "delta_behavior",
+      "structural_references",
+      "feed_quality_and_scope_status"
+    ],
+    "ch05_close_quality": [
+      "session_close_price",
+      "session_range_and_references",
+      "price_sequence_into_close"
+    ],
+    "ch05_day_type_taxonomy": [
+      "session_price_structure",
+      "initial_balance_context",
+      "session_clock"
+    ],
+    "ch05_exhaustion": [
+      "price",
+      "volume",
+      "structural_references",
+      "value_profile",
+      "feed_quality_and_scope_status"
+    ],
+    "ch05_momentum_ignition_stall_and_exhaustion": [
+      "price_bars",
+      "volume_series",
+      "structural_references",
+      "volatility_baseline"
+    ],
+    "ch06_dealer_gamma_dynamics": [
+      "options_oi",
+      "implied_vol_surface",
+      "strike_exposure",
+      "expiration_calendar",
+      "dealer_position_model",
+      "feed_quality_and_scope_status"
+    ],
+    "ch06_short_covering_rally": [
+      "failed_breakdown_sequence",
+      "structural_levels",
+      "value_behavior"
+    ],
+    "ch06_strong_hands_defending": [
+      "defended_reference",
+      "repeated_test_sequence",
+      "value_behavior"
+    ],
+    "ch06_trapped_traders": [
+      "structural_levels",
+      "price_sequence",
+      "value_behavior"
+    ],
+    "ch07_intraday_time_windows": [
+      "session_clock",
+      "price_bars",
+      "volume_series",
+      "spread_series"
+    ],
+    "ch07_london_initiative_and_traps": [
+      "session_clock",
+      "london_session_bars",
+      "structural_references",
+      "volume_series"
+    ],
+    "ch07_ny_inheritance_vs_rejection": [
+      "session_bars",
+      "prior_value_profile_references",
+      "volume",
+      "session_clock",
+      "feed_quality_and_scope_status"
+    ],
+    "ch07_opening_type_taxonomy": [
+      "rth_bars",
+      "session_clock",
+      "prior_references",
+      "volume",
+      "feed_quality_and_scope_status"
+    ],
+    "ch07_session_quality_vs_session_completion": [
+      "range",
+      "value",
+      "session_references",
+      "close_location",
+      "profile_structure",
+      "feed_quality_and_scope_status"
+    ],
+    "ch07_session_sequencing": [
+      "session_clock",
+      "session_bars",
+      "structural_references"
+    ],
+    "ch08_event_volatility_regime": [
+      "event_calendar",
+      "price_range_spread_behavior",
+      "feed_quality_and_scope_status"
+    ],
+    "ch08_expansion_outcomes_trend_chop_exhaustion": [
+      "price_bars",
+      "volatility_state",
+      "structural_references"
+    ],
+    "ch08_liquidity_driven_and_mechanical_volatility": [
+      "price_sequence",
+      "structural_levels",
+      "velocity",
+      "value_behavior",
+      "feed_quality_and_scope_status"
+    ],
+    "ch09_crude_fundamentals_inventories_and_cracks": [
+      "crude_price",
+      "eia_inventory_data",
+      "products",
+      "refinery_utilization",
+      "cracks",
+      "feed_quality_and_scope_status"
+    ],
+    "ch09_crude_spreads_and_geopolitical_premium": [
+      "crude_price",
+      "brent_wti",
+      "calendar_spreads",
+      "headline_context",
+      "feed_quality_and_scope_status"
+    ],
+    "ch09_euro_dollar_drivers": [
+      "eur_usd",
+      "dxy",
+      "euro_crosses",
+      "rate_differentials",
+      "feed_quality_and_scope_status"
+    ],
+    "ch09_euro_event_windows_and_carry": [
+      "event_timestamps_calendars",
+      "session_windows",
+      "cross_currency_moves",
+      "rate_data",
+      "feed_quality_and_scope_status"
+    ],
+    "ch09_gold_demand_channels": [
+      "gold_price",
+      "candidate_channel_inputs_vix_credit_breakevens_silver_miners",
+      "feed_quality_and_scope_status"
+    ],
+    "ch09_gold_drivers_real_yields_dxy_breakevens": [
+      "gold",
+      "real_yields",
+      "nominal_yields",
+      "breakevens",
+      "dxy",
+      "feed_quality_and_scope_status"
+    ],
+    "ch09_intermarket_confirmation_general_principle": [
+      "traded_contract",
+      "related_market_inputs",
+      "session",
+      "catalyst_context",
+      "feed_quality_and_scope_status"
+    ],
+    "ch09_nq_es_relative_strength_and_index_internals": [
+      "nq_es_data",
+      "cash_index",
+      "breadth",
+      "sector_inputs",
+      "feed_quality_and_scope_status"
+    ],
+    "ch09_the_yield_curve_and_rate_repricing": [
+      "treasury_cash_yields",
+      "futures",
+      "curve_spreads",
+      "real_yields",
+      "breakevens",
+      "policy_expectation_data",
+      "feed_quality_and_scope_status"
+    ],
+    "ch09_treasury_auctions_and_supply": [
+      "auction_statistics",
+      "post_auction_price",
+      "cash_yields",
+      "feed_quality_and_scope_status"
+    ],
+    "ch09_treasury_cash_futures_and_basis": [
+      "treasury_futures",
+      "cash_yields",
+      "yield_curve",
+      "feed_quality_and_scope_status"
+    ],
+    "ch09_vix_credit_and_cross_asset_risk_tone": [
+      "vix",
+      "credit_spreads",
+      "rates",
+      "dollar",
+      "realized_volatility",
+      "breadth",
+      "feed_quality_and_scope_status"
+    ],
+    "ch10_catalyst_effect_on_thesis": [
+      "stored_thesis_state",
+      "catalyst_classification",
+      "market_response",
+      "tape",
+      "intermarket",
+      "feed_quality_and_scope_status"
+    ],
+    "ch10_narrative_consensus_and_disagreement": [
+      "narrative_inputs",
+      "source_classification",
+      "positioning_proxies",
+      "market_response",
+      "intermarket",
+      "feed_quality_and_scope_status"
+    ],
+    "ch10_new_information_vs_recycled_context": [
+      "news_timestamps",
+      "source_classification",
+      "event_calendars",
+      "consensus",
+      "prior_market_movement",
+      "feed_quality_and_scope_status"
+    ],
+    "ch10_pricing_in": [
+      "consensus_expectations",
+      "event_details",
+      "price_value_response",
+      "feed_quality_and_scope_status"
+    ],
+    "ch10_source_quality": [
+      "source_metadata_type",
+      "timestamp",
+      "confirmation_count",
+      "revision_status",
+      "feed_quality_and_scope_status"
+    ],
+    "ch10_transmission_mechanism_and_order_effects": [
+      "catalyst_classification",
+      "product_driver_mapping",
+      "related_market_feeds",
+      "market_response",
+      "feed_quality_and_scope_status"
+    ],
+    "ch11_active_trade_state_vs_market_thesis_state": [
+      "preserved_thesis_artifacts",
+      "current_market_state",
+      "structural_references",
+      "value_behavior",
+      "feed_quality_and_scope_status"
+    ],
+    "ch11_maintenance_conditions": [
+      "thesis_type_specific_structure_value_tape_catalyst_intermark",
+      "feed_quality_and_scope_status"
+    ],
+    "ch11_review_reduce_stand_aside_state": [
+      "thesis_state",
+      "conflict_classification",
+      "feed_availability",
+      "setup_quality_tape_volatility_session_catalyst_intermarket_c",
+      "feed_quality_and_scope_status"
+    ],
+    "ch11_thesis_invalidation": [
+      "original_premise",
+      "predefined_invalidation_condition",
+      "structural_auction_value_behavior",
+      "preserved_thesis_artifacts",
+      "feed_quality_and_scope_status"
+    ],
+    "ch11_thesis_replacement_and_bias_flip": [
+      "old_thesis_artifacts",
+      "invalidation_staleness_evidence",
+      "new_structural_anchors",
+      "value_behavior",
+      "operator_notes",
+      "feed_quality_and_scope_status"
+    ],
+    "ch11_thesis_staleness_and_expiration": [
+      "thesis_timestamp",
+      "session_clock",
+      "event_calendar",
+      "structural_references",
+      "value_development",
+      "preserved_artifacts",
+      "feed_quality_and_scope_status"
+    ],
+    "ch11_thesis_state_lifecycle": [
+      "preserved_thesis_text",
+      "structural_references",
+      "session_context",
+      "price_value_behavior",
+      "catalyst",
+      "intermarket_context",
+      "operator_notes",
+      "feed_quality_and_scope_status"
+    ],
+    "ch11_thesis_weakening_and_degradation": [
+      "original_premise",
+      "structure",
+      "value",
+      "follow_through",
+      "tape",
+      "catalyst",
+      "intermarket_context",
+      "volatility",
+      "feed_quality_and_scope_status"
+    ],
+    "ch12_alignment_across_dimensions": [
+      "structure",
+      "auction",
+      "tape",
+      "catalyst",
+      "intermarket",
+      "volatility",
+      "session",
+      "thesis_setup_evidence",
+      "feed_quality_and_scope_status"
+    ],
+    "ch12_asymmetry_and_practical_r_r": [
+      "structural_distances",
+      "proximity_to_references",
+      "volatility_baselines",
+      "spread_depth",
+      "feed_quality_and_scope_status"
+    ],
+    "ch12_invalidation_and_confirmation_clarity": [
+      "thesis_premise",
+      "per_layer_proof",
+      "failure_references",
+      "feed_quality_and_scope_status"
+    ],
+    "ch12_location_quality": [
+      "distance_from_references",
+      "position_vs_value_vwap",
+      "session_window",
+      "range_extension",
+      "volatility_regime",
+      "opposing_structure",
+      "feed_quality_and_scope_status"
+    ],
+    "ch12_setup_cleanliness_and_timing": [
+      "level_interaction",
+      "location_vs_references",
+      "session_window",
+      "volatility_state",
+      "spread_depth",
+      "feed_availability",
+      "feed_quality_and_scope_status"
+    ],
+    "ch12_setup_expression_and_no_clean_expression": [
+      "thesis_context",
+      "setup_quality",
+      "evidence_hierarchy",
+      "feed_quality_and_scope_status"
+    ],
+    "ch12_setup_fragility": [
+      "proximity_to_invalidation",
+      "volatility_state",
+      "distance_from_value",
+      "unresolved_conflict_count",
+      "feed_gaps",
+      "cross_market_dependency",
+      "feed_quality_and_scope_status"
+    ]
+  },
+  "missing_outputs": [],
+  "non_refusal_count": 46,
+  "not_detectable_blocked_count": 3,
+  "refusal_count": 64,
+  "review_queue": [
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "1: Read Discipline & Interpretation Method",
+      "concept_id": "ch01_confirmation_and_invalidation_discipline",
+      "degraded_inputs": [
+        "tape",
+        "value",
+        "intermarket"
+      ],
+      "display_name": "Confirmation & Invalidation Discipline",
+      "evidence_needed": [
+        "thesis_premise",
+        "per_layer_market_behavior",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "1: Read Discipline & Interpretation Method",
+      "concept_id": "ch01_false_precision_and_observation_tracking",
+      "degraded_inputs": [
+        "calibration_data"
+      ],
+      "display_name": "False Precision & Observation Tracking",
+      "evidence_needed": [
+        "observation_records",
+        "outcomes",
+        "review_windows",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "1: Read Discipline & Interpretation Method",
+      "concept_id": "ch01_leading_vs_coincident_signals",
+      "degraded_inputs": [
+        "spread",
+        "delta",
+        "intermarket"
+      ],
+      "display_name": "Leading vs. Coincident Signals",
+      "evidence_needed": [
+        "price_sequence",
+        "signal_timing_context",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "1: Read Discipline & Interpretation Method",
+      "concept_id": "ch01_signal_conflict_taxonomy",
+      "degraded_inputs": [
+        "feed_quality_metadata"
+      ],
+      "display_name": "Signal Conflict Taxonomy",
+      "evidence_needed": [
+        "multi_layer_reads_structure",
+        "tape",
+        "catalyst",
+        "intermarket",
+        "timeframe_context",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "1: Read Discipline & Interpretation Method",
+      "concept_id": "ch01_tape_confirms_narrative_rule",
+      "degraded_inputs": [
+        "cumulative_delta",
+        "source_timestamps"
+      ],
+      "display_name": "Tape-Confirms-Narrative Rule",
+      "evidence_needed": [
+        "catalyst_input",
+        "live_tape",
+        "structural_context",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "1: Read Discipline & Interpretation Method",
+      "concept_id": "ch01_the_read_vs_the_touch",
+      "degraded_inputs": [
+        "volume_at_price",
+        "cumulative_delta",
+        "tape"
+      ],
+      "display_name": "The Read vs. The Touch",
+      "evidence_needed": [
+        "price_level_interaction_sequence",
+        "structural_levels",
+        "session_state",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "2: Level Interaction & Acceptance",
+      "concept_id": "ch02_mechanical_levels_and_obvious_traps",
+      "degraded_inputs": [
+        "sentiment",
+        "positioning",
+        "order_book_data"
+      ],
+      "display_name": "Mechanical Levels & Obvious Traps",
+      "evidence_needed": [
+        "structural_level",
+        "price_behavior_around_it",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "3: Auction & Market Profile",
+      "concept_id": "ch03_fresh_flow_vs_weak_strong_hands",
+      "degraded_inputs": [
+        "delta_or_aggression",
+        "retest_response",
+        "positioning_proxy"
+      ],
+      "display_name": "Fresh Flow vs. Weak/Strong Hands",
+      "evidence_needed": [
+        "price_sequence",
+        "value_behavior",
+        "location_quality_context"
+      ],
+      "state": "INSUFFICIENT_EVIDENCE",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "3: Auction & Market Profile",
+      "concept_id": "ch03_initiative_vs_responsive_activity",
+      "degraded_inputs": [
+        "delta_or_aggression",
+        "volume_at_price",
+        "structural_references"
+      ],
+      "display_name": "Initiative vs. Responsive Activity",
+      "evidence_needed": [
+        "value_area_reference",
+        "price_sequence",
+        "session_clock"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "3: Auction & Market Profile",
+      "concept_id": "ch03_overnight_inventory_and_inventory_correction",
+      "degraded_inputs": [
+        "overnight_profile",
+        "early_rth_tape",
+        "positioning_proxy"
+      ],
+      "display_name": "Overnight Inventory & Inventory Correction",
+      "evidence_needed": [
+        "overnight_session_bars",
+        "rth_open",
+        "prior_rth_references"
+      ],
+      "state": "PROVISIONAL_INVENTORY_READ",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "3: Auction & Market Profile",
+      "concept_id": "ch03_short_covering_vs_long_liquidation_auctions",
+      "degraded_inputs": [
+        "cumulative_delta",
+        "aggression_metrics",
+        "positioning_proxy"
+      ],
+      "display_name": "Short-Covering vs. Long-Liquidation Auctions",
+      "evidence_needed": [
+        "price_sequence",
+        "value_behavior",
+        "structural_references"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "4: Tape Reading & Microstructure",
+      "concept_id": "ch04_absorption",
+      "degraded_inputs": [
+        "dom_or_refreshing_size",
+        "structural_reference"
+      ],
+      "display_name": "Absorption",
+      "evidence_needed": [
+        "price_behavior_at_reference",
+        "aggression_or_delta_feed",
+        "volume_or_time_at_price"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "4: Tape Reading & Microstructure",
+      "concept_id": "ch04_chasing_vs_pressing",
+      "degraded_inputs": [
+        "cumulative_delta",
+        "depth_or_spread",
+        "value_behavior"
+      ],
+      "display_name": "Chasing vs. Pressing",
+      "evidence_needed": [
+        "price_sequence",
+        "volume_or_trade_activity"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "4: Tape Reading & Microstructure",
+      "concept_id": "ch04_cumulative_delta_and_delta_divergence",
+      "degraded_inputs": [
+        "tape_quality",
+        "footprint_imbalances",
+        "profile_context"
+      ],
+      "display_name": "Cumulative Delta & Delta Divergence",
+      "evidence_needed": [
+        "bid_ask_classified_trades",
+        "price_sequence",
+        "structural_location"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "4: Tape Reading & Microstructure",
+      "concept_id": "ch04_tape_vs_narrative",
+      "degraded_inputs": [
+        "source_quality"
+      ],
+      "display_name": "Tape vs. Narrative",
+      "evidence_needed": [
+        "catalyst_news_timestamps",
+        "price",
+        "delta_behavior",
+        "structural_references",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "5: Momentum, Follow-Through & Day Types",
+      "concept_id": "ch05_close_quality",
+      "degraded_inputs": [
+        "value_migration",
+        "tape_or_delta_into_close",
+        "close_imbalance_data"
+      ],
+      "display_name": "Close Quality",
+      "evidence_needed": [
+        "session_close_price",
+        "session_range_and_references",
+        "price_sequence_into_close"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "5: Momentum, Follow-Through & Day Types",
+      "concept_id": "ch05_day_type_taxonomy",
+      "degraded_inputs": [
+        "value_profile",
+        "one_timeframing_state",
+        "tape_or_delta"
+      ],
+      "display_name": "Day-Type Taxonomy",
+      "evidence_needed": [
+        "session_price_structure",
+        "initial_balance_context",
+        "session_clock"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "5: Momentum, Follow-Through & Day Types",
+      "concept_id": "ch05_exhaustion",
+      "degraded_inputs": [
+        "delta",
+        "footprint"
+      ],
+      "display_name": "Exhaustion",
+      "evidence_needed": [
+        "price",
+        "volume",
+        "structural_references",
+        "value_profile",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "5: Momentum, Follow-Through & Day Types",
+      "concept_id": "ch05_momentum_ignition_stall_and_exhaustion",
+      "degraded_inputs": [
+        "cumulative_delta",
+        "footprint_or_dom",
+        "session_context"
+      ],
+      "display_name": "Momentum Ignition, Stall & Exhaustion",
+      "evidence_needed": [
+        "price_bars",
+        "volume_series",
+        "structural_references",
+        "volatility_baseline"
+      ],
+      "state": "INSUFFICIENT_EVIDENCE",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "6: Traps & Positioning",
+      "concept_id": "ch06_short_covering_rally",
+      "degraded_inputs": [
+        "cumulative_delta",
+        "tape_quality",
+        "positioning_proxy"
+      ],
+      "display_name": "Short-Covering Rally",
+      "evidence_needed": [
+        "failed_breakdown_sequence",
+        "structural_levels",
+        "value_behavior"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "6: Traps & Positioning",
+      "concept_id": "ch06_strong_hands_defending",
+      "degraded_inputs": [
+        "absorption_evidence",
+        "dom_depth",
+        "higher_timeframe_context"
+      ],
+      "display_name": "Strong Hands Defending",
+      "evidence_needed": [
+        "defended_reference",
+        "repeated_test_sequence",
+        "value_behavior"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "6: Traps & Positioning",
+      "concept_id": "ch06_trapped_traders",
+      "degraded_inputs": [
+        "cumulative_delta",
+        "tape_quality",
+        "positioning_proxy"
+      ],
+      "display_name": "Trapped Traders",
+      "evidence_needed": [
+        "structural_levels",
+        "price_sequence",
+        "value_behavior"
+      ],
+      "state": "INSUFFICIENT_EVIDENCE",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "7: Session Context & Sequencing",
+      "concept_id": "ch07_intraday_time_windows",
+      "degraded_inputs": [
+        "depth_series",
+        "close_imbalance_feed",
+        "event_calendar"
+      ],
+      "display_name": "Intraday Time Windows",
+      "evidence_needed": [
+        "session_clock",
+        "price_bars",
+        "volume_series",
+        "spread_series"
+      ],
+      "state": "POWER_HOUR_REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "7: Session Context & Sequencing",
+      "concept_id": "ch07_london_initiative_and_traps",
+      "degraded_inputs": [
+        "value_behavior",
+        "cumulative_delta",
+        "ny_response"
+      ],
+      "display_name": "London Initiative & Traps",
+      "evidence_needed": [
+        "session_clock",
+        "london_session_bars",
+        "structural_references",
+        "volume_series"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "7: Session Context & Sequencing",
+      "concept_id": "ch07_ny_inheritance_vs_rejection",
+      "degraded_inputs": [
+        "delta",
+        "footprint",
+        "dom",
+        "internals",
+        "intermarket"
+      ],
+      "display_name": "NY Inheritance vs. Rejection",
+      "evidence_needed": [
+        "session_bars",
+        "prior_value_profile_references",
+        "volume",
+        "session_clock",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "7: Session Context & Sequencing",
+      "concept_id": "ch07_opening_type_taxonomy",
+      "degraded_inputs": [
+        "delta",
+        "dom",
+        "footprint",
+        "profile",
+        "internals"
+      ],
+      "display_name": "Opening Type Taxonomy",
+      "evidence_needed": [
+        "rth_bars",
+        "session_clock",
+        "prior_references",
+        "volume",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "7: Session Context & Sequencing",
+      "concept_id": "ch07_session_quality_vs_session_completion",
+      "degraded_inputs": [
+        "tape",
+        "delta",
+        "dom",
+        "imbalance",
+        "settlement_data"
+      ],
+      "display_name": "Session Quality vs. Session Completion",
+      "evidence_needed": [
+        "range",
+        "value",
+        "session_references",
+        "close_location",
+        "profile_structure",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "7: Session Context & Sequencing",
+      "concept_id": "ch07_session_sequencing",
+      "degraded_inputs": [
+        "session_profile",
+        "cumulative_delta",
+        "event_calendar"
+      ],
+      "display_name": "Session Sequencing",
+      "evidence_needed": [
+        "session_clock",
+        "session_bars",
+        "structural_references"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "8: Volatility Regime",
+      "concept_id": "ch08_event_volatility_regime",
+      "degraded_inputs": [
+        "tape",
+        "depth",
+        "options",
+        "intermarket"
+      ],
+      "display_name": "Event Volatility Regime",
+      "evidence_needed": [
+        "event_calendar",
+        "price_range_spread_behavior",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "8: Volatility Regime",
+      "concept_id": "ch08_expansion_outcomes_trend_chop_exhaustion",
+      "degraded_inputs": [
+        "value_behavior",
+        "tape_quality",
+        "event_calendar"
+      ],
+      "display_name": "Expansion Outcomes (Trend / Chop / Exhaustion)",
+      "evidence_needed": [
+        "price_bars",
+        "volatility_state",
+        "structural_references"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "8: Volatility Regime",
+      "concept_id": "ch08_liquidity_driven_and_mechanical_volatility",
+      "degraded_inputs": [
+        "dom",
+        "tick",
+        "footprint",
+        "options_flow_data"
+      ],
+      "display_name": "Liquidity-Driven & Mechanical Volatility",
+      "evidence_needed": [
+        "price_sequence",
+        "structural_levels",
+        "velocity",
+        "value_behavior",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "9: Intermarket Confirmation",
+      "concept_id": "ch09_crude_fundamentals_inventories_and_cracks",
+      "degraded_inputs": [
+        "spr",
+        "calendar_spreads",
+        "brent_wti"
+      ],
+      "display_name": "Crude Fundamentals: Inventories & Cracks",
+      "evidence_needed": [
+        "crude_price",
+        "eia_inventory_data",
+        "products",
+        "refinery_utilization",
+        "cracks",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "9: Intermarket Confirmation",
+      "concept_id": "ch09_crude_spreads_and_geopolitical_premium",
+      "degraded_inputs": [
+        "opec_communication",
+        "dollar",
+        "risk_tone"
+      ],
+      "display_name": "Crude Spreads & Geopolitical Premium",
+      "evidence_needed": [
+        "crude_price",
+        "brent_wti",
+        "calendar_spreads",
+        "headline_context",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "9: Intermarket Confirmation",
+      "concept_id": "ch09_euro_dollar_drivers",
+      "degraded_inputs": [
+        "equities",
+        "credit",
+        "volatility"
+      ],
+      "display_name": "Euro/Dollar Drivers",
+      "evidence_needed": [
+        "eur_usd",
+        "dxy",
+        "euro_crosses",
+        "rate_differentials",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "9: Intermarket Confirmation",
+      "concept_id": "ch09_euro_event_windows_and_carry",
+      "degraded_inputs": [
+        "dom",
+        "tick",
+        "futures_order_flow"
+      ],
+      "display_name": "Euro Event Windows & Carry",
+      "evidence_needed": [
+        "event_timestamps_calendars",
+        "session_windows",
+        "cross_currency_moves",
+        "rate_data",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "9: Intermarket Confirmation",
+      "concept_id": "ch09_gold_demand_channels",
+      "degraded_inputs": [
+        "etf_comex_oi",
+        "physical_lbma_data"
+      ],
+      "display_name": "Gold Demand Channels",
+      "evidence_needed": [
+        "gold_price",
+        "candidate_channel_inputs_vix_credit_breakevens_silver_miners",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "9: Intermarket Confirmation",
+      "concept_id": "ch09_gold_drivers_real_yields_dxy_breakevens",
+      "degraded_inputs": [
+        "vix",
+        "credit",
+        "silver",
+        "miners"
+      ],
+      "display_name": "Gold Drivers: Real Yields, DXY, Breakevens",
+      "evidence_needed": [
+        "gold",
+        "real_yields",
+        "nominal_yields",
+        "breakevens",
+        "dxy",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "9: Intermarket Confirmation",
+      "concept_id": "ch09_intermarket_confirmation_general_principle",
+      "degraded_inputs": [
+        "dom",
+        "footprint",
+        "delta"
+      ],
+      "display_name": "Intermarket Confirmation (General Principle)",
+      "evidence_needed": [
+        "traded_contract",
+        "related_market_inputs",
+        "session",
+        "catalyst_context",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "9: Intermarket Confirmation",
+      "concept_id": "ch09_nq_es_relative_strength_and_index_internals",
+      "degraded_inputs": [
+        "etf_flow",
+        "options_data"
+      ],
+      "display_name": "NQ/ES Relative Strength & Index Internals",
+      "evidence_needed": [
+        "nq_es_data",
+        "cash_index",
+        "breadth",
+        "sector_inputs",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "9: Intermarket Confirmation",
+      "concept_id": "ch09_the_yield_curve_and_rate_repricing",
+      "degraded_inputs": [
+        "cross_asset_feeds"
+      ],
+      "display_name": "The Yield Curve & Rate Repricing",
+      "evidence_needed": [
+        "treasury_cash_yields",
+        "futures",
+        "curve_spreads",
+        "real_yields",
+        "breakevens",
+        "policy_expectation_data",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "9: Intermarket Confirmation",
+      "concept_id": "ch09_treasury_auctions_and_supply",
+      "degraded_inputs": [
+        "bid_to_cover_takedown_detail",
+        "curve",
+        "cross_asset_feeds"
+      ],
+      "display_name": "Treasury Auctions & Supply",
+      "evidence_needed": [
+        "auction_statistics",
+        "post_auction_price",
+        "cash_yields",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "9: Intermarket Confirmation",
+      "concept_id": "ch09_treasury_cash_futures_and_basis",
+      "degraded_inputs": [
+        "basis",
+        "ctd",
+        "repo",
+        "swap_data"
+      ],
+      "display_name": "Treasury Cash/Futures & Basis",
+      "evidence_needed": [
+        "treasury_futures",
+        "cash_yields",
+        "yield_curve",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "9: Intermarket Confirmation",
+      "concept_id": "ch09_vix_credit_and_cross_asset_risk_tone",
+      "degraded_inputs": [
+        "options_dealer_gamma_estimates"
+      ],
+      "display_name": "VIX, Credit & Cross-Asset Risk Tone",
+      "evidence_needed": [
+        "vix",
+        "credit_spreads",
+        "rates",
+        "dollar",
+        "realized_volatility",
+        "breadth",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "10: Catalyst Interpretation",
+      "concept_id": "ch10_catalyst_effect_on_thesis",
+      "degraded_inputs": [
+        "review_notes_or_higher_context"
+      ],
+      "display_name": "Catalyst Effect on Thesis",
+      "evidence_needed": [
+        "stored_thesis_state",
+        "catalyst_classification",
+        "market_response",
+        "tape",
+        "intermarket",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "10: Catalyst Interpretation",
+      "concept_id": "ch10_narrative_consensus_and_disagreement",
+      "degraded_inputs": [
+        "sentiment_news_clustering"
+      ],
+      "display_name": "Narrative Consensus & Disagreement",
+      "evidence_needed": [
+        "narrative_inputs",
+        "source_classification",
+        "positioning_proxies",
+        "market_response",
+        "intermarket",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "10: Catalyst Interpretation",
+      "concept_id": "ch10_new_information_vs_recycled_context",
+      "degraded_inputs": [
+        "tape",
+        "intermarket"
+      ],
+      "display_name": "New Information vs. Recycled Context",
+      "evidence_needed": [
+        "news_timestamps",
+        "source_classification",
+        "event_calendars",
+        "consensus",
+        "prior_market_movement",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "10: Catalyst Interpretation",
+      "concept_id": "ch10_pricing_in",
+      "degraded_inputs": [
+        "options_event_pricing",
+        "tape",
+        "intermarket"
+      ],
+      "display_name": "Pricing-In",
+      "evidence_needed": [
+        "consensus_expectations",
+        "event_details",
+        "price_value_response",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "10: Catalyst Interpretation",
+      "concept_id": "ch10_source_quality",
+      "degraded_inputs": [
+        "market_reaction",
+        "intermarket"
+      ],
+      "display_name": "Source Quality",
+      "evidence_needed": [
+        "source_metadata_type",
+        "timestamp",
+        "confirmation_count",
+        "revision_status",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "10: Catalyst Interpretation",
+      "concept_id": "ch10_transmission_mechanism_and_order_effects",
+      "degraded_inputs": [
+        "source_detail"
+      ],
+      "display_name": "Transmission Mechanism & Order Effects",
+      "evidence_needed": [
+        "catalyst_classification",
+        "product_driver_mapping",
+        "related_market_feeds",
+        "market_response",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "11: Trade-State Management",
+      "concept_id": "ch11_active_trade_state_vs_market_thesis_state",
+      "degraded_inputs": [
+        "trade_timestamp",
+        "tape",
+        "catalyst",
+        "intermarket"
+      ],
+      "display_name": "Active Trade State vs. Market Thesis State",
+      "evidence_needed": [
+        "preserved_thesis_artifacts",
+        "current_market_state",
+        "structural_references",
+        "value_behavior",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "11: Trade-State Management",
+      "concept_id": "ch11_maintenance_conditions",
+      "degraded_inputs": [
+        "specialized_feeds"
+      ],
+      "display_name": "Maintenance Conditions",
+      "evidence_needed": [
+        "thesis_type_specific_structure_value_tape_catalyst_intermark",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "11: Trade-State Management",
+      "concept_id": "ch11_review_reduce_stand_aside_state",
+      "degraded_inputs": [
+        "review_notes_or_higher_context"
+      ],
+      "display_name": "Review / Reduce / Stand-Aside State",
+      "evidence_needed": [
+        "thesis_state",
+        "conflict_classification",
+        "feed_availability",
+        "setup_quality_tape_volatility_session_catalyst_intermarket_c",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "11: Trade-State Management",
+      "concept_id": "ch11_thesis_invalidation",
+      "degraded_inputs": [
+        "tape",
+        "catalyst",
+        "intermarket"
+      ],
+      "display_name": "Thesis Invalidation",
+      "evidence_needed": [
+        "original_premise",
+        "predefined_invalidation_condition",
+        "structural_auction_value_behavior",
+        "preserved_thesis_artifacts",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "11: Trade-State Management",
+      "concept_id": "ch11_thesis_replacement_and_bias_flip",
+      "degraded_inputs": [
+        "tape",
+        "catalyst",
+        "intermarket"
+      ],
+      "display_name": "Thesis Replacement & Bias Flip",
+      "evidence_needed": [
+        "old_thesis_artifacts",
+        "invalidation_staleness_evidence",
+        "new_structural_anchors",
+        "value_behavior",
+        "operator_notes",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "11: Trade-State Management",
+      "concept_id": "ch11_thesis_staleness_and_expiration",
+      "degraded_inputs": [
+        "tape"
+      ],
+      "display_name": "Thesis Staleness & Expiration",
+      "evidence_needed": [
+        "thesis_timestamp",
+        "session_clock",
+        "event_calendar",
+        "structural_references",
+        "value_development",
+        "preserved_artifacts",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "11: Trade-State Management",
+      "concept_id": "ch11_thesis_state_lifecycle",
+      "degraded_inputs": [
+        "tape"
+      ],
+      "display_name": "Thesis State Lifecycle",
+      "evidence_needed": [
+        "preserved_thesis_text",
+        "structural_references",
+        "session_context",
+        "price_value_behavior",
+        "catalyst",
+        "intermarket_context",
+        "operator_notes",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "11: Trade-State Management",
+      "concept_id": "ch11_thesis_weakening_and_degradation",
+      "degraded_inputs": [
+        "specialized_order_flow_feeds"
+      ],
+      "display_name": "Thesis Weakening & Degradation",
+      "evidence_needed": [
+        "original_premise",
+        "structure",
+        "value",
+        "follow_through",
+        "tape",
+        "catalyst",
+        "intermarket_context",
+        "volatility",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "12: Setup Quality & Action Vocabulary",
+      "concept_id": "ch12_alignment_across_dimensions",
+      "degraded_inputs": [
+        "review_notes_or_higher_context"
+      ],
+      "display_name": "Alignment Across Dimensions",
+      "evidence_needed": [
+        "structure",
+        "auction",
+        "tape",
+        "catalyst",
+        "intermarket",
+        "volatility",
+        "session",
+        "thesis_setup_evidence",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "12: Setup Quality & Action Vocabulary",
+      "concept_id": "ch12_asymmetry_and_practical_r_r",
+      "degraded_inputs": [
+        "profile",
+        "liquidity_data"
+      ],
+      "display_name": "Asymmetry & Practical R:R",
+      "evidence_needed": [
+        "structural_distances",
+        "proximity_to_references",
+        "volatility_baselines",
+        "spread_depth",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "12: Setup Quality & Action Vocabulary",
+      "concept_id": "ch12_invalidation_and_confirmation_clarity",
+      "degraded_inputs": [
+        "tape",
+        "profile",
+        "intermarket"
+      ],
+      "display_name": "Invalidation & Confirmation Clarity",
+      "evidence_needed": [
+        "thesis_premise",
+        "per_layer_proof",
+        "failure_references",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "12: Setup Quality & Action Vocabulary",
+      "concept_id": "ch12_location_quality",
+      "degraded_inputs": [
+        "profile",
+        "spread",
+        "intermarket"
+      ],
+      "display_name": "Location Quality",
+      "evidence_needed": [
+        "distance_from_references",
+        "position_vs_value_vwap",
+        "session_window",
+        "range_extension",
+        "volatility_regime",
+        "opposing_structure",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "12: Setup Quality & Action Vocabulary",
+      "concept_id": "ch12_setup_cleanliness_and_timing",
+      "degraded_inputs": [
+        "profile",
+        "tape"
+      ],
+      "display_name": "Setup Cleanliness & Timing",
+      "evidence_needed": [
+        "level_interaction",
+        "location_vs_references",
+        "session_window",
+        "volatility_state",
+        "spread_depth",
+        "feed_availability",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "12: Setup Quality & Action Vocabulary",
+      "concept_id": "ch12_setup_expression_and_no_clean_expression",
+      "degraded_inputs": [
+        "profile",
+        "tape",
+        "intermarket"
+      ],
+      "display_name": "Setup Expression & No Clean Expression",
+      "evidence_needed": [
+        "thesis_context",
+        "setup_quality",
+        "evidence_hierarchy",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    {
+      "action_label": "REVIEW_REQUIRED",
+      "chapter": "12: Setup Quality & Action Vocabulary",
+      "concept_id": "ch12_setup_fragility",
+      "degraded_inputs": [
+        "tape",
+        "profile"
+      ],
+      "display_name": "Setup Fragility",
+      "evidence_needed": [
+        "proximity_to_invalidation",
+        "volatility_state",
+        "distance_from_value",
+        "unresolved_conflict_count",
+        "feed_gaps",
+        "cross_market_dependency",
+        "feed_quality_and_scope_status"
+      ],
+      "state": "REVIEW_REQUIRED",
+      "why_runtime_did_not_decide": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    }
+  ],
+  "total_contracts": 110,
+  "total_outputs": 110
+}
