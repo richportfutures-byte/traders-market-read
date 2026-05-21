@@ -1195,6 +1195,7 @@ The calibrated detector runtime extends P25 to run CALIBRATED contracts when an
 example calibration profile is supplied:
 
 ```bash
+python3 scripts/build_market_snapshot_input.py --market-context qa/examples/source_data/market_context.example.json --structural-levels qa/examples/source_data/structural_levels.example.json --session-bars qa/examples/source_data/session_bars.example.csv --value-areas qa/examples/source_data/value_areas.example.json --profile-rows qa/examples/source_data/profile_rows.example.csv --tape-metrics qa/examples/source_data/tape_metrics.example.json --intermarket-metrics qa/examples/source_data/intermarket_metrics.example.json --output qa/examples/market_snapshot_built.example.json
 python3 scripts/run_detector_runtime.py qa/examples/detector_runtime_calibrated_input.example.json --calibration-profile qa/examples/detector_runtime_calibrated_profile.example.yaml --output qa/examples/detector_runtime_calibrated_output.example.json
 python3 scripts/validate_market_snapshot_input.py qa/examples/detector_runtime_calibrated_input.example.json
 python3 scripts/validate_detector_output.py qa/examples/detector_runtime_calibrated_output.example.json

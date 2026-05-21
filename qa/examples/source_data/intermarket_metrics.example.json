@@ -1,0 +1,14 @@
+{
+  "cash_index": {
+    "value": 5050.0,
+    "change": 25.0
+  },
+  "constituent_advance_decline": {
+    "advancers": 350,
+    "decliners": 150
+  },
+  "equal_weight_data": {
+    "value": 4800.0,
+    "change": 15.0
+  }
+}

@@ -1,0 +1,928 @@
+# Detector Runtime Review Packet
+
+Input file: `qa/examples/market_snapshot_built_runtime_output.example.json`
+
+## Runtime Summary Counts
+
+- Total contracts: 110
+- Total outputs: 110
+- Refusal count: 64
+- Non-refusal count: 46
+- JUDGMENT_ASSISTED review queue count: 64
+- Blocked-by-feed count: 3
+- Counts by determinism class: `{"CALIBRATED": 27, "COMPUTABLE": 9, "CONTEXT_ONLY": 7, "JUDGMENT_ASSISTED": 64, "NOT_DETECTABLE_WITH_CURRENT_FEEDS": 3}`
+- Counts by route: `{"calibrated": 27, "computable": 9, "context_only": 7, "judgment_assisted_review": 64, "not_detectable_blocked": 3}`
+
+## Non-Refusal Findings
+
+### 1: Read Discipline & Interpretation Method
+
+- `ch01_context_vs_execution_permission` - Context vs. Execution Permission
+  - Class: CONTEXT_ONLY
+  - State: `CONTEXT_ONLY_OBSERVATION`
+  - Action label: `CONTEXT_ONLY`
+  - Confidence: `CONTEXT_ONLY`
+  - Evidence summary: CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission.
+- `ch01_product_specific_behavior` - Product-Specific Behavior
+  - Class: CONTEXT_ONLY
+  - State: `PRODUCT_SPECIFIC_CONTEXT_ONLY`
+  - Action label: `CONTEXT_ONLY`
+  - Confidence: `CONTEXT_ONLY`
+  - Evidence summary: CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission.
+### 2: Level Interaction & Acceptance
+
+- `ch02_acceptance_vs_rejection` - Acceptance vs. Rejection
+  - Class: CALIBRATED
+  - State: `ACCEPTED_ABOVE`
+  - Action label: `ACCEPTED_ABOVE`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: dominant_side='above', level=5000.0, max_dwell_beyond=8, peak_excursion=5.0, ...
+- `ch02_break_quality` - Break Quality
+  - Class: CALIBRATED
+  - State: `IMPULSIVE_BREAK_TEXTURE`
+  - Action label: `OBSERVE`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: crossings=0, displacement=11.0, velocity=5.5
+- `ch02_breakout_continuation_vs_breakout_failure` - Breakout Continuation vs. Breakout Failure
+  - Class: CALIBRATED
+  - State: `BREAKOUT_CONTINUATION`
+  - Action label: `BREAKOUT_CONTINUATION`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: level=5010.0, max_run=7, peak_excursion=11.0, reclaimed=False
+- `ch02_level_magnetism_and_decay` - Level Magnetism & Decay
+  - Class: CALIBRATED
+  - State: `LEVEL_MAGNETISM_CONTEXT`
+  - Action label: `CONTEXT_ONLY`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: crossed_level=False, drift_toward_level=11.800000000000182, level=5000.0, peak_excursion=12.0
+- `ch02_level_test_sequence` - Level Test Sequence
+  - Class: CALIBRATED
+  - State: `LEVEL_EXHAUSTION_REVIEW`
+  - Action label: `LEVEL_EXHAUSTION_REVIEW`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: reactions=[5.0, 5.0, 6.0, 6.0, 1.0], test_count=5
+- `ch02_liquidity_sweep_vs_real_break` - Liquidity Sweep vs. Real Break
+  - Class: CALIBRATED
+  - State: `SWEEP_RECLAIMED_FALSE_BREAK`
+  - Action label: `SWEEP_RECLAIMED_FALSE_BREAK`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: level=5000.0, max_run=4, peak_excursion=7.0, reclaimed=True
+- `ch02_polarity_flip` - Polarity Flip
+  - Class: CALIBRATED
+  - State: `POLARITY_FLIP_CONFIRMED`
+  - Action label: `POLARITY_FLIP_CONFIRMED`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: broken_side='above', held_samples=6, level=5010.0, retest_index=2
+- `ch02_structural_reference_levels` - Structural Reference Levels
+  - Class: COMPUTABLE
+  - State: `OBSERVED`
+  - Action label: `OBSERVED`
+  - Confidence: `STRUCTURAL_OBSERVED`
+  - Evidence summary: Measurements: note='Reference lattice only; behaviour at any reference is out of scope.', references_not_observed=[], references_observed={'prior_day_high': 5020.0, 'prior_day_low': 4980.0, 'rth_open_price': 5000.0}
+### 3: Auction & Market Profile
+
+- `ch03_auction_acceptance_vs_rejection` - Auction Acceptance vs. Rejection
+  - Class: CALIBRATED
+  - State: `AUCTION_ACCEPTED`
+  - Action label: `AUCTION_ACCEPTED`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: extended=True, outside_development_fraction=0.5482014388489208
+- `ch03_completed_failed_and_unfinished_auctions` - Completed, Failed & Unfinished Auctions
+  - Class: CALIBRATED
+  - State: `COMPLETED_AUCTION`
+  - Action label: `OBSERVE`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: flat_extreme_levels=0, high_single_print_tail=10
+- `ch03_excess_vs_poor_highs_lows` - Excess vs. Poor Highs/Lows
+  - Class: CALIBRATED
+  - State: `EXCESS_HIGH`
+  - Action label: `EXCESS_HIGH`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: high_tail=10, low_tail=0, rejection_speed=7.0
+- `ch03_initial_balance` - Initial Balance
+  - Class: COMPUTABLE
+  - State: `OBSERVED`
+  - Action label: `OBSERVED`
+  - Confidence: `STRUCTURAL_OBSERVED`
+  - Evidence summary: Measurements: ib_high=5012.0, ib_low=4998.0, ib_width=14.0, ib_window_complete=True
+- `ch03_price_outside_value_acceptance_test` - Price Outside Value / Acceptance Test
+  - Class: CALIBRATED
+  - State: `OUTSIDE_VALUE_REJECTED`
+  - Action label: `OUTSIDE_VALUE_REJECTED`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: outside_development_fraction=0.3942446043165468, outside_value=True
+- `ch03_single_prints` - Single Prints
+  - Class: COMPUTABLE
+  - State: `SINGLE_PRINTS_PRESENT`
+  - Action label: `SINGLE_PRINTS_PRESENT`
+  - Confidence: `STRUCTURAL_OBSERVED`
+  - Evidence summary: Measurements: note='Single prints are TPO levels touched by exactly one period bracket.', single_print_count=10, single_print_prices=[5007.0, 5008.0, 5009.0, 5010.0, 5011.0, 5012.0, 5013.0, 5014.0, 5015.0, 5016.0], total_levels=22
+- `ch03_the_auction_framework` - The Auction Framework
+  - Class: CALIBRATED
+  - State: `BALANCE_TO_IMBALANCE_TRANSITION`
+  - Action label: `OBSERVE`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: directional_travel=0.6052631578947368, overlap_fraction=0.6597222222222222
+- `ch03_value_area_vah_val_poc` - Value Area: VAH / VAL / POC
+  - Class: COMPUTABLE
+  - State: `OBSERVED`
+  - Action label: `OBSERVED`
+  - Confidence: `STRUCTURAL_OBSERVED`
+  - Evidence summary: Measurements: poc=5001.0, vah=5010.0, val=4996.0, value_area_coverage_fraction=0.7, ...
+- `ch03_value_migration_and_overlap` - Value Migration & Overlap
+  - Class: COMPUTABLE
+  - State: `VALUE_MIGRATING_HIGHER`
+  - Action label: `VALUE_MIGRATING_HIGHER`
+  - Confidence: `STRUCTURAL_OBSERVED`
+  - Evidence summary: Measurements: current_value_area={'poc': 5004.0, 'vah': 5012.0, 'val': 4998.0}, note='Structural value movement only; directional meaning is out of scope.', prior_value_area={'poc': 4998.0, 'vah': 5008.0, 'val': 4992.0}, value_areas_overlap=True
+- `ch03_volume_nodes_and_air_pockets` - Volume Nodes & Air Pockets
+  - Class: CALIBRATED
+  - State: `LOW_VOLUME_NODE_IDENTIFIED`
+  - Action label: `OBSERVE`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: hvn_prominence=2.2158273381294964, lvn_thinness=3.9488636363636367, price_travel=10.0
+- `ch03_vwap_relationship` - VWAP Relationship
+  - Class: COMPUTABLE
+  - State: `OBSERVED`
+  - Action label: `OBSERVED`
+  - Confidence: `STRUCTURAL_OBSERVED`
+  - Evidence summary: Measurements: last_trade_price=5014.0, note='VWAP geometry only; magnet vs support/resistance behaviour is out of scope.', price_vs_vwap='above_vwap', session_vwap=5011.135135135135
+### 4: Tape Reading & Microstructure
+
+- `ch04_spread_behavior` - Spread Behavior
+  - Class: CALIBRATED
+  - State: `SPREAD_STABLE`
+  - Action label: `SPREAD_STABLE`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: baseline=1.0, early_spread=0.25, instability=0.0, recent_spread=0.25
+- `ch04_stall_and_snap_back` - Stall & Snap-Back
+  - Class: CALIBRATED
+  - State: `SNAP_BACK_CONFIRMED`
+  - Action label: `SNAP_BACK_CONFIRMED`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: min_window_progress=0.3000000000001819, reference=5008.0
+- `ch04_sweeps_through_liquidity` - Sweeps Through Liquidity
+  - Class: CALIBRATED
+  - State: `POST_SWEEP_CONTINUATION`
+  - Action label: `POST_SWEEP_CONTINUATION`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: levels_taken=5, post_sweep_reclaim_fraction=0.075, velocity=2.5
+- `ch04_tape_quality_spectrum` - Tape Quality Spectrum
+  - Class: CALIBRATED
+  - State: `TAPE_FAST`
+  - Action label: `TAPE_FAST`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: mean_range=7.8, mean_spread=0.2916666666666667, range_instability=0.1495115870473154
+### 5: Momentum, Follow-Through & Day Types
+
+- `ch05_follow_through_and_failure` - Follow-Through and Failure
+  - Class: CALIBRATED
+  - State: `FOLLOW_THROUGH_CONFIRMED`
+  - Action label: `OBSERVE`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: max_run=5, peak_excursion=15.0, reclaimed=False, reference=5000.0
+- `ch05_impulse_vs_grind` - Impulse vs. Grind
+  - Class: CALIBRATED
+  - State: `GRIND_MOVE`
+  - Action label: `GRIND_MOVE`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: displacement=10.0, overlap_fraction=0.6597222222222222
+- `ch05_one_timeframing` - One-Timeframing
+  - Class: COMPUTABLE
+  - State: `ONE_TIMEFRAMING_HIGHER`
+  - Action label: `ONE_TIMEFRAMING_HIGHER`
+  - Confidence: `STRUCTURAL_OBSERVED`
+  - Evidence summary: Measurements: completed_periods=3, note='Structural period-control state only; not a reversal or continuation claim.', period_highs=[5006.0, 5011.0, 5016.0], period_lows=[4999.0, 5002.0, 5007.0]
+### 6: Traps & Positioning
+
+- `ch06_crowded_trades_and_pain_trades` - Crowded Trades & Pain Trades
+  - Class: CONTEXT_ONLY
+  - State: `CONTEXT_ONLY`
+  - Action label: `CONTEXT_ONLY`
+  - Confidence: `CONTEXT_ONLY`
+  - Evidence summary: CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission.
+- `ch06_mechanical_flows_rebalance_month_end_roll` - Mechanical Flows (Rebalance / Month-End / Roll)
+  - Class: CONTEXT_ONLY
+  - State: `CONTEXT_ONLY`
+  - Action label: `CONTEXT_ONLY`
+  - Confidence: `CONTEXT_ONLY`
+  - Evidence summary: CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission.
+- `ch06_stop_out_cascades_and_liquidation` - Stop-Out Cascades & Liquidation
+  - Class: CALIBRATED
+  - State: `CASCADE_LIKE_BEHAVIOR`
+  - Action label: `OBSERVE`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: breaches=6, peak_velocity=7.0, volume_expansion=4.318181818181818
+### 7: Session Context & Sequencing
+
+- `ch07_asia_session_character` - Asia Session Character
+  - Class: CALIBRATED
+  - State: `ASIA_REPRICING_CONTEXT`
+  - Action label: `CONTEXT_ONLY`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: asia_range=12.0, extension_reclaimed=True, mean_volume=232.5
+- `ch07_rth_open_location` - RTH Open Location
+  - Class: COMPUTABLE
+  - State: `OPEN_INSIDE_OVERNIGHT_RANGE`
+  - Action label: `OPEN_INSIDE_OVERNIGHT_RANGE`
+  - Confidence: `STRUCTURAL_OBSERVED`
+  - Evidence summary: Measurements: location_tags=['OPEN_INSIDE_OVERNIGHT_RANGE', 'OPEN_INSIDE_PRIOR_RTH_RANGE', 'OPEN_INSIDE_PRIOR_VALUE'], note='Open-location mapping only; acceptance/rejection is out of scope.', overnight_location='OPEN_INSIDE_OVERNIGHT_RANGE', prior_rth_location='OPEN_INSIDE_PRIOR_RTH_RANGE', ...
+### 8: Volatility Regime
+
+- `ch08_compression_breakouts_real_vs_false` - Compression Breakouts (Real vs. False)
+  - Class: CALIBRATED
+  - State: `ACCEPTED_COMPRESSION_BREAK`
+  - Action label: `OBSERVE`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: first_break=1, held_bars=4, range_high=5006.0, range_low=4999.0
+- `ch08_compression_vs_expansion` - Compression vs. Expansion
+  - Class: CALIBRATED
+  - State: `COMPRESSION_STATE`
+  - Action label: `COMPRESSION_STATE`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: range_ratio=0.3, rv_ratio=0.24516129032258063
+- `ch08_expanded_volatility_no_trade_condition` - Expanded-Volatility No-Trade Condition
+  - Class: CALIBRATED
+  - State: `EXPANDED_VOLATILITY_ENVIRONMENT_BLOCK`
+  - Action label: `OBSERVE`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: depth_instability=0.363267426786356, rv_ratio=2.727272727272727, spread_instability=0.6225543867784094
+- `ch08_inside_outside_and_narrow_wide_range_days` - Inside/Outside & Narrow/Wide Range Days
+  - Class: COMPUTABLE
+  - State: `INSIDE_DAY`
+  - Action label: `INSIDE_DAY`
+  - Confidence: `STRUCTURAL_OBSERVED`
+  - Evidence summary: Measurements: current_session_high=5018.0, current_session_low=4998.0, note='Structural day container only; no breakout/trend inference.', prior_session_high=5020.0, ...
+- `ch08_volatility_crush_and_reset` - Volatility Crush & Reset
+  - Class: CALIBRATED
+  - State: `POST_EVENT_NORMALIZATION`
+  - Action label: `OBSERVE`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: range_ratio=0.23684210526315788, rv_ratio=0.2391304347826087, samples_since_event=5.0
+### 9: Intermarket Confirmation
+
+- `ch09_breadth_confirmation_and_divergence` - Breadth Confirmation & Divergence
+  - Class: CALIBRATED
+  - State: `BREADTH_CONFIRMS_PRICE`
+  - Action label: `OBSERVE`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: advance_ratio=0.7, equal_weight_change=15.0, index_change=25.0
+### 10: Catalyst Interpretation
+
+- `ch10_catalyst_to_trade_translation` - Catalyst-to-Trade Translation
+  - Class: CONTEXT_ONLY
+  - State: `CONTEXT_ONLY`
+  - Action label: `CONTEXT_ONLY`
+  - Confidence: `CONTEXT_ONLY`
+  - Evidence summary: CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission.
+### 11: Trade-State Management
+
+- `ch11_thesis_confirmation_vs_execution_permission` - Thesis Confirmation vs. Execution Permission
+  - Class: CONTEXT_ONLY
+  - State: `CONTEXT_ONLY`
+  - Action label: `CONTEXT_ONLY`
+  - Confidence: `CONTEXT_ONLY`
+  - Evidence summary: CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission.
+### 12: Setup Quality & Action Vocabulary
+
+- `ch12_action_vocabulary` - Action Vocabulary
+  - Class: CONTEXT_ONLY
+  - State: `CONTEXT_ONLY_LABEL`
+  - Action label: `CONTEXT_ONLY`
+  - Confidence: `CONTEXT_ONLY`
+  - Evidence summary: CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission.
+- `ch12_execution_environment_quality_and_veto` - Execution Environment Quality & Veto
+  - Class: CALIBRATED
+  - State: `VOLATILITY_ENVIRONMENT_BLOCKED`
+  - Action label: `OBSERVE`
+  - Confidence: `CALIBRATED_CLASSIFICATION`
+  - Evidence summary: Measurements: depth=1200.0, minutes_to_event=120.0, realized_volatility=16.0, spread=0.25
+
+## Refusals and Review-Required Items
+
+### JUDGMENT_ASSISTED
+
+- `ch01_confirmation_and_invalidation_discipline`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: thesis_premise, per_layer_market_behavior, feed_quality_and_scope_status
+  - Degraded inputs: tape, value, intermarket
+- `ch01_false_precision_and_observation_tracking`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: observation_records, outcomes, review_windows, feed_quality_and_scope_status
+  - Degraded inputs: calibration_data
+- `ch01_leading_vs_coincident_signals`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: price_sequence, signal_timing_context, feed_quality_and_scope_status
+  - Degraded inputs: spread, delta, intermarket
+- `ch01_signal_conflict_taxonomy`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: multi_layer_reads_structure, tape, catalyst, intermarket, timeframe_context, feed_quality_and_scope_status
+  - Degraded inputs: feed_quality_metadata
+- `ch01_tape_confirms_narrative_rule`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: catalyst_input, live_tape, structural_context, feed_quality_and_scope_status
+  - Degraded inputs: cumulative_delta, source_timestamps
+- `ch01_the_read_vs_the_touch`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: price_level_interaction_sequence, structural_levels, session_state, feed_quality_and_scope_status
+  - Degraded inputs: volume_at_price, cumulative_delta, tape
+- `ch02_mechanical_levels_and_obvious_traps`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: structural_level, price_behavior_around_it, feed_quality_and_scope_status
+  - Degraded inputs: sentiment, positioning, order_book_data
+- `ch03_fresh_flow_vs_weak_strong_hands`
+  - State: `INSUFFICIENT_EVIDENCE`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: price_sequence, value_behavior, location_quality_context
+  - Degraded inputs: delta_or_aggression, retest_response, positioning_proxy
+- `ch03_initiative_vs_responsive_activity`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: value_area_reference, price_sequence, session_clock
+  - Degraded inputs: delta_or_aggression, volume_at_price, structural_references
+- `ch03_overnight_inventory_and_inventory_correction`
+  - State: `PROVISIONAL_INVENTORY_READ`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: overnight_session_bars, rth_open, prior_rth_references
+  - Degraded inputs: overnight_profile, early_rth_tape, positioning_proxy
+- `ch03_short_covering_vs_long_liquidation_auctions`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: price_sequence, value_behavior, structural_references
+  - Degraded inputs: cumulative_delta, aggression_metrics, positioning_proxy
+- `ch04_absorption`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: price_behavior_at_reference, aggression_or_delta_feed, volume_or_time_at_price
+  - Degraded inputs: dom_or_refreshing_size, structural_reference
+- `ch04_chasing_vs_pressing`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: price_sequence, volume_or_trade_activity
+  - Degraded inputs: cumulative_delta, depth_or_spread, value_behavior
+- `ch04_cumulative_delta_and_delta_divergence`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: bid_ask_classified_trades, price_sequence, structural_location
+  - Degraded inputs: tape_quality, footprint_imbalances, profile_context
+### NOT_DETECTABLE_WITH_CURRENT_FEEDS
+
+- `ch04_liquidity_pulls_and_replenishment`
+  - State: `BLOCKED_BY_FEEDS`
+  - Action label: `BLOCKED_BY_FEEDS`
+  - Refusal reason: NOT_DETECTABLE_WITH_CURRENT_FEEDS detector: the concept requires data feeds that are not available. The runtime emits a blocked-by-feeds output instead of inferring a result.
+  - Missing inputs: live_depth_updates, session_clock
+  - Degraded inputs: None listed
+- `ch04_refreshing_liquidity`
+  - State: `BLOCKED_BY_FEEDS`
+  - Action label: `BLOCKED_BY_FEEDS`
+  - Refusal reason: NOT_DETECTABLE_WITH_CURRENT_FEEDS detector: the concept requires data feeds that are not available. The runtime emits a blocked-by-feeds output instead of inferring a result.
+  - Missing inputs: live_order_book_depth, executed_trade_sequence
+  - Degraded inputs: None listed
+### JUDGMENT_ASSISTED
+
+- `ch04_tape_vs_narrative`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: catalyst_news_timestamps, price, delta_behavior, structural_references, feed_quality_and_scope_status
+  - Degraded inputs: source_quality
+- `ch05_close_quality`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: session_close_price, session_range_and_references, price_sequence_into_close
+  - Degraded inputs: value_migration, tape_or_delta_into_close, close_imbalance_data
+- `ch05_day_type_taxonomy`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: session_price_structure, initial_balance_context, session_clock
+  - Degraded inputs: value_profile, one_timeframing_state, tape_or_delta
+- `ch05_exhaustion`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: price, volume, structural_references, value_profile, feed_quality_and_scope_status
+  - Degraded inputs: delta, footprint
+- `ch05_momentum_ignition_stall_and_exhaustion`
+  - State: `INSUFFICIENT_EVIDENCE`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: price_bars, volume_series, structural_references, volatility_baseline
+  - Degraded inputs: cumulative_delta, footprint_or_dom, session_context
+### NOT_DETECTABLE_WITH_CURRENT_FEEDS
+
+- `ch06_dealer_gamma_dynamics`
+  - State: `DEALER_GAMMA_FEEDS_UNAVAILABLE`
+  - Action label: `INSUFFICIENT_EVIDENCE`
+  - Refusal reason: NOT_DETECTABLE_WITH_CURRENT_FEEDS detector: the concept requires data feeds that are not available. The runtime emits a blocked-by-feeds output instead of inferring a result.
+  - Missing inputs: options_oi, implied_vol_surface, strike_exposure, expiration_calendar, dealer_position_model, feed_quality_and_scope_status
+  - Degraded inputs: None listed
+### JUDGMENT_ASSISTED
+
+- `ch06_short_covering_rally`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: failed_breakdown_sequence, structural_levels, value_behavior
+  - Degraded inputs: cumulative_delta, tape_quality, positioning_proxy
+- `ch06_strong_hands_defending`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: defended_reference, repeated_test_sequence, value_behavior
+  - Degraded inputs: absorption_evidence, dom_depth, higher_timeframe_context
+- `ch06_trapped_traders`
+  - State: `INSUFFICIENT_EVIDENCE`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: structural_levels, price_sequence, value_behavior
+  - Degraded inputs: cumulative_delta, tape_quality, positioning_proxy
+- `ch07_intraday_time_windows`
+  - State: `POWER_HOUR_REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: session_clock, price_bars, volume_series, spread_series
+  - Degraded inputs: depth_series, close_imbalance_feed, event_calendar
+- `ch07_london_initiative_and_traps`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: session_clock, london_session_bars, structural_references, volume_series
+  - Degraded inputs: value_behavior, cumulative_delta, ny_response
+- `ch07_ny_inheritance_vs_rejection`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: session_bars, prior_value_profile_references, volume, session_clock, feed_quality_and_scope_status
+  - Degraded inputs: delta, footprint, dom, internals, intermarket
+- `ch07_opening_type_taxonomy`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: rth_bars, session_clock, prior_references, volume, feed_quality_and_scope_status
+  - Degraded inputs: delta, dom, footprint, profile, internals
+- `ch07_session_quality_vs_session_completion`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: range, value, session_references, close_location, profile_structure, feed_quality_and_scope_status
+  - Degraded inputs: tape, delta, dom, imbalance, settlement_data
+- `ch07_session_sequencing`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: session_clock, session_bars, structural_references
+  - Degraded inputs: session_profile, cumulative_delta, event_calendar
+- `ch08_event_volatility_regime`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: event_calendar, price_range_spread_behavior, feed_quality_and_scope_status
+  - Degraded inputs: tape, depth, options, intermarket
+- `ch08_expansion_outcomes_trend_chop_exhaustion`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: price_bars, volatility_state, structural_references
+  - Degraded inputs: value_behavior, tape_quality, event_calendar
+- `ch08_liquidity_driven_and_mechanical_volatility`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: price_sequence, structural_levels, velocity, value_behavior, feed_quality_and_scope_status
+  - Degraded inputs: dom, tick, footprint, options_flow_data
+- `ch09_crude_fundamentals_inventories_and_cracks`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: crude_price, eia_inventory_data, products, refinery_utilization, cracks, feed_quality_and_scope_status
+  - Degraded inputs: spr, calendar_spreads, brent_wti
+- `ch09_crude_spreads_and_geopolitical_premium`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: crude_price, brent_wti, calendar_spreads, headline_context, feed_quality_and_scope_status
+  - Degraded inputs: opec_communication, dollar, risk_tone
+- `ch09_euro_dollar_drivers`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: eur_usd, dxy, euro_crosses, rate_differentials, feed_quality_and_scope_status
+  - Degraded inputs: equities, credit, volatility
+- `ch09_euro_event_windows_and_carry`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: event_timestamps_calendars, session_windows, cross_currency_moves, rate_data, feed_quality_and_scope_status
+  - Degraded inputs: dom, tick, futures_order_flow
+- `ch09_gold_demand_channels`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: gold_price, candidate_channel_inputs_vix_credit_breakevens_silver_miners, feed_quality_and_scope_status
+  - Degraded inputs: etf_comex_oi, physical_lbma_data
+- `ch09_gold_drivers_real_yields_dxy_breakevens`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: gold, real_yields, nominal_yields, breakevens, dxy, feed_quality_and_scope_status
+  - Degraded inputs: vix, credit, silver, miners
+- `ch09_intermarket_confirmation_general_principle`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: traded_contract, related_market_inputs, session, catalyst_context, feed_quality_and_scope_status
+  - Degraded inputs: dom, footprint, delta
+- `ch09_nq_es_relative_strength_and_index_internals`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: nq_es_data, cash_index, breadth, sector_inputs, feed_quality_and_scope_status
+  - Degraded inputs: etf_flow, options_data
+- `ch09_the_yield_curve_and_rate_repricing`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: treasury_cash_yields, futures, curve_spreads, real_yields, breakevens, policy_expectation_data, feed_quality_and_scope_status
+  - Degraded inputs: cross_asset_feeds
+- `ch09_treasury_auctions_and_supply`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: auction_statistics, post_auction_price, cash_yields, feed_quality_and_scope_status
+  - Degraded inputs: bid_to_cover_takedown_detail, curve, cross_asset_feeds
+- `ch09_treasury_cash_futures_and_basis`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: treasury_futures, cash_yields, yield_curve, feed_quality_and_scope_status
+  - Degraded inputs: basis, ctd, repo, swap_data
+- `ch09_vix_credit_and_cross_asset_risk_tone`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: vix, credit_spreads, rates, dollar, realized_volatility, breadth, feed_quality_and_scope_status
+  - Degraded inputs: options_dealer_gamma_estimates
+- `ch10_catalyst_effect_on_thesis`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: stored_thesis_state, catalyst_classification, market_response, tape, intermarket, feed_quality_and_scope_status
+  - Degraded inputs: review_notes_or_higher_context
+- `ch10_narrative_consensus_and_disagreement`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: narrative_inputs, source_classification, positioning_proxies, market_response, intermarket, feed_quality_and_scope_status
+  - Degraded inputs: sentiment_news_clustering
+- `ch10_new_information_vs_recycled_context`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: news_timestamps, source_classification, event_calendars, consensus, prior_market_movement, feed_quality_and_scope_status
+  - Degraded inputs: tape, intermarket
+- `ch10_pricing_in`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: consensus_expectations, event_details, price_value_response, feed_quality_and_scope_status
+  - Degraded inputs: options_event_pricing, tape, intermarket
+- `ch10_source_quality`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: source_metadata_type, timestamp, confirmation_count, revision_status, feed_quality_and_scope_status
+  - Degraded inputs: market_reaction, intermarket
+- `ch10_transmission_mechanism_and_order_effects`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: catalyst_classification, product_driver_mapping, related_market_feeds, market_response, feed_quality_and_scope_status
+  - Degraded inputs: source_detail
+- `ch11_active_trade_state_vs_market_thesis_state`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: preserved_thesis_artifacts, current_market_state, structural_references, value_behavior, feed_quality_and_scope_status
+  - Degraded inputs: trade_timestamp, tape, catalyst, intermarket
+- `ch11_maintenance_conditions`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: thesis_type_specific_structure_value_tape_catalyst_intermark, feed_quality_and_scope_status
+  - Degraded inputs: specialized_feeds
+- `ch11_review_reduce_stand_aside_state`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: thesis_state, conflict_classification, feed_availability, setup_quality_tape_volatility_session_catalyst_intermarket_c, feed_quality_and_scope_status
+  - Degraded inputs: review_notes_or_higher_context
+- `ch11_thesis_invalidation`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: original_premise, predefined_invalidation_condition, structural_auction_value_behavior, preserved_thesis_artifacts, feed_quality_and_scope_status
+  - Degraded inputs: tape, catalyst, intermarket
+- `ch11_thesis_replacement_and_bias_flip`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: old_thesis_artifacts, invalidation_staleness_evidence, new_structural_anchors, value_behavior, operator_notes, feed_quality_and_scope_status
+  - Degraded inputs: tape, catalyst, intermarket
+- `ch11_thesis_staleness_and_expiration`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: thesis_timestamp, session_clock, event_calendar, structural_references, value_development, preserved_artifacts, feed_quality_and_scope_status
+  - Degraded inputs: tape
+- `ch11_thesis_state_lifecycle`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: preserved_thesis_text, structural_references, session_context, price_value_behavior, catalyst, intermarket_context, operator_notes, feed_quality_and_scope_status
+  - Degraded inputs: tape
+- `ch11_thesis_weakening_and_degradation`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: original_premise, structure, value, follow_through, tape, catalyst, intermarket_context, volatility, feed_quality_and_scope_status
+  - Degraded inputs: specialized_order_flow_feeds
+- `ch12_alignment_across_dimensions`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: structure, auction, tape, catalyst, intermarket, volatility, session, thesis_setup_evidence, feed_quality_and_scope_status
+  - Degraded inputs: review_notes_or_higher_context
+- `ch12_asymmetry_and_practical_r_r`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: structural_distances, proximity_to_references, volatility_baselines, spread_depth, feed_quality_and_scope_status
+  - Degraded inputs: profile, liquidity_data
+- `ch12_invalidation_and_confirmation_clarity`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: thesis_premise, per_layer_proof, failure_references, feed_quality_and_scope_status
+  - Degraded inputs: tape, profile, intermarket
+- `ch12_location_quality`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: distance_from_references, position_vs_value_vwap, session_window, range_extension, volatility_regime, opposing_structure, feed_quality_and_scope_status
+  - Degraded inputs: profile, spread, intermarket
+- `ch12_setup_cleanliness_and_timing`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: level_interaction, location_vs_references, session_window, volatility_state, spread_depth, feed_availability, feed_quality_and_scope_status
+  - Degraded inputs: profile, tape
+- `ch12_setup_expression_and_no_clean_expression`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: thesis_context, setup_quality, evidence_hierarchy, feed_quality_and_scope_status
+  - Degraded inputs: profile, tape, intermarket
+- `ch12_setup_fragility`
+  - State: `REVIEW_REQUIRED`
+  - Action label: `REVIEW_REQUIRED`
+  - Refusal reason: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Missing inputs: proximity_to_invalidation, volatility_state, distance_from_value, unresolved_conflict_count, feed_gaps, cross_market_dependency, feed_quality_and_scope_status
+  - Degraded inputs: tape, profile
+
+## JUDGMENT_ASSISTED Review Queue
+
+- `ch01_confirmation_and_invalidation_discipline` - Confirmation & Invalidation Discipline
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: thesis_premise, per_layer_market_behavior, feed_quality_and_scope_status
+- `ch01_false_precision_and_observation_tracking` - False Precision & Observation Tracking
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: observation_records, outcomes, review_windows, feed_quality_and_scope_status
+- `ch01_leading_vs_coincident_signals` - Leading vs. Coincident Signals
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: price_sequence, signal_timing_context, feed_quality_and_scope_status
+- `ch01_signal_conflict_taxonomy` - Signal Conflict Taxonomy
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: multi_layer_reads_structure, tape, catalyst, intermarket, timeframe_context, feed_quality_and_scope_status
+- `ch01_tape_confirms_narrative_rule` - Tape-Confirms-Narrative Rule
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: catalyst_input, live_tape, structural_context, feed_quality_and_scope_status
+- `ch01_the_read_vs_the_touch` - The Read vs. The Touch
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: price_level_interaction_sequence, structural_levels, session_state, feed_quality_and_scope_status
+- `ch02_mechanical_levels_and_obvious_traps` - Mechanical Levels & Obvious Traps
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: structural_level, price_behavior_around_it, feed_quality_and_scope_status
+- `ch03_fresh_flow_vs_weak_strong_hands` - Fresh Flow vs. Weak/Strong Hands
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: price_sequence, value_behavior, location_quality_context
+- `ch03_initiative_vs_responsive_activity` - Initiative vs. Responsive Activity
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: value_area_reference, price_sequence, session_clock
+- `ch03_overnight_inventory_and_inventory_correction` - Overnight Inventory & Inventory Correction
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: overnight_session_bars, rth_open, prior_rth_references
+- `ch03_short_covering_vs_long_liquidation_auctions` - Short-Covering vs. Long-Liquidation Auctions
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: price_sequence, value_behavior, structural_references
+- `ch04_absorption` - Absorption
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: price_behavior_at_reference, aggression_or_delta_feed, volume_or_time_at_price
+- `ch04_chasing_vs_pressing` - Chasing vs. Pressing
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: price_sequence, volume_or_trade_activity
+- `ch04_cumulative_delta_and_delta_divergence` - Cumulative Delta & Delta Divergence
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: bid_ask_classified_trades, price_sequence, structural_location
+- `ch04_tape_vs_narrative` - Tape vs. Narrative
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: catalyst_news_timestamps, price, delta_behavior, structural_references, feed_quality_and_scope_status
+- `ch05_close_quality` - Close Quality
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: session_close_price, session_range_and_references, price_sequence_into_close
+- `ch05_day_type_taxonomy` - Day-Type Taxonomy
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: session_price_structure, initial_balance_context, session_clock
+- `ch05_exhaustion` - Exhaustion
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: price, volume, structural_references, value_profile, feed_quality_and_scope_status
+- `ch05_momentum_ignition_stall_and_exhaustion` - Momentum Ignition, Stall & Exhaustion
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: price_bars, volume_series, structural_references, volatility_baseline
+- `ch06_short_covering_rally` - Short-Covering Rally
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: failed_breakdown_sequence, structural_levels, value_behavior
+- `ch06_strong_hands_defending` - Strong Hands Defending
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: defended_reference, repeated_test_sequence, value_behavior
+- `ch06_trapped_traders` - Trapped Traders
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: structural_levels, price_sequence, value_behavior
+- `ch07_intraday_time_windows` - Intraday Time Windows
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: session_clock, price_bars, volume_series, spread_series
+- `ch07_london_initiative_and_traps` - London Initiative & Traps
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: session_clock, london_session_bars, structural_references, volume_series
+- `ch07_ny_inheritance_vs_rejection` - NY Inheritance vs. Rejection
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: session_bars, prior_value_profile_references, volume, session_clock, feed_quality_and_scope_status
+- `ch07_opening_type_taxonomy` - Opening Type Taxonomy
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: rth_bars, session_clock, prior_references, volume, feed_quality_and_scope_status
+- `ch07_session_quality_vs_session_completion` - Session Quality vs. Session Completion
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: range, value, session_references, close_location, profile_structure, feed_quality_and_scope_status
+- `ch07_session_sequencing` - Session Sequencing
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: session_clock, session_bars, structural_references
+- `ch08_event_volatility_regime` - Event Volatility Regime
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: event_calendar, price_range_spread_behavior, feed_quality_and_scope_status
+- `ch08_expansion_outcomes_trend_chop_exhaustion` - Expansion Outcomes (Trend / Chop / Exhaustion)
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: price_bars, volatility_state, structural_references
+- `ch08_liquidity_driven_and_mechanical_volatility` - Liquidity-Driven & Mechanical Volatility
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: price_sequence, structural_levels, velocity, value_behavior, feed_quality_and_scope_status
+- `ch09_crude_fundamentals_inventories_and_cracks` - Crude Fundamentals: Inventories & Cracks
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: crude_price, eia_inventory_data, products, refinery_utilization, cracks, feed_quality_and_scope_status
+- `ch09_crude_spreads_and_geopolitical_premium` - Crude Spreads & Geopolitical Premium
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: crude_price, brent_wti, calendar_spreads, headline_context, feed_quality_and_scope_status
+- `ch09_euro_dollar_drivers` - Euro/Dollar Drivers
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: eur_usd, dxy, euro_crosses, rate_differentials, feed_quality_and_scope_status
+- `ch09_euro_event_windows_and_carry` - Euro Event Windows & Carry
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: event_timestamps_calendars, session_windows, cross_currency_moves, rate_data, feed_quality_and_scope_status
+- `ch09_gold_demand_channels` - Gold Demand Channels
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: gold_price, candidate_channel_inputs_vix_credit_breakevens_silver_miners, feed_quality_and_scope_status
+- `ch09_gold_drivers_real_yields_dxy_breakevens` - Gold Drivers: Real Yields, DXY, Breakevens
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: gold, real_yields, nominal_yields, breakevens, dxy, feed_quality_and_scope_status
+- `ch09_intermarket_confirmation_general_principle` - Intermarket Confirmation (General Principle)
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: traded_contract, related_market_inputs, session, catalyst_context, feed_quality_and_scope_status
+- `ch09_nq_es_relative_strength_and_index_internals` - NQ/ES Relative Strength & Index Internals
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: nq_es_data, cash_index, breadth, sector_inputs, feed_quality_and_scope_status
+- `ch09_the_yield_curve_and_rate_repricing` - The Yield Curve & Rate Repricing
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: treasury_cash_yields, futures, curve_spreads, real_yields, breakevens, policy_expectation_data, feed_quality_and_scope_status
+- `ch09_treasury_auctions_and_supply` - Treasury Auctions & Supply
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: auction_statistics, post_auction_price, cash_yields, feed_quality_and_scope_status
+- `ch09_treasury_cash_futures_and_basis` - Treasury Cash/Futures & Basis
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: treasury_futures, cash_yields, yield_curve, feed_quality_and_scope_status
+- `ch09_vix_credit_and_cross_asset_risk_tone` - VIX, Credit & Cross-Asset Risk Tone
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: vix, credit_spreads, rates, dollar, realized_volatility, breadth, feed_quality_and_scope_status
+- `ch10_catalyst_effect_on_thesis` - Catalyst Effect on Thesis
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: stored_thesis_state, catalyst_classification, market_response, tape, intermarket, feed_quality_and_scope_status
+- `ch10_narrative_consensus_and_disagreement` - Narrative Consensus & Disagreement
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: narrative_inputs, source_classification, positioning_proxies, market_response, intermarket, feed_quality_and_scope_status
+- `ch10_new_information_vs_recycled_context` - New Information vs. Recycled Context
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: news_timestamps, source_classification, event_calendars, consensus, prior_market_movement, feed_quality_and_scope_status
+- `ch10_pricing_in` - Pricing-In
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: consensus_expectations, event_details, price_value_response, feed_quality_and_scope_status
+- `ch10_source_quality` - Source Quality
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: source_metadata_type, timestamp, confirmation_count, revision_status, feed_quality_and_scope_status
+- `ch10_transmission_mechanism_and_order_effects` - Transmission Mechanism & Order Effects
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: catalyst_classification, product_driver_mapping, related_market_feeds, market_response, feed_quality_and_scope_status
+- `ch11_active_trade_state_vs_market_thesis_state` - Active Trade State vs. Market Thesis State
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: preserved_thesis_artifacts, current_market_state, structural_references, value_behavior, feed_quality_and_scope_status
+- `ch11_maintenance_conditions` - Maintenance Conditions
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: thesis_type_specific_structure_value_tape_catalyst_intermark, feed_quality_and_scope_status
+- `ch11_review_reduce_stand_aside_state` - Review / Reduce / Stand-Aside State
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: thesis_state, conflict_classification, feed_availability, setup_quality_tape_volatility_session_catalyst_intermarket_c, feed_quality_and_scope_status
+- `ch11_thesis_invalidation` - Thesis Invalidation
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: original_premise, predefined_invalidation_condition, structural_auction_value_behavior, preserved_thesis_artifacts, feed_quality_and_scope_status
+- `ch11_thesis_replacement_and_bias_flip` - Thesis Replacement & Bias Flip
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: old_thesis_artifacts, invalidation_staleness_evidence, new_structural_anchors, value_behavior, operator_notes, feed_quality_and_scope_status
+- `ch11_thesis_staleness_and_expiration` - Thesis Staleness & Expiration
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: thesis_timestamp, session_clock, event_calendar, structural_references, value_development, preserved_artifacts, feed_quality_and_scope_status
+- `ch11_thesis_state_lifecycle` - Thesis State Lifecycle
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: preserved_thesis_text, structural_references, session_context, price_value_behavior, catalyst, intermarket_context, operator_notes, feed_quality_and_scope_status
+- `ch11_thesis_weakening_and_degradation` - Thesis Weakening & Degradation
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: original_premise, structure, value, follow_through, tape, catalyst, intermarket_context, volatility, feed_quality_and_scope_status
+- `ch12_alignment_across_dimensions` - Alignment Across Dimensions
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: structure, auction, tape, catalyst, intermarket, volatility, session, thesis_setup_evidence, feed_quality_and_scope_status
+- `ch12_asymmetry_and_practical_r_r` - Asymmetry & Practical R:R
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: structural_distances, proximity_to_references, volatility_baselines, spread_depth, feed_quality_and_scope_status
+- `ch12_invalidation_and_confirmation_clarity` - Invalidation & Confirmation Clarity
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: thesis_premise, per_layer_proof, failure_references, feed_quality_and_scope_status
+- `ch12_location_quality` - Location Quality
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: distance_from_references, position_vs_value_vwap, session_window, range_extension, volatility_regime, opposing_structure, feed_quality_and_scope_status
+- `ch12_setup_cleanliness_and_timing` - Setup Cleanliness & Timing
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: level_interaction, location_vs_references, session_window, volatility_state, spread_depth, feed_availability, feed_quality_and_scope_status
+- `ch12_setup_expression_and_no_clean_expression` - Setup Expression & No Clean Expression
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: thesis_context, setup_quality, evidence_hierarchy, feed_quality_and_scope_status
+- `ch12_setup_fragility` - Setup Fragility
+  - Why runtime did not decide: JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.
+  - Evidence needed: proximity_to_invalidation, volatility_state, distance_from_value, unresolved_conflict_count, feed_gaps, cross_market_dependency, feed_quality_and_scope_status
+
+## Blocked-by-Feed Concepts
+
+- `ch04_liquidity_pulls_and_replenishment`
+  - Missing feed/evidence reason: NOT_DETECTABLE_WITH_CURRENT_FEEDS detector: the concept requires data feeds that are not available. The runtime emits a blocked-by-feeds output instead of inferring a result.
+- `ch04_refreshing_liquidity`
+  - Missing feed/evidence reason: NOT_DETECTABLE_WITH_CURRENT_FEEDS detector: the concept requires data feeds that are not available. The runtime emits a blocked-by-feeds output instead of inferring a result.
+- `ch06_dealer_gamma_dynamics`
+  - Missing feed/evidence reason: NOT_DETECTABLE_WITH_CURRENT_FEEDS detector: the concept requires data feeds that are not available. The runtime emits a blocked-by-feeds output instead of inferring a result.
+
+## Boundary
+
+This packet is non-executional. It grants no trade permission, contains no entries/stops/targets/sizing, and defines no broker/order/account/fill/P&L behavior.
+
+## Operator Usage Command
+
+```bash
+python3 scripts/summarize_detector_runtime.py qa/examples/detector_runtime_calibrated_output.example.json --summary-json qa/examples/detector_runtime_summary.example.json --review-md qa/examples/detector_runtime_review_packet.example.md
+```
