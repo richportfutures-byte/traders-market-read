@@ -22,6 +22,10 @@ _SRC = _REPO_ROOT / "src"
 if str(_SRC) not in sys.path:
     sys.path.insert(0, str(_SRC))
 
+from traders_market_read.detectors.calibration import (
+    CalibrationError,
+    load_calibration_profile,
+)
 from traders_market_read.detectors.catalog import CatalogError, load_catalog
 from traders_market_read.detectors.runtime import run
 
@@ -69,6 +73,7 @@ def print_summary(summary: dict[str, int]) -> None:
     print(f"outputs generated:           {summary['outputs_generated']}")
     print(f"computable implemented:      {summary['computable_implemented']}")
     print(f"computable refused/blocked:  {summary['computable_refused_or_blocked']}")
+    print(f"calibrated implemented:      {summary['calibrated_implemented']}")
     print(f"calibrated refused:          {summary['calibrated_refused']}")
     print(f"judgment-assisted routed:    {summary['judgment_assisted_routed']}")
     print(f"context-only routed:         {summary['context_only_routed']}")
@@ -92,6 +97,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default=None,
         help="Optional single concept_id to run instead of all contracts.",
     )
+    parser.add_argument(
+        "--calibration-profile",
+        type=Path,
+        default=None,
+        help="Optional calibration profile YAML; enables CALIBRATED detectors.",
+    )
     return parser.parse_args(argv)
 
 
@@ -108,8 +119,20 @@ def main(argv: list[str] | None = None) -> int:
     except ValueError as exc:
         return _fail(f"malformed input: {exc}")
 
+    calibration_profile = None
+    if args.calibration_profile is not None:
+        try:
+            calibration_profile = load_calibration_profile(args.calibration_profile)
+        except CalibrationError as exc:
+            return _fail(f"calibration profile error: {exc}")
+
     try:
-        report = run(market_context, catalog=catalog, concept_id=args.concept_id)
+        report = run(
+            market_context,
+            catalog=catalog,
+            concept_id=args.concept_id,
+            calibration_profile=calibration_profile,
+        )
     except CatalogError as exc:
         return _fail(f"catalog error: {exc}")
 
@@ -125,6 +148,8 @@ def main(argv: list[str] | None = None) -> int:
 
     print("detector runtime PASS")
     print(f"input fixture:               {args.input_json}")
+    if calibration_profile is not None:
+        print(f"calibration profile:         {args.calibration_profile}")
     if args.concept_id is not None:
         print(f"concept filter:              {args.concept_id}")
     if args.output is not None:

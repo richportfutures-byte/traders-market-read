@@ -12,11 +12,15 @@ and no execution fields.
 
 from __future__ import annotations
 
+from .calibration import CalibrationError, CalibrationProfile, load_calibration_profile
 from .catalog import CatalogError, DetectorCatalog, DetectorContract, load_catalog
 from .output import OutputError
 from .runtime import RuntimeReport, run
 
 __all__ = [
+    "CalibrationError",
+    "CalibrationProfile",
+    "load_calibration_profile",
     "CatalogError",
     "DetectorCatalog",
     "DetectorContract",

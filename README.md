@@ -1191,6 +1191,15 @@ python3 scripts/validate_detector_output.py qa/examples/detector_runtime_output.
 python3 -m unittest tests/test_detector_runtime_v1.py
 ```
 
+The calibrated detector runtime extends P25 to run CALIBRATED contracts when an
+example calibration profile is supplied:
+
+```bash
+python3 scripts/run_detector_runtime.py qa/examples/detector_runtime_calibrated_input.example.json --calibration-profile qa/examples/detector_runtime_calibrated_profile.example.yaml --output qa/examples/detector_runtime_calibrated_output.example.json
+python3 scripts/validate_detector_output.py qa/examples/detector_runtime_calibrated_output.example.json
+python3 -m unittest tests/test_calibrated_detector_runtime_v1.py
+```
+
 ```bash
 # Inspect repository structure
 find . -maxdepth 3 -type f | sort

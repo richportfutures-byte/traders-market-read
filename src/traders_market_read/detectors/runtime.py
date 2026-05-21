@@ -13,6 +13,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from .calibrated import run_calibrated
+from .calibration import CalibrationProfile
 from .catalog import DetectorCatalog, DetectorContract, load_catalog
 from .computable import COMPUTABLE_DETECTORS
 from .output import refusal_output, validate_output_payload
@@ -22,6 +24,7 @@ from .refusal import route_non_computable
 _ROUTE_TO_SUMMARY_KEY = {
     "computable": "computable_implemented",
     "computable_refusal": "computable_refused_or_blocked",
+    "calibrated": "calibrated_implemented",
     "calibrated_refusal": "calibrated_refused",
     "judgment_assisted_review": "judgment_assisted_routed",
     "context_only": "context_only_routed",
@@ -58,7 +61,9 @@ class RuntimeReport:
 
 
 def _output_for_contract(
-    contract: DetectorContract, market_context: Any
+    contract: DetectorContract,
+    market_context: Any,
+    calibration_profile: CalibrationProfile | None,
 ) -> dict[str, Any]:
     """Produce exactly one output payload for one detector contract."""
     if contract.is_computable:
@@ -78,6 +83,12 @@ def _output_for_contract(
             route="computable_refusal",
             reason="COMPUTABLE detector has no structural implementation in this runtime.",
         )
+
+    # CALIBRATED contracts run only when a calibration profile is supplied;
+    # without one they stay on safe calibrated-refusal routing.
+    if contract.determinism_class == "CALIBRATED" and calibration_profile is not None:
+        return run_calibrated(contract, market_context, calibration_profile)
+
     return route_non_computable(contract)
 
 
@@ -87,6 +98,7 @@ def _empty_summary() -> dict[str, int]:
         "outputs_generated": 0,
         "computable_implemented": 0,
         "computable_refused_or_blocked": 0,
+        "calibrated_implemented": 0,
         "calibrated_refused": 0,
         "judgment_assisted_routed": 0,
         "context_only_routed": 0,
@@ -100,11 +112,14 @@ def run(
     *,
     catalog: DetectorCatalog | None = None,
     concept_id: str | None = None,
+    calibration_profile: CalibrationProfile | None = None,
 ) -> RuntimeReport:
     """Run detector contracts against one input fixture.
 
     By default every contract in the catalog runs in a single pass. When
-    ``concept_id`` is supplied, only that contract runs.
+    ``concept_id`` is supplied, only that contract runs. When
+    ``calibration_profile`` is supplied, CALIBRATED contracts run their real
+    calibrated classification; without it they stay on safe refusal routing.
 
     Each output is self-validated against its contract; any validation failure
     is collected into ``RuntimeReport.validation_errors``.
@@ -122,7 +137,7 @@ def run(
     summary["total_contracts"] = len(active_catalog)
 
     for contract in contracts:
-        output = _output_for_contract(contract, market_context)
+        output = _output_for_contract(contract, market_context, calibration_profile)
         outputs.append(output)
 
         errors = validate_output_payload(output, contract)
@@ -135,5 +150,9 @@ def run(
             summary[summary_key] += 1
 
     summary["outputs_generated"] = len(outputs)
-    summary["total_refusals"] = len(outputs) - summary["computable_implemented"]
+    summary["total_refusals"] = (
+        len(outputs)
+        - summary["computable_implemented"]
+        - summary["calibrated_implemented"]
+    )
     return RuntimeReport(outputs, summary, validation_errors, len(active_catalog))

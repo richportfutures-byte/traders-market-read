@@ -1,0 +1,2957 @@
+[
+  {
+    "schema_version": 1,
+    "concept_id": "ch01_confirmation_and_invalidation_discipline",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch01_context_vs_execution_permission",
+    "state": "CONTEXT_ONLY_OBSERVATION",
+    "action_label": "CONTEXT_ONLY",
+    "evidence": {
+      "route": "context_only",
+      "detector_class": "CONTEXT_ONLY",
+      "context_only": true,
+      "reason": "CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission."
+    },
+    "confidence": "CONTEXT_ONLY",
+    "notes": "CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch01_false_precision_and_observation_tracking",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch01_leading_vs_coincident_signals",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch01_product_specific_behavior",
+    "state": "PRODUCT_SPECIFIC_CONTEXT_ONLY",
+    "action_label": "CONTEXT_ONLY",
+    "evidence": {
+      "route": "context_only",
+      "detector_class": "CONTEXT_ONLY",
+      "context_only": true,
+      "reason": "CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission."
+    },
+    "confidence": "CONTEXT_ONLY",
+    "notes": "CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch01_signal_conflict_taxonomy",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch01_tape_confirms_narrative_rule",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch01_the_read_vs_the_touch",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch02_acceptance_vs_rejection",
+    "state": "ACCEPTED_ABOVE",
+    "action_label": "ACCEPTED_ABOVE",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "level": 5000.0,
+        "dominant_side": "above",
+        "max_dwell_beyond": 8,
+        "peak_excursion": 5.0,
+        "reclaimed": false
+      },
+      "calibration_parameters_used": {
+        "acceptance_dwell_time": 3,
+        "level_buffer": 1.0,
+        "failed_acceptance_window": 4
+      }
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: ACCEPTED_ABOVE.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch02_break_quality",
+    "state": "IMPULSIVE_BREAK_TEXTURE",
+    "action_label": "OBSERVE",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "displacement": 11.0,
+        "crossings": 0,
+        "velocity": 5.5
+      },
+      "calibration_parameters_used": {
+        "break_quality_classification_requirement": {
+          "clean_displacement_min": 5.0,
+          "dirty_crossing_max": 4,
+          "impulse_velocity_min": 4.0
+        }
+      },
+      "action_label_mapping_note": "state 'IMPULSIVE_BREAK_TEXTURE' has no matching action label; mapped to action 'OBSERVE'"
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: IMPULSIVE_BREAK_TEXTURE.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch02_breakout_continuation_vs_breakout_failure",
+    "state": "BREAKOUT_CONTINUATION",
+    "action_label": "BREAKOUT_CONTINUATION",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "level": 5010.0,
+        "peak_excursion": 11.0,
+        "max_run": 7,
+        "reclaimed": false
+      },
+      "calibration_parameters_used": {
+        "break_clear_buffer": 1.0,
+        "extension_requirement": 8.0,
+        "failure_return_window": 3
+      }
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: BREAKOUT_CONTINUATION.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch02_level_magnetism_and_decay",
+    "state": "LEVEL_MAGNETISM_CONTEXT",
+    "action_label": "CONTEXT_ONLY",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "level": 5000.0,
+        "drift_toward_level": 11.800000000000182,
+        "crossed_level": false,
+        "peak_excursion": 12.0
+      },
+      "calibration_parameters_used": {
+        "level_magnetism_and_decay_classification_requirement": {
+          "magnetism_drift_min": 5.0,
+          "overshoot_excursion_max": 2.0
+        }
+      },
+      "action_label_mapping_note": "state 'LEVEL_MAGNETISM_CONTEXT' has no matching action label; mapped to action 'CONTEXT_ONLY'"
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: LEVEL_MAGNETISM_CONTEXT.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch02_level_test_sequence",
+    "state": "LEVEL_EXHAUSTION_REVIEW",
+    "action_label": "LEVEL_EXHAUSTION_REVIEW",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "test_count": 5,
+        "reactions": [
+          5.0,
+          5.0,
+          6.0,
+          6.0,
+          1.0
+        ]
+      },
+      "calibration_parameters_used": {
+        "test_separation_requirement": 2,
+        "reaction_quality_requirement": 4.0,
+        "decay_review_count_policy": 5,
+        "level_buffer": 1.0
+      }
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: LEVEL_EXHAUSTION_REVIEW.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch02_liquidity_sweep_vs_real_break",
+    "state": "SWEEP_RECLAIMED_FALSE_BREAK",
+    "action_label": "SWEEP_RECLAIMED_FALSE_BREAK",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "level": 5000.0,
+        "peak_excursion": 7.0,
+        "max_run": 4,
+        "reclaimed": true
+      },
+      "calibration_parameters_used": {
+        "sweep_probe_distance": 5.0,
+        "reclaim_window": 6,
+        "hold_beyond_level_window": 8
+      }
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: SWEEP_RECLAIMED_FALSE_BREAK.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch02_mechanical_levels_and_obvious_traps",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch02_polarity_flip",
+    "state": "POLARITY_FLIP_CONFIRMED",
+    "action_label": "POLARITY_FLIP_CONFIRMED",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "level": 5010.0,
+        "broken_side": "above",
+        "retest_index": 2,
+        "held_samples": 6
+      },
+      "calibration_parameters_used": {
+        "retest_window": 4,
+        "hold_or_reject_requirement": 4,
+        "level_buffer": 1.0
+      }
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: POLARITY_FLIP_CONFIRMED.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch02_structural_reference_levels",
+    "state": "OBSERVED",
+    "action_label": "OBSERVED",
+    "evidence": {
+      "route": "computable",
+      "detector_class": "COMPUTABLE",
+      "measurements": {
+        "references_observed": {
+          "rth_open_price": 5005.0,
+          "prior_day_high": 5020.0,
+          "prior_day_low": 4980.0
+        },
+        "references_not_observed": [],
+        "note": "Reference lattice only; behaviour at any reference is out of scope."
+      }
+    },
+    "confidence": "STRUCTURAL_OBSERVED",
+    "notes": "Structural reference lattice computed from session bars.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch03_auction_acceptance_vs_rejection",
+    "state": "CONFIRMATION_REQUIRED",
+    "action_label": "CONFIRMATION_REQUIRED",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "extended": true,
+        "outside_development_fraction": 0.3111111111111111
+      },
+      "calibration_parameters_used": {
+        "auction_extension_buffer": 2.0,
+        "accepted_volume_development_requirement": 0.4,
+        "rejection_return_window": 2
+      }
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: CONFIRMATION_REQUIRED.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch03_completed_failed_and_unfinished_auctions",
+    "state": "COMPLETED_AUCTION",
+    "action_label": "OBSERVE",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "high_single_print_tail": 3,
+        "flat_extreme_levels": 0
+      },
+      "calibration_parameters_used": {
+        "excess_tail_requirement": 3,
+        "poor_extreme_requirement": 5,
+        "failed_auction_reclaim_window": 2
+      },
+      "action_label_mapping_note": "state 'COMPLETED_AUCTION' has no matching action label; mapped to action 'OBSERVE'"
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: COMPLETED_AUCTION.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch03_excess_vs_poor_highs_lows",
+    "state": "EXCESS_HIGH",
+    "action_label": "EXCESS_HIGH",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "high_tail": 2,
+        "low_tail": 0,
+        "rejection_speed": 7.0
+      },
+      "calibration_parameters_used": {
+        "single_print_tail_requirement": 2,
+        "poor_extreme_repetition_requirement": 5,
+        "rejection_speed_requirement": 4.0
+      }
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: EXCESS_HIGH.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch03_fresh_flow_vs_weak_strong_hands",
+    "state": "INSUFFICIENT_EVIDENCE",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch03_initial_balance",
+    "state": "OBSERVED",
+    "action_label": "OBSERVED",
+    "evidence": {
+      "route": "computable",
+      "detector_class": "COMPUTABLE",
+      "measurements": {
+        "ib_high": 5012.0,
+        "ib_low": 4998.0,
+        "ib_width": 14.0,
+        "ib_window_complete": true
+      }
+    },
+    "confidence": "STRUCTURAL_OBSERVED",
+    "notes": "Initial Balance range computed from the RTH IB window.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch03_initiative_vs_responsive_activity",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch03_overnight_inventory_and_inventory_correction",
+    "state": "PROVISIONAL_INVENTORY_READ",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch03_price_outside_value_acceptance_test",
+    "state": "OUTSIDE_VALUE_ACCEPTED",
+    "action_label": "OUTSIDE_VALUE_ACCEPTED",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "outside_value": true,
+        "outside_development_fraction": 0.7831325301204819
+      },
+      "calibration_parameters_used": {
+        "outside_value_buffer": 2.0,
+        "acceptance_development_requirement": 0.4,
+        "return_inside_window": 2
+      }
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: OUTSIDE_VALUE_ACCEPTED.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch03_short_covering_vs_long_liquidation_auctions",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch03_single_prints",
+    "state": "SINGLE_PRINTS_PRESENT",
+    "action_label": "SINGLE_PRINTS_PRESENT",
+    "evidence": {
+      "route": "computable",
+      "detector_class": "COMPUTABLE",
+      "measurements": {
+        "single_print_prices": [
+          5016.0
+        ],
+        "single_print_count": 1,
+        "total_levels": 6,
+        "note": "Single prints are TPO levels touched by exactly one period bracket."
+      }
+    },
+    "confidence": "STRUCTURAL_OBSERVED",
+    "notes": "One or more single-print levels identified in the TPO profile.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch03_the_auction_framework",
+    "state": "BALANCED_AUCTION_CONTEXT",
+    "action_label": "CONTEXT_ONLY",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "overlap_fraction": 0.8166666666666667,
+        "directional_travel": 0.125
+      },
+      "calibration_parameters_used": {
+        "the_auction_framework_classification_requirement": {
+          "balance_overlap_min": 0.5,
+          "imbalance_directional_min": 0.6
+        }
+      },
+      "action_label_mapping_note": "state 'BALANCED_AUCTION_CONTEXT' has no matching action label; mapped to action 'CONTEXT_ONLY'"
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: BALANCED_AUCTION_CONTEXT.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch03_value_area_vah_val_poc",
+    "state": "OBSERVED",
+    "action_label": "OBSERVED",
+    "evidence": {
+      "route": "computable",
+      "detector_class": "COMPUTABLE",
+      "measurements": {
+        "poc": 5002.0,
+        "vah": 5004.0,
+        "val": 5000.0,
+        "value_area_width": 4.0,
+        "value_area_method": "volume_single_level_expansion",
+        "value_area_coverage_fraction": 0.7
+      }
+    },
+    "confidence": "STRUCTURAL_OBSERVED",
+    "notes": "Value area (VAH/VAL/POC) computed from the supplied price distribution.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch03_value_migration_and_overlap",
+    "state": "VALUE_MIGRATING_HIGHER",
+    "action_label": "VALUE_MIGRATING_HIGHER",
+    "evidence": {
+      "route": "computable",
+      "detector_class": "COMPUTABLE",
+      "measurements": {
+        "current_value_area": {
+          "vah": 5012.0,
+          "val": 4998.0,
+          "poc": 5004.0
+        },
+        "prior_value_area": {
+          "vah": 5008.0,
+          "val": 4992.0,
+          "poc": 4998.0
+        },
+        "value_areas_overlap": true,
+        "note": "Structural value movement only; directional meaning is out of scope."
+      }
+    },
+    "confidence": "STRUCTURAL_OBSERVED",
+    "notes": "Value migration/overlap computed by direct value-area comparison.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch03_volume_nodes_and_air_pockets",
+    "state": "LOW_VOLUME_NODE_IDENTIFIED",
+    "action_label": "OBSERVE",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "hvn_prominence": 1.8791946308724832,
+        "lvn_thinness": 4.65625,
+        "price_travel": 10.0
+      },
+      "calibration_parameters_used": {
+        "high_volume_node_prominence_requirement": 2.5,
+        "low_volume_node_thinness_requirement": 3.0,
+        "air_pocket_travel_requirement": 20.0
+      },
+      "action_label_mapping_note": "state 'LOW_VOLUME_NODE_IDENTIFIED' has no matching action label; mapped to action 'OBSERVE'"
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: LOW_VOLUME_NODE_IDENTIFIED.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch03_vwap_relationship",
+    "state": "OBSERVED",
+    "action_label": "OBSERVED",
+    "evidence": {
+      "route": "computable",
+      "detector_class": "COMPUTABLE",
+      "measurements": {
+        "session_vwap": 5008.357142857143,
+        "last_trade_price": 5011.0,
+        "price_vs_vwap": "above_vwap",
+        "note": "VWAP geometry only; magnet vs support/resistance behaviour is out of scope."
+      }
+    },
+    "confidence": "STRUCTURAL_OBSERVED",
+    "notes": "Session VWAP and price-vs-VWAP location computed from trade and volume.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch04_absorption",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch04_chasing_vs_pressing",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch04_cumulative_delta_and_delta_divergence",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch04_liquidity_pulls_and_replenishment",
+    "state": "BLOCKED_BY_FEEDS",
+    "action_label": "BLOCKED_BY_FEEDS",
+    "evidence": {
+      "route": "not_detectable_blocked",
+      "detector_class": "NOT_DETECTABLE_WITH_CURRENT_FEEDS",
+      "blocked_by_feeds": true,
+      "reason": "NOT_DETECTABLE_WITH_CURRENT_FEEDS detector: the concept requires data feeds that are not available. The runtime emits a blocked-by-feeds output instead of inferring a result."
+    },
+    "confidence": "BLOCKED_BY_FEEDS",
+    "notes": "NOT_DETECTABLE_WITH_CURRENT_FEEDS detector: the concept requires data feeds that are not available. The runtime emits a blocked-by-feeds output instead of inferring a result.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch04_refreshing_liquidity",
+    "state": "BLOCKED_BY_FEEDS",
+    "action_label": "BLOCKED_BY_FEEDS",
+    "evidence": {
+      "route": "not_detectable_blocked",
+      "detector_class": "NOT_DETECTABLE_WITH_CURRENT_FEEDS",
+      "blocked_by_feeds": true,
+      "reason": "NOT_DETECTABLE_WITH_CURRENT_FEEDS detector: the concept requires data feeds that are not available. The runtime emits a blocked-by-feeds output instead of inferring a result."
+    },
+    "confidence": "BLOCKED_BY_FEEDS",
+    "notes": "NOT_DETECTABLE_WITH_CURRENT_FEEDS detector: the concept requires data feeds that are not available. The runtime emits a blocked-by-feeds output instead of inferring a result.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch04_spread_behavior",
+    "state": "SPREAD_STABLE",
+    "action_label": "SPREAD_STABLE",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "recent_spread": 0.25,
+        "early_spread": 0.25,
+        "baseline": 1.0,
+        "instability": 0.0
+      },
+      "calibration_parameters_used": {
+        "spread_width_baseline": 1.0,
+        "spread_widening_requirement": 2.0,
+        "spread_normalization_requirement": 1.2
+      }
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: SPREAD_STABLE.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch04_stall_and_snap_back",
+    "state": "SNAP_BACK_CONFIRMED",
+    "action_label": "SNAP_BACK_CONFIRMED",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "reference": 5005.0,
+        "min_window_progress": 0.3000000000001819
+      },
+      "calibration_parameters_used": {
+        "stall_duration_requirement": 4,
+        "progress_failure_requirement": 2.0,
+        "snapback_return_window": 3,
+        "reference_buffer": 1.0
+      }
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: SNAP_BACK_CONFIRMED.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch04_sweeps_through_liquidity",
+    "state": "POST_SWEEP_CONTINUATION",
+    "action_label": "POST_SWEEP_CONTINUATION",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "levels_taken": 5,
+        "velocity": 2.5,
+        "post_sweep_reclaim_fraction": 0.075
+      },
+      "calibration_parameters_used": {
+        "multi_level_take_requirement": 3,
+        "sweep_velocity_requirement": 2.5,
+        "post_sweep_hold_window": 2
+      }
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: POST_SWEEP_CONTINUATION.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch04_tape_quality_spectrum",
+    "state": "TAPE_CLEAN",
+    "action_label": "TAPE_CLEAN",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "mean_spread": 0.2916666666666667,
+        "mean_range": 2.0,
+        "range_instability": 0.0
+      },
+      "calibration_parameters_used": {
+        "spread_baseline_requirement": 1.5,
+        "tape_stability_requirement": 0.5,
+        "bar_range_context_requirement": 3.0
+      }
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: TAPE_CLEAN.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch04_tape_vs_narrative",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch05_close_quality",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch05_day_type_taxonomy",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch05_exhaustion",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch05_follow_through_and_failure",
+    "state": "FOLLOW_THROUGH_CONFIRMED",
+    "action_label": "OBSERVE",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "reference": 5000.0,
+        "peak_excursion": 15.0,
+        "max_run": 5,
+        "reclaimed": false
+      },
+      "calibration_parameters_used": {
+        "post_move_extension_requirement": 8.0,
+        "hold_beyond_reference_requirement": 3,
+        "failure_reclaim_window": 2
+      },
+      "action_label_mapping_note": "state 'FOLLOW_THROUGH_CONFIRMED' has no matching action label; mapped to action 'OBSERVE'"
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: FOLLOW_THROUGH_CONFIRMED.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch05_impulse_vs_grind",
+    "state": "IMPULSE_MOVE",
+    "action_label": "IMPULSE_MOVE",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "displacement": 12.0,
+        "overlap_fraction": 0.20555555555555557
+      },
+      "calibration_parameters_used": {
+        "impulse_displacement_requirement": 8.0,
+        "grind_persistence_requirement": 4.0,
+        "overlap_requirement": 0.5
+      }
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: IMPULSE_MOVE.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch05_momentum_ignition_stall_and_exhaustion",
+    "state": "INSUFFICIENT_EVIDENCE",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch05_one_timeframing",
+    "state": "ONE_TIMEFRAMING_HIGHER",
+    "action_label": "ONE_TIMEFRAMING_HIGHER",
+    "evidence": {
+      "route": "computable",
+      "detector_class": "COMPUTABLE",
+      "measurements": {
+        "completed_periods": 3,
+        "period_highs": [
+          5006.0,
+          5011.0,
+          5016.0
+        ],
+        "period_lows": [
+          4999.0,
+          5002.0,
+          5007.0
+        ],
+        "note": "Structural period-control state only; not a reversal or continuation claim."
+      }
+    },
+    "confidence": "STRUCTURAL_OBSERVED",
+    "notes": "One-timeframing state computed by direct period high/low comparison.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch06_crowded_trades_and_pain_trades",
+    "state": "CONTEXT_ONLY",
+    "action_label": "CONTEXT_ONLY",
+    "evidence": {
+      "route": "context_only",
+      "detector_class": "CONTEXT_ONLY",
+      "context_only": true,
+      "reason": "CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission."
+    },
+    "confidence": "CONTEXT_ONLY",
+    "notes": "CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch06_dealer_gamma_dynamics",
+    "state": "DEALER_GAMMA_FEEDS_UNAVAILABLE",
+    "action_label": "INSUFFICIENT_EVIDENCE",
+    "evidence": {
+      "route": "not_detectable_blocked",
+      "detector_class": "NOT_DETECTABLE_WITH_CURRENT_FEEDS",
+      "blocked_by_feeds": true,
+      "reason": "NOT_DETECTABLE_WITH_CURRENT_FEEDS detector: the concept requires data feeds that are not available. The runtime emits a blocked-by-feeds output instead of inferring a result."
+    },
+    "confidence": "BLOCKED_BY_FEEDS",
+    "notes": "NOT_DETECTABLE_WITH_CURRENT_FEEDS detector: the concept requires data feeds that are not available. The runtime emits a blocked-by-feeds output instead of inferring a result.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch06_mechanical_flows_rebalance_month_end_roll",
+    "state": "CONTEXT_ONLY",
+    "action_label": "CONTEXT_ONLY",
+    "evidence": {
+      "route": "context_only",
+      "detector_class": "CONTEXT_ONLY",
+      "context_only": true,
+      "reason": "CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission."
+    },
+    "confidence": "CONTEXT_ONLY",
+    "notes": "CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch06_short_covering_rally",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch06_stop_out_cascades_and_liquidation",
+    "state": "CASCADE_LIKE_BEHAVIOR",
+    "action_label": "OBSERVE",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "peak_velocity": 7.0,
+        "volume_expansion": 4.318181818181818,
+        "breaches": 5
+      },
+      "calibration_parameters_used": {
+        "cascade_velocity_requirement": 5.0,
+        "volume_expansion_requirement": 2.0,
+        "structural_breach_requirement": 3
+      },
+      "action_label_mapping_note": "state 'CASCADE_LIKE_BEHAVIOR' has no matching action label; mapped to action 'OBSERVE'"
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: CASCADE_LIKE_BEHAVIOR.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch06_strong_hands_defending",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch06_trapped_traders",
+    "state": "INSUFFICIENT_EVIDENCE",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch07_asia_session_character",
+    "state": "ASIA_REPRICING_CONTEXT",
+    "action_label": "CONTEXT_ONLY",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "asia_range": 12.0,
+        "mean_volume": 232.5,
+        "extension_reclaimed": true
+      },
+      "calibration_parameters_used": {
+        "asia_range_meaningfulness_requirement": 8.0,
+        "asia_volume_participation_requirement": 100.0,
+        "asia_fakeout_reclaim_window": 2
+      },
+      "action_label_mapping_note": "state 'ASIA_REPRICING_CONTEXT' has no matching action label; mapped to action 'CONTEXT_ONLY'"
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: ASIA_REPRICING_CONTEXT.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch07_intraday_time_windows",
+    "state": "POWER_HOUR_REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch07_london_initiative_and_traps",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch07_ny_inheritance_vs_rejection",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch07_opening_type_taxonomy",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch07_rth_open_location",
+    "state": "OPEN_INSIDE_OVERNIGHT_RANGE",
+    "action_label": "OPEN_INSIDE_OVERNIGHT_RANGE",
+    "evidence": {
+      "route": "computable",
+      "detector_class": "COMPUTABLE",
+      "measurements": {
+        "rth_open_price": 5005.0,
+        "overnight_location": "OPEN_INSIDE_OVERNIGHT_RANGE",
+        "prior_rth_location": "OPEN_INSIDE_PRIOR_RTH_RANGE",
+        "prior_value_location": "OPEN_INSIDE_PRIOR_VALUE",
+        "location_tags": [
+          "OPEN_INSIDE_OVERNIGHT_RANGE",
+          "OPEN_INSIDE_PRIOR_RTH_RANGE",
+          "OPEN_INSIDE_PRIOR_VALUE"
+        ],
+        "note": "Open-location mapping only; acceptance/rejection is out of scope."
+      }
+    },
+    "confidence": "STRUCTURAL_OBSERVED",
+    "notes": "RTH open location mapped against overnight, prior-RTH, and value references.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch07_session_quality_vs_session_completion",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch07_session_sequencing",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch08_compression_breakouts_real_vs_false",
+    "state": "ACCEPTED_COMPRESSION_BREAK",
+    "action_label": "OBSERVE",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "range_high": 5006.0,
+        "range_low": 4999.0,
+        "first_break": 3,
+        "held_bars": 3
+      },
+      "calibration_parameters_used": {
+        "compression_breakouts_real_vs_false_classification_requirement": {
+          "hold_bars_min": 3,
+          "reclaim_max_bars": 2
+        }
+      },
+      "action_label_mapping_note": "state 'ACCEPTED_COMPRESSION_BREAK' has no matching action label; mapped to action 'OBSERVE'"
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: ACCEPTED_COMPRESSION_BREAK.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch08_compression_vs_expansion",
+    "state": "COMPRESSION_STATE",
+    "action_label": "COMPRESSION_STATE",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "range_ratio": 0.3,
+        "rv_ratio": 0.24516129032258063
+      },
+      "calibration_parameters_used": {
+        "compression_range_contraction_requirement": 0.4,
+        "expansion_range_requirement": 1.5,
+        "realized_volatility_expansion_requirement": 1.6,
+        "failed_expansion_return_window": 2
+      }
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: COMPRESSION_STATE.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch08_event_volatility_regime",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch08_expanded_volatility_no_trade_condition",
+    "state": "EXPANDED_VOLATILITY_ENVIRONMENT_BLOCK",
+    "action_label": "OBSERVE",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "rv_ratio": 2.727272727272727,
+        "spread_instability": 0.6225543867784094,
+        "depth_instability": 0.363267426786356
+      },
+      "calibration_parameters_used": {
+        "realized_volatility_expansion_requirement": 1.6,
+        "spread_instability_requirement": 0.4,
+        "depth_instability_requirement": 0.4
+      },
+      "action_label_mapping_note": "state 'EXPANDED_VOLATILITY_ENVIRONMENT_BLOCK' has no matching action label; mapped to action 'OBSERVE'"
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: EXPANDED_VOLATILITY_ENVIRONMENT_BLOCK.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch08_expansion_outcomes_trend_chop_exhaustion",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch08_inside_outside_and_narrow_wide_range_days",
+    "state": "INSIDE_DAY",
+    "action_label": "INSIDE_DAY",
+    "evidence": {
+      "route": "computable",
+      "detector_class": "COMPUTABLE",
+      "measurements": {
+        "current_session_high": 5018.0,
+        "current_session_low": 4998.0,
+        "prior_session_high": 5020.0,
+        "prior_session_low": 4980.0,
+        "note": "Structural day container only; no breakout/trend inference."
+      }
+    },
+    "confidence": "STRUCTURAL_OBSERVED",
+    "notes": "Inside/outside day container computed by direct session-range comparison.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch08_liquidity_driven_and_mechanical_volatility",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch08_volatility_crush_and_reset",
+    "state": "POST_EVENT_NORMALIZATION",
+    "action_label": "OBSERVE",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "rv_ratio": 0.2391304347826087,
+        "range_ratio": 0.23684210526315788,
+        "samples_since_event": 5.0
+      },
+      "calibration_parameters_used": {
+        "volatility_contraction_requirement": 0.4,
+        "range_normalization_requirement": 0.5,
+        "post_event_window": 10
+      },
+      "action_label_mapping_note": "state 'POST_EVENT_NORMALIZATION' has no matching action label; mapped to action 'OBSERVE'"
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: POST_EVENT_NORMALIZATION.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch09_breadth_confirmation_and_divergence",
+    "state": "BREADTH_CONFIRMS_PRICE",
+    "action_label": "OBSERVE",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "index_change": 25.0,
+        "advance_ratio": 0.7,
+        "equal_weight_change": 15.0
+      },
+      "calibration_parameters_used": {
+        "breadth_confirmation_and_divergence_classification_requirement": {
+          "confirm_advance_ratio_min": 0.6,
+          "divergence_gap": 0.5
+        }
+      },
+      "action_label_mapping_note": "state 'BREADTH_CONFIRMS_PRICE' has no matching action label; mapped to action 'OBSERVE'"
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: BREADTH_CONFIRMS_PRICE.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch09_crude_fundamentals_inventories_and_cracks",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch09_crude_spreads_and_geopolitical_premium",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch09_euro_dollar_drivers",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch09_euro_event_windows_and_carry",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch09_gold_demand_channels",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch09_gold_drivers_real_yields_dxy_breakevens",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch09_intermarket_confirmation_general_principle",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch09_nq_es_relative_strength_and_index_internals",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch09_the_yield_curve_and_rate_repricing",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch09_treasury_auctions_and_supply",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch09_treasury_cash_futures_and_basis",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch09_vix_credit_and_cross_asset_risk_tone",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch10_catalyst_effect_on_thesis",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch10_catalyst_to_trade_translation",
+    "state": "CONTEXT_ONLY",
+    "action_label": "CONTEXT_ONLY",
+    "evidence": {
+      "route": "context_only",
+      "detector_class": "CONTEXT_ONLY",
+      "context_only": true,
+      "reason": "CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission."
+    },
+    "confidence": "CONTEXT_ONLY",
+    "notes": "CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch10_narrative_consensus_and_disagreement",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch10_new_information_vs_recycled_context",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch10_pricing_in",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch10_source_quality",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch10_transmission_mechanism_and_order_effects",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch11_active_trade_state_vs_market_thesis_state",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch11_maintenance_conditions",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch11_review_reduce_stand_aside_state",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch11_thesis_confirmation_vs_execution_permission",
+    "state": "CONTEXT_ONLY",
+    "action_label": "CONTEXT_ONLY",
+    "evidence": {
+      "route": "context_only",
+      "detector_class": "CONTEXT_ONLY",
+      "context_only": true,
+      "reason": "CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission."
+    },
+    "confidence": "CONTEXT_ONLY",
+    "notes": "CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch11_thesis_invalidation",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch11_thesis_replacement_and_bias_flip",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch11_thesis_staleness_and_expiration",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch11_thesis_state_lifecycle",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch11_thesis_weakening_and_degradation",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch12_action_vocabulary",
+    "state": "CONTEXT_ONLY_LABEL",
+    "action_label": "CONTEXT_ONLY",
+    "evidence": {
+      "route": "context_only",
+      "detector_class": "CONTEXT_ONLY",
+      "context_only": true,
+      "reason": "CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission."
+    },
+    "confidence": "CONTEXT_ONLY",
+    "notes": "CONTEXT_ONLY detector: the concept informs the market read but must not produce an actionable trigger. A context/governance label is emitted with no execution permission.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch12_alignment_across_dimensions",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch12_asymmetry_and_practical_r_r",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch12_execution_environment_quality_and_veto",
+    "state": "ENVIRONMENT_QUALITY_ACCEPTABLE_CONTEXT",
+    "action_label": "CONTEXT_ONLY",
+    "evidence": {
+      "route": "calibrated",
+      "detector_class": "CALIBRATED",
+      "measurements": {
+        "spread": 0.25,
+        "depth": 1200.0,
+        "realized_volatility": 8.0,
+        "minutes_to_event": 120.0
+      },
+      "calibration_parameters_used": {
+        "execution_environment_quality_and_veto_classification_requirement": {
+          "spread_max": 2.0,
+          "depth_min": 500,
+          "realized_volatility_max": 15.0,
+          "event_min_minutes": 30
+        }
+      },
+      "action_label_mapping_note": "state 'ENVIRONMENT_QUALITY_ACCEPTABLE_CONTEXT' has no matching action label; mapped to action 'CONTEXT_ONLY'"
+    },
+    "confidence": "CALIBRATED_CLASSIFICATION",
+    "notes": "Calibrated classification: ENVIRONMENT_QUALITY_ACCEPTABLE_CONTEXT.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch12_invalidation_and_confirmation_clarity",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch12_location_quality",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch12_setup_cleanliness_and_timing",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch12_setup_expression_and_no_clean_expression",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  },
+  {
+    "schema_version": 1,
+    "concept_id": "ch12_setup_fragility",
+    "state": "REVIEW_REQUIRED",
+    "action_label": "REVIEW_REQUIRED",
+    "evidence": {
+      "route": "judgment_assisted_review",
+      "detector_class": "JUDGMENT_ASSISTED",
+      "refusal": true,
+      "reason": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification."
+    },
+    "confidence": "REVIEW_REQUIRED",
+    "notes": "JUDGMENT_ASSISTED detector: the concept depends on structured human or LLM interpretation of context, narrative, or sequence. The runtime routes it for review and emits no autonomous classification.",
+    "guardrails": {
+      "no_trade_permission": true,
+      "no_execution_fields": true,
+      "no_broker_order_account_fields": true,
+      "catalog_state_action_checked": true,
+      "non_executional": true,
+      "no_order_instructions": true,
+      "no_position_sizing": true,
+      "no_broker_or_account_fields": true
+    }
+  }
+]
