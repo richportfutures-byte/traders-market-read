@@ -1201,6 +1201,7 @@ python3 scripts/validate_market_snapshot_input.py qa/examples/detector_runtime_c
 python3 scripts/validate_detector_output.py qa/examples/detector_runtime_calibrated_output.example.json
 python3 scripts/summarize_detector_runtime.py qa/examples/detector_runtime_calibrated_output.example.json --summary-json qa/examples/detector_runtime_summary.example.json --review-md qa/examples/detector_runtime_review_packet.example.md
 python3 scripts/build_market_read_packet.py qa/examples/detector_runtime_calibrated_input.example.json --calibration-profile qa/examples/detector_runtime_calibrated_profile.example.yaml --runtime-output qa/examples/market_read_packet_runtime_output.example.json --summary-json qa/examples/market_read_packet_summary.example.json --review-md qa/examples/market_read_packet_review.example.md
+python3 scripts/build_operator_packet_view_model.py --runtime-output qa/examples/market_snapshot_built_runtime_output.example.json --summary-json qa/examples/market_snapshot_built_summary.example.json --output qa/examples/operator_packet_view_model.example.json
 python3 -m unittest tests/test_calibrated_detector_runtime_v1.py
 ```
 
