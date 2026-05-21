@@ -1182,6 +1182,15 @@ python3 scripts/build_detector_contract_catalog.py
 python3 scripts/validate_detector_output.py qa/examples/detector_output_valid.example.json
 ```
 
+The safe detector runtime runs all detector contracts in one pass and writes a
+validatable JSON array of non-executional detector outputs:
+
+```bash
+python3 scripts/run_detector_runtime.py qa/examples/detector_runtime_input.example.json --output qa/examples/detector_runtime_output.example.json
+python3 scripts/validate_detector_output.py qa/examples/detector_runtime_output.example.json
+python3 -m unittest tests/test_detector_runtime_v1.py
+```
+
 ```bash
 # Inspect repository structure
 find . -maxdepth 3 -type f | sort

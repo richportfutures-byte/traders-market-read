@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Validate one detector output JSON document against the contract catalog."""
+"""Validate detector output JSON against the contract catalog.
+
+Accepts either a single detector output object or a JSON array of detector
+output objects (as written by the detector runtime); every element is checked.
+"""
 
 from __future__ import annotations
 
@@ -120,7 +124,10 @@ def validate_output(output: Any, catalog: dict[str, dict[str, Any]]) -> list[str
 
         action_label = output.get("action_label")
         allowed_actions = detector.get("allowed_action_labels") or []
-        if action_label not in allowed_actions:
+        # A detector that declares no action vocabulary is state-only: its
+        # action label mirrors a valid emitted state.
+        effective_actions = allowed_actions if allowed_actions else allowed_states
+        if action_label not in effective_actions:
             errors.append(f"action_label {action_label!r} is not allowed for concept_id {concept_id}")
 
     guardrails = output.get("guardrails")
@@ -156,7 +163,15 @@ def main() -> int:
         print(str(exc))
         return 1
 
-    errors = validate_output(output, catalog)
+    # A detector runtime emits one output per contract; accept either a single
+    # detector output object or a JSON array of detector output objects.
+    documents = list(output) if isinstance(output, list) else [output]
+
+    errors: list[str] = []
+    for index, document in enumerate(documents):
+        for error in validate_output(document, catalog):
+            errors.append(f"[{index}] {error}")
+
     if errors:
         print("detector output validation FAILED")
         for error in errors:
@@ -165,9 +180,12 @@ def main() -> int:
 
     print("detector output validation PASS")
     print(f"file: {args.output_json}")
-    print(f"concept_id: {output['concept_id']}")
-    print(f"state: {output['state']}")
-    print(f"action_label: {output['action_label']}")
+    print(f"documents validated: {len(documents)}")
+    if len(documents) == 1 and isinstance(documents[0], dict):
+        single = documents[0]
+        print(f"concept_id: {single.get('concept_id')}")
+        print(f"state: {single.get('state')}")
+        print(f"action_label: {single.get('action_label')}")
     return 0
 
 

@@ -1,0 +1,13 @@
+{
+  "fixture_id": "detector_runtime_missing_inputs_example_v1",
+  "description": "Synthetic, non-executional example market context that intentionally omits the required structural feeds for every COMPUTABLE detector. Only a session clock is supplied. It proves that COMPUTABLE detectors refuse safely (REFUSE_TO_CLASSIFY) when required inputs are absent, instead of guessing. No real instrument, account, broker, order, fill, or P&L data is present.",
+  "instrument_label": "SYNTH-FUT (fabricated non-tradable example contract)",
+  "market_context": {
+    "session_clock": {
+      "session_label": "synthetic_rth",
+      "rth_open_index": 0,
+      "ib_window_complete": true,
+      "note": "Session clock only; all structural market-data feeds are intentionally absent."
+    }
+  }
+}
