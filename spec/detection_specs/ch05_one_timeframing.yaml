@@ -1,0 +1,306 @@
+spec_id: ch05_one_timeframing
+concept_id: ch05_one_timeframing
+concept_name: "One-Timeframing"
+display_name: "One-Timeframing"
+glossary_ref: "glossary/chapter_05_momentum_follow_through_day_types.md#one-timeframing"
+
+chapter:
+  chapter_number: 5
+  chapter_title: "Momentum, Follow-Through & Day Types"
+  glossary_path: "glossary/chapter_05_momentum_follow_through_day_types.md"
+
+determinism_class: COMPUTABLE
+
+semantic_source:
+  glossary_path: "glossary/chapter_05_momentum_follow_through_day_types.md"
+  concept_heading: "One-Timeframing"
+  doctrine_summary: >
+    One-timeframing is a period-by-period structural control state. One-timeframing higher means
+    each completed period holds above the prior period's low. One-timeframing lower means each
+    completed period holds below the prior period's high. Loss of one-timeframing is a control
+    interruption, not a reversal conclusion.
+
+purpose: >
+  Compute the structural one-timeframing state from clean period highs and lows, including higher,
+  lower, loss, no one-timeframing, pending, and insufficient-evidence states. It does not infer
+  reversal, continuation, day type, setup quality, or trade permission.
+description: >
+  Direct-computation spec for period-control state. Interpretation quality remains separate and may
+  use profile, value, tape, delta, and day-type context downstream.
+
+non_executional_boundary: >
+  This spec emits semantic market-read and structural-control labels only. It never emits trade
+  permission, entry, exit, stop, target, position-sizing, add or reduce, broker, order, account,
+  fill, or P&L instructions, and never an autonomous trade call.
+
+required_inputs:
+  - name: period_bars
+    source: market_data
+    granularity: configured_period
+    session_dependency: "Completed periods with high, low, open, close, and timestamps inside the configured session/timeframe."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: period_definition
+    source: configuration_or_session_module
+    granularity: timeframe
+    session_dependency: "Defines the period length and whether incomplete periods are eligible only for PENDING."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: session_clock
+    source: calendar/session_definition_module
+    granularity: session
+    session_dependency: "Defines session boundaries and prevents cross-session period comparisons unless explicitly configured."
+    absence_behavior: REFUSE_TO_CLASSIFY
+
+optional_inputs:
+  - name: value_migration
+    source: value_area_module
+    granularity: per_period_or_session
+    purpose: "Context for whether structural control is supported by auction acceptance."
+    absence_behavior: "CONTEXT_ONLY: compute one-timeframing state but omit quality interpretation."
+  - name: ib_extension_state
+    source: initial_balance_spec
+    granularity: session
+    purpose: "Context for whether one-timeframing aligns with range extension."
+    absence_behavior: "CONTEXT_ONLY: omit IB-alignment context."
+  - name: tape_or_delta
+    source: order_flow_module
+    granularity: tick_or_period
+    purpose: "Optional support for quality interpretation, not needed for structural state."
+    absence_behavior: "CONTEXT_ONLY: structural state remains computable."
+  - name: day_type_context
+    source: day_type_module
+    granularity: session
+    purpose: "Downstream context for interpretation only."
+    absence_behavior: "CONTEXT_ONLY: omit day-type context."
+
+unavailable_input_behavior:
+  missing_required_input: REFUSE_TO_CLASSIFY
+  incomplete_current_period: "PENDING: do not confirm a new one-timeframing state until the configured period completes."
+  missing_optional_context: "CONTEXT_ONLY: emit structural state only and withhold quality interpretation."
+  bad_period_sequence: INSUFFICIENT_EVIDENCE
+refusal_behavior:
+  missing_period_bars_or_definition: REFUSE_TO_CLASSIFY
+  incomplete_period: PENDING
+  dirty_or_overlapping_periods: INSUFFICIENT_EVIDENCE
+
+detection_scope:
+  allowed_to_classify:
+    - "One-timeframing higher from completed period lows."
+    - "One-timeframing lower from completed period highs."
+    - "Loss of one-timeframing higher or lower."
+    - "No one-timeframing when neither directional control condition holds."
+    - "Pending state for incomplete periods."
+  not_allowed_to_classify:
+    - "Reversal, continuation, trend-day, or range-day conclusions from one-timeframing alone."
+    - "Setup quality, location quality, or trade permission."
+    - "Participant intent or sponsorship."
+  instrument_scope: "Single instrument."
+  session_scope: "Configured session only unless cross-session behavior is explicitly configured."
+  timeframe_scope: "Configured period length; output must name the period definition."
+  regime_scope: "Regime-independent structural computation; interpretation is regime-sensitive and out of scope."
+
+evidence_model:
+  evidence_categories:
+    - name: period_sequence_integrity
+      observations: ["complete_periods", "missing_periods", "overlapping_periods", "out_of_session_periods"]
+      derivation: "Validate ordered, non-overlapping completed periods inside session boundaries."
+    - name: one_timeframing_higher_condition
+      observations: ["current_low_above_prior_low", "current_low_violates_prior_low"]
+      derivation: "For each completed period after the start period, compare current low to prior period low."
+    - name: one_timeframing_lower_condition
+      observations: ["current_high_below_prior_high", "current_high_violates_prior_high"]
+      derivation: "For each completed period after the start period, compare current high to prior period high."
+    - name: loss_event
+      observations: ["loss_of_higher", "loss_of_lower", "no_loss"]
+      derivation: "Identify the first completed period that violates the active one-timeframing condition."
+  evidence_hierarchy: "Period sequence integrity comes first; high/low comparisons define the structural state."
+  evidence_states:
+    supported:
+      - ONE_TIMEFRAMING_HIGHER
+      - ONE_TIMEFRAMING_LOWER
+      - LOSS_OF_ONE_TIMEFRAMING
+      - NO_ONE_TIMEFRAMING
+    unsupported:
+      - "Reversal conclusion from loss alone."
+      - "Trend quality from period structure alone."
+
+rule_structure:
+  type: direct_period_comparison
+  description: >
+    Direct high/low comparison across completed periods. No market thresholds are required for the
+    basic structural state. Interpretation quality is intentionally excluded.
+  rules:
+    - id: R1_validate_sequence
+      logic: "Reject or emit INSUFFICIENT_EVIDENCE if periods are missing, out of order, overlapping, or cross invalid session boundaries."
+    - id: R2_pending
+      logic: "Emit PENDING for the current period until it is complete."
+    - id: R3_higher
+      logic: "Emit ONE_TIMEFRAMING_HIGHER when every completed period after the anchor period has low >= prior_period_low per the selected inclusivity convention."
+    - id: R4_lower
+      logic: "Emit ONE_TIMEFRAMING_LOWER when every completed period after the anchor period has high <= prior_period_high per the selected inclusivity convention."
+    - id: R5_loss
+      logic: "Emit LOSS_OF_ONE_TIMEFRAMING_HIGHER or LOSS_OF_ONE_TIMEFRAMING_LOWER when the active condition is violated by a completed period."
+    - id: R6_none
+      logic: "Emit NO_ONE_TIMEFRAMING when neither higher nor lower one-timeframing is active."
+  determinism_note: "The structural state is computable; the meaning of the state is not."
+decision_logic:
+  summary: "Validate completed periods, compare each period's low/high to the prior period, then emit structural control or loss labels."
+  interpretation_boundary: "Loss of one-timeframing is a state change only and must not emit reversal or continuation claims."
+
+calibration_parameters:
+  - name: period_length
+    value: null
+    status: configuration_required
+    unit: duration
+    calibration_scope: instrument_session_timeframe
+    description: "Configured period duration for the one-timeframing sequence; it is a method configuration, not a market threshold."
+  - name: comparison_inclusivity
+    value: null
+    status: configuration_required
+    unit: enum
+    calibration_scope: implementation_method
+    description: "Defines whether equality at the prior period high/low preserves or loses one-timeframing."
+  - name: anchor_period_policy
+    value: null
+    status: configuration_required
+    unit: enum
+    calibration_scope: session_timeframe
+    description: "Defines where the sequence begins, such as session start or a supplied structural anchor."
+parameters:
+  - name: period_length
+    value: null
+    status: configuration_required
+  - name: comparison_inclusivity
+    value: null
+    status: configuration_required
+  - name: anchor_period_policy
+    value: null
+    status: configuration_required
+
+confidence_behavior:
+  full_confidence: "Clean completed period bars, explicit period definition, and valid session clock."
+  degraded_confidence_triggers:
+    - "Optional value, IB, tape, delta, or day-type context missing: structural state remains valid but interpretation is withheld."
+    - "Minor feed latency in the current incomplete period: keep current update PENDING."
+  review_required_trigger: "Period definition changes mid-session or data quality conflicts with session boundaries."
+  no_binary_certainty_claim: "One-timeframing state does not prove trend quality, continuation, or reversal."
+confidence_rules:
+  full_confidence_requires:
+    - "Clean completed period sequence."
+    - "Explicit period definition and session boundary."
+  downgrade_when:
+    - "Optional context feeds are absent."
+    - "The current period is incomplete."
+
+refusal_conditions:
+  - "period_bars, period_definition, or session_clock missing."
+  - "Period bars missing required high/low fields."
+  - "Periods overlap, arrive out of order, or cross an undefined session boundary."
+  - "Anchor period cannot be identified."
+
+output_labels:
+  - ONE_TIMEFRAMING_HIGHER
+  - ONE_TIMEFRAMING_LOWER
+  - LOSS_OF_ONE_TIMEFRAMING_HIGHER
+  - LOSS_OF_ONE_TIMEFRAMING_LOWER
+  - NO_ONE_TIMEFRAMING
+  - PENDING
+  - CONTEXT_ONLY
+  - REVIEW_REQUIRED
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+states_emitted:
+  - ONE_TIMEFRAMING_HIGHER
+  - ONE_TIMEFRAMING_LOWER
+  - LOSS_OF_ONE_TIMEFRAMING_HIGHER
+  - LOSS_OF_ONE_TIMEFRAMING_LOWER
+  - NO_ONE_TIMEFRAMING
+  - PENDING
+  - CONTEXT_ONLY
+  - REVIEW_REQUIRED
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+allowed_action_labels:
+  - ONE_TIMEFRAMING_HIGHER
+  - ONE_TIMEFRAMING_LOWER
+  - LOSS_OF_ONE_TIMEFRAMING_HIGHER
+  - LOSS_OF_ONE_TIMEFRAMING_LOWER
+  - NO_ONE_TIMEFRAMING
+  - PENDING
+  - CONTEXT_ONLY
+  - REVIEW_REQUIRED
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+
+false_positive_risks:
+  - "Dirty or missing bars make a control sequence appear intact."
+  - "Tiny chart intervals create noisy one-timeframing that is overread as meaningful control."
+  - "Cross-session comparisons create false continuity."
+  - "Equality convention not stated, causing inconsistent loss detection."
+
+false_negative_risks:
+  - "A valid one-timeframing sequence withheld because current period was incorrectly marked incomplete."
+  - "Loss event missed because period bars arrive late."
+  - "Valid control state fragmented by an incorrect session boundary."
+  - "Overly strict data-quality filter withholds usable structural state."
+
+failure_modes:
+  - "Bad session calendar or timezone shift."
+  - "Missing period high/low data."
+  - "Roll-adjustment or bad stitching distorts period highs/lows."
+  - "Period definition changed without resetting the sequence."
+  - "Low-liquidity periods produce structurally valid but low-quality context that downstream specs must not overread."
+
+validation_requirements:
+  - "Confirm higher, lower, loss, no-state, pending, and refusal cases from hand-labeled period sequences."
+  - "Confirm loss of one-timeframing alone never emits reversal, continuation, or trade-permission labels."
+  - "Confirm incomplete current periods remain PENDING."
+  - "Confirm missing optional profile/tape inputs do not block the structural state."
+  - "Confirm missing required bars, period definition, or session clock produces REFUSE_TO_CLASSIFY."
+test_cases:
+  - name: consecutive_higher_period_lows
+    expected: ONE_TIMEFRAMING_HIGHER
+  - name: consecutive_lower_period_highs
+    expected: ONE_TIMEFRAMING_LOWER
+  - name: lower_violation_after_higher_sequence
+    expected: LOSS_OF_ONE_TIMEFRAMING_HIGHER
+  - name: high_violation_after_lower_sequence
+    expected: LOSS_OF_ONE_TIMEFRAMING_LOWER
+  - name: incomplete_current_period
+    expected: PENDING
+  - name: missing_period_definition
+    expected: REFUSE_TO_CLASSIFY
+
+prohibited_outputs:
+  - trade_permission
+  - entry_instruction
+  - exit_instruction
+  - stop_instruction
+  - target_instruction
+  - position_sizing_instruction
+  - add_or_reduce_instruction
+  - broker_action
+  - order_action
+  - account_instruction
+  - fill_or_pnl_instruction
+  - autonomous_trade_call
+forbidden_outputs:
+  - trade_permission
+  - entry_instruction
+  - exit_instruction
+  - stop_instruction
+  - target_instruction
+  - position_sizing_instruction
+  - add_or_reduce_instruction
+  - broker_action
+  - order_action
+  - account_instruction
+  - fill_or_pnl_instruction
+  - autonomous_trade_call
+
+review_status: DRAFT
+
+notes: >
+  P15 wave 2 draft spec. The basic one-timeframing state is computable from period highs and lows.
+  Quality interpretation is explicitly excluded. Optional profile, value, tape, delta, and day-type
+  context may support downstream judgment, but this spec never turns one-timeframing or loss of
+  one-timeframing into reversal, continuation, or execution instruction.

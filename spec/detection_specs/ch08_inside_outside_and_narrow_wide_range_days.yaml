@@ -1,0 +1,332 @@
+spec_id: ch08_inside_outside_and_narrow_wide_range_days
+concept_id: ch08_inside_outside_and_narrow_wide_range_days
+concept_name: "Inside/Outside & Narrow/Wide Range Days"
+display_name: "Inside/Outside & Narrow/Wide Range Days"
+glossary_ref: "glossary/chapter_08_volatility_regime.md#insideoutside--narrowwide-range-days"
+
+chapter:
+  chapter_number: 8
+  chapter_title: "Volatility Regime"
+  glossary_path: "glossary/chapter_08_volatility_regime.md"
+
+determinism_class: COMPUTABLE
+
+semantic_source:
+  glossary_path: "glossary/chapter_08_volatility_regime.md"
+  concept_heading: "Inside/Outside & Narrow/Wide Range Days"
+  doctrine_summary: >
+    Inside, outside, narrow, and wide range days describe the session's structural container.
+    Inside/outside labels are direct high/low comparisons against the prior session. Narrow/wide
+    labels require calibrated comparison to recent product, session, and regime behavior. The label
+    is not the read; auction quality decides whether the structure matters.
+
+purpose: >
+  Compute inside-day and outside-day structural labels and, where calibrated historical context is
+  supplied, narrow-range and wide-range labels. The spec provides day-structure context only and
+  does not imply breakout, trend, reversal, setup quality, or trade permission.
+description: >
+  Direct structural day-container spec with optional calibrated range-context labels. The filename
+  follows the registry concept_id and existing P14 convention.
+
+non_executional_boundary: >
+  This spec emits semantic market-read and structural context labels only. It never emits trade
+  permission, entry, exit, stop, target, position-sizing, add or reduce, broker, order, account,
+  fill, or P&L instructions, and never an autonomous trade call.
+
+required_inputs:
+  - name: session_clock
+    source: calendar/session_definition_module
+    granularity: session
+    session_dependency: "Defines current and prior session boundaries."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: current_session_high_low
+    source: market_data
+    granularity: session_extremes
+    session_dependency: "Current session high and low, final or developing depending on evaluation time."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: prior_session_high_low
+    source: market_data
+    granularity: session_extremes
+    session_dependency: "Immediate prior comparable session high and low."
+    absence_behavior: REFUSE_TO_CLASSIFY
+
+optional_inputs:
+  - name: current_session_close
+    source: market_data
+    granularity: session_close
+    purpose: "Adds close-location context after the session is complete."
+    absence_behavior: "PENDING: omit close-quality context until session close exists."
+  - name: historical_session_ranges
+    source: session_statistics_module
+    granularity: per_session_history
+    purpose: "Required for narrow/wide labels relative to product/session/regime behavior."
+    absence_behavior: "CONTEXT_ONLY: emit inside/outside labels only; omit narrow/wide labels."
+  - name: value_behavior
+    source: value_area_module
+    granularity: session_profile
+    purpose: "Optional auction-quality context for whether range structure aligns with value migration or overlap."
+    absence_behavior: "CONTEXT_ONLY: omit auction-quality interpretation."
+  - name: tape_or_profile_context
+    source: tape_or_profile_module
+    granularity: intraday_or_profile
+    purpose: "Optional evidence separating meaningful balance from dead tape or stop-run outside structure."
+    absence_behavior: "CONTEXT_ONLY: structural labels only."
+
+unavailable_input_behavior:
+  missing_required_input: REFUSE_TO_CLASSIFY
+  bad_prior_session_data: REFUSE_TO_CLASSIFY
+  session_incomplete: "PENDING: labels may be developing until the current session closes."
+  missing_historical_session_ranges: "CONTEXT_ONLY: withhold narrow/wide labels."
+  missing_value_or_tape_context: "CONTEXT_ONLY: withhold auction-meaning claims."
+refusal_behavior:
+  missing_session_definitions_or_high_low: REFUSE_TO_CLASSIFY
+  bad_prior_session_data: REFUSE_TO_CLASSIFY
+  missing_range_history: CONTEXT_ONLY
+
+detection_scope:
+  allowed_to_classify:
+    - "Inside day from current high/low inside prior high/low."
+    - "Outside day from current high above prior high and current low below prior low."
+    - "One-sided range extension above or below prior range."
+    - "Narrow or wide range only when calibrated historical session-range context is available."
+    - "Developing versus final structural label status."
+  not_allowed_to_classify:
+    - "Breakout guarantee from inside day."
+    - "Trend guarantee from outside day."
+    - "Auction quality, acceptance, or participant behavior without optional evidence."
+    - "Trade permission, entries, exits, stops, targets, or sizing."
+  instrument_scope: "Single instrument."
+  session_scope: "Current session against immediate prior comparable session."
+  timeframe_scope: "Session-level labels; intraday developing labels must be marked PENDING or DEVELOPING."
+  regime_scope: "Inside/outside comparison is regime-independent; narrow/wide comparison is regime-sensitive."
+
+evidence_model:
+  evidence_categories:
+    - name: range_container
+      observations: ["inside_day", "outside_day", "one_sided_extension_above", "one_sided_extension_below", "overlapping_day"]
+      derivation: "Compare current session high/low with prior session high/low."
+    - name: range_width_context
+      observations: ["narrow_range", "typical_range", "wide_range", "range_history_missing"]
+      derivation: "Compare current session range with calibrated historical session-range distribution."
+    - name: close_location_context
+      observations: ["close_inside_prior_range", "close_outside_prior_range", "close_near_extreme", "close_context_pending"]
+      derivation: "Optional close comparison after the session is complete."
+    - name: auction_quality_context
+      observations: ["value_migrates", "value_overlaps", "both_extremes_reclaimed", "auction_context_missing"]
+      derivation: "Optional value/profile context; not required for structural label."
+  evidence_hierarchy: "Clean session high/low data defines structural labels; historical range data defines narrow/wide context."
+  evidence_states:
+    supported:
+      - INSIDE_DAY
+      - OUTSIDE_DAY
+      - NARROW_RANGE_DAY
+      - WIDE_RANGE_DAY
+      - OVERLAPPING_RANGE_DAY
+    unsupported:
+      - "Breakout or trend expectation from the structural label alone."
+      - "Auction quality without value/profile/tape context."
+
+rule_structure:
+  type: direct_session_range_comparison_with_calibrated_width_context
+  description: >
+    Inside/outside labels are direct comparisons once session highs/lows are clean. Narrow/wide
+    labels are calibrated comparisons and must be withheld when historical range context or
+    calibration is absent.
+  rules:
+    - id: R1_inside
+      logic: "Emit INSIDE_DAY when current_session_high <= prior_session_high and current_session_low >= prior_session_low under configured equality policy."
+    - id: R2_outside
+      logic: "Emit OUTSIDE_DAY when current_session_high > prior_session_high and current_session_low < prior_session_low under configured equality policy."
+    - id: R3_one_sided_extension
+      logic: "Emit ONE_SIDED_EXTENSION_ABOVE or ONE_SIDED_EXTENSION_BELOW when only one prior extreme is exceeded."
+    - id: R4_narrow_wide
+      logic: "Emit NARROW_RANGE_DAY, TYPICAL_RANGE_DAY, or WIDE_RANGE_DAY only when calibrated historical_session_ranges are present."
+    - id: R5_developing
+      logic: "Before session close, attach DEVELOPING_STRUCTURAL_LABEL or PENDING as appropriate."
+  determinism_note: "Inside/outside is computable; narrow/wide is a calibrated comparison despite the registry's overall COMPUTABLE class."
+decision_logic:
+  summary: "Compare session containers first, then attach calibrated width context only when calibration and range history exist."
+  interpretation_boundary: "Never infer breakout, trend, whipsaw, or opportunity from the container label alone."
+
+calibration_parameters:
+  - name: equality_policy
+    value: null
+    status: configuration_required
+    unit: enum
+    calibration_scope: implementation_method
+    description: "Defines treatment of equality at prior high/low."
+  - name: narrow_range_requirement
+    value: null
+    status: calibration_required
+    unit: relative_session_range_statistic
+    calibration_scope: instrument_session_regime
+    description: "Calibrated condition for labeling a session range narrow."
+  - name: wide_range_requirement
+    value: null
+    status: calibration_required
+    unit: relative_session_range_statistic
+    calibration_scope: instrument_session_regime
+    description: "Calibrated condition for labeling a session range wide."
+  - name: range_history_lookback
+    value: null
+    status: calibration_required
+    unit: sessions
+    calibration_scope: instrument_session_regime
+    description: "Historical sample used for range-width comparison."
+parameters:
+  - name: equality_policy
+    value: null
+    status: configuration_required
+  - name: narrow_range_requirement
+    value: null
+    status: calibration_required
+  - name: wide_range_requirement
+    value: null
+    status: calibration_required
+  - name: range_history_lookback
+    value: null
+    status: calibration_required
+
+confidence_behavior:
+  full_confidence: "Clean current/prior session high-low data, valid session definitions, and calibrated range history for width labels."
+  degraded_confidence_triggers:
+    - "Historical range context missing: inside/outside remains valid; narrow/wide withheld."
+    - "Current session incomplete: labels remain developing."
+    - "Value/profile/tape context missing: auction meaning withheld."
+  review_required_trigger: "Data sources disagree on current or prior session extremes."
+  no_binary_certainty_claim: "Day-container labels are not breakout, trend, or trade signals."
+confidence_rules:
+  full_confidence_requires:
+    - "Clean current and prior session high/low data."
+    - "Calibrated range history for narrow/wide labels."
+  downgrade_when:
+    - "Session is incomplete."
+    - "Historical range, value, profile, or tape context is absent."
+
+refusal_conditions:
+  - "session_clock, current_session_high_low, or prior_session_high_low missing."
+  - "Prior session is not comparable because of holiday, roll, or malformed data."
+  - "Current high/low data internally inconsistent."
+  - "Session boundary cannot be established."
+
+output_labels:
+  - INSIDE_DAY
+  - OUTSIDE_DAY
+  - ONE_SIDED_EXTENSION_ABOVE
+  - ONE_SIDED_EXTENSION_BELOW
+  - OVERLAPPING_RANGE_DAY
+  - NARROW_RANGE_DAY
+  - TYPICAL_RANGE_DAY
+  - WIDE_RANGE_DAY
+  - DEVELOPING_STRUCTURAL_LABEL
+  - STRUCTURAL_CONTEXT
+  - CONTEXT_ONLY
+  - REVIEW_REQUIRED
+  - DEGRADED_CONFIDENCE
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+states_emitted:
+  - INSIDE_DAY
+  - OUTSIDE_DAY
+  - ONE_SIDED_EXTENSION_ABOVE
+  - ONE_SIDED_EXTENSION_BELOW
+  - OVERLAPPING_RANGE_DAY
+  - NARROW_RANGE_DAY
+  - TYPICAL_RANGE_DAY
+  - WIDE_RANGE_DAY
+  - DEVELOPING_STRUCTURAL_LABEL
+  - STRUCTURAL_CONTEXT
+  - CONTEXT_ONLY
+  - REVIEW_REQUIRED
+  - DEGRADED_CONFIDENCE
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+allowed_action_labels:
+  - INSIDE_DAY
+  - OUTSIDE_DAY
+  - ONE_SIDED_EXTENSION_ABOVE
+  - ONE_SIDED_EXTENSION_BELOW
+  - OVERLAPPING_RANGE_DAY
+  - NARROW_RANGE_DAY
+  - TYPICAL_RANGE_DAY
+  - WIDE_RANGE_DAY
+  - DEVELOPING_STRUCTURAL_LABEL
+  - STRUCTURAL_CONTEXT
+  - CONTEXT_ONLY
+  - REVIEW_REQUIRED
+  - DEGRADED_CONFIDENCE
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+
+false_positive_risks:
+  - "Bad prior-session boundary creates false inside or outside label."
+  - "Developing session marked final before close."
+  - "Narrow/wide label emitted from uncalibrated or non-comparable range history."
+  - "Outside day overread as trend without value migration or close-quality evidence."
+
+false_negative_risks:
+  - "Valid outside day missed because one prior extreme is stale or wrong."
+  - "Narrow or wide range withheld because range history is unavailable."
+  - "Inside day missed because equality policy is inconsistent across modules."
+  - "Developing outside day not updated after late-session range extension."
+
+failure_modes:
+  - "Incorrect session calendar or holiday handling."
+  - "Bad prior-session high/low data."
+  - "Contract roll or data stitching changes historical range."
+  - "Current session still open but treated as final."
+  - "Range-history calibration drawn from wrong product/session/regime."
+
+validation_requirements:
+  - "Confirm inside, outside, one-sided extension, and overlapping labels against hand-checked session fixtures."
+  - "Confirm developing labels update to final labels after session close."
+  - "Confirm missing historical range data withholds narrow/wide labels."
+  - "Confirm missing session or prior-session data produces REFUSE_TO_CLASSIFY."
+  - "Confirm labels do not imply breakout, trend, reversal, or trade permission."
+test_cases:
+  - name: current_range_within_prior_range
+    expected: INSIDE_DAY
+  - name: current_range_exceeds_both_prior_extremes
+    expected: OUTSIDE_DAY
+  - name: current_range_exceeds_prior_high_only
+    expected: ONE_SIDED_EXTENSION_ABOVE
+  - name: missing_historical_range_context
+    expected: CONTEXT_ONLY
+  - name: missing_prior_session_high_low
+    expected: REFUSE_TO_CLASSIFY
+
+prohibited_outputs:
+  - trade_permission
+  - entry_instruction
+  - exit_instruction
+  - stop_instruction
+  - target_instruction
+  - position_sizing_instruction
+  - add_or_reduce_instruction
+  - broker_action
+  - order_action
+  - account_instruction
+  - fill_or_pnl_instruction
+  - autonomous_trade_call
+forbidden_outputs:
+  - trade_permission
+  - entry_instruction
+  - exit_instruction
+  - stop_instruction
+  - target_instruction
+  - position_sizing_instruction
+  - add_or_reduce_instruction
+  - broker_action
+  - order_action
+  - account_instruction
+  - fill_or_pnl_instruction
+  - autonomous_trade_call
+
+review_status: DRAFT
+
+notes: >
+  P15 wave 2 draft spec. Filename uses the full registry concept_id
+  ch08_inside_outside_and_narrow_wide_range_days instead of the shortened expected filename so it
+  matches the P14 naming convention where each spec file is named after concept_id. Inside/outside
+  container labels are computable. Narrow/wide labels are emitted only when calibrated range context
+  exists. Auction meaning remains separate.

@@ -1,0 +1,349 @@
+spec_id: ch03_auction_acceptance_vs_rejection
+concept_id: ch03_auction_acceptance_vs_rejection
+concept_name: "Auction Acceptance vs. Rejection"
+display_name: "Auction Acceptance vs. Rejection"
+glossary_ref: "glossary/chapter_03_auction_market_profile.md#auction-acceptance-vs-rejection"
+
+chapter:
+  chapter_number: 3
+  chapter_title: "Auction & Market Profile"
+  glossary_path: "glossary/chapter_03_auction_market_profile.md"
+
+determinism_class: CALIBRATED
+
+semantic_source:
+  glossary_path: "glossary/chapter_03_auction_market_profile.md"
+  concept_heading: "Auction Acceptance vs. Rejection"
+  doctrine_summary: >
+    Auction acceptance asks whether an extended auction area becomes fair enough for time, TPOs,
+    volume, and value to build there. Rejection means the auction advertised the new area, failed to
+    develop trade there, and returned toward the prior accepted area. This is the auction-level form
+    of acceptance and rejection; it is broader than a single Chapter 2 level interaction and must not
+    be reduced to a touch, poke, or one-bar excursion.
+
+purpose: >
+  Classify whether an auction extension is pending, accepted, rejected, or insufficiently evidenced
+  using profile-aware time, TPO, volume-at-price, and value-shift evidence. The spec grades auction
+  development only; it does not emit direction, setup quality, trade permission, or execution
+  instructions.
+description: >
+  Calibrated implementation contract for tagging auction-area acceptance or rejection after price
+  extends beyond a prior accepted area, value boundary, balance edge, or profile reference.
+
+non_executional_boundary: >
+  This spec emits semantic market-read and evidence labels only. It never emits trade permission,
+  entry, exit, stop, target, position-sizing, add or reduce, broker, order, account, fill, or P&L
+  instructions, and never an autonomous trade call. Acceptance is auction evidence, not permission
+  to act.
+
+required_inputs:
+  - name: price_sequence
+    source: market_data
+    granularity: tick_or_1m
+    session_dependency: "Current session price path before, during, and after the auction extension."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: profile_distribution
+    source: market_profile_module
+    granularity: tpo_or_volume_at_price
+    session_dependency: "Profile evidence for time and/or volume development in the extended area."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: auction_reference_area
+    source: profile_or_structural_reference_module
+    granularity: price_area
+    session_dependency: "Prior accepted area, value boundary, balance edge, or profile-defined reference being extended from."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: session_clock
+    source: calendar/session_definition_module
+    granularity: session
+    session_dependency: "Defines session, profile periodization, and calibration scope."
+    absence_behavior: REFUSE_TO_CLASSIFY
+
+optional_inputs:
+  - name: value_area_series
+    source: value_area_module
+    granularity: per_session_or_intraday_profile
+    purpose: "Confirms whether value is migrating toward the extended area."
+    absence_behavior: "DEGRADED_CONFIDENCE: classify profile development without value-migration confirmation."
+  - name: single_print_map
+    source: tpo_profile_module
+    granularity: per_profile_period
+    purpose: "Identifies thin rejection structure and single-print separation."
+    absence_behavior: "DEGRADED_CONFIDENCE: omit single-print confirmation."
+  - name: cumulative_delta
+    source: order_flow_module
+    granularity: tick_or_1m
+    purpose: "Optional evidence of aggression supporting or contradicting auction development."
+    absence_behavior: "DEGRADED_CONFIDENCE: omit flow confirmation."
+
+unavailable_input_behavior:
+  missing_required_input: REFUSE_TO_CLASSIFY
+  missing_profile_distribution: REFUSE_TO_CLASSIFY
+  missing_value_area_series: DEGRADED_CONFIDENCE
+  missing_single_print_map: DEGRADED_CONFIDENCE
+  missing_calibration_parameters: "INSUFFICIENT_EVIDENCE: profile-aware rule structure cannot be evaluated without calibrated dwell, development, and rejection parameters."
+  observation_window_incomplete: "PENDING: the auction has not had enough calibrated observation time to accept or reject the extended area."
+refusal_behavior:
+  missing_required_feed: REFUSE_TO_CLASSIFY
+  missing_profile_or_value_data: REFUSE_TO_CLASSIFY
+  missing_calibration: INSUFFICIENT_EVIDENCE
+  single_touch_only: "PENDING: a touch or brief excursion is never sufficient acceptance evidence."
+
+detection_scope:
+  allowed_to_classify:
+    - "Whether an extended auction area is pending, accepted, or rejected."
+    - "Whether value or profile development supports the auction-area read."
+    - "Whether profile evidence is insufficient or degraded."
+  not_allowed_to_classify:
+    - "Chapter 2 level-specific acceptance at a single reference without auction-area development."
+    - "Breakout continuation, day type, setup quality, or location quality."
+    - "Trade permission, direction, entries, exits, stops, targets, or sizing."
+    - "Participant intent behind acceptance or rejection."
+  instrument_scope: "Single instrument; calibration must be scoped per instrument."
+  session_scope: "Session-specific profile structure."
+  timeframe_scope: "Profile period and price sequence supplied by the caller."
+  regime_scope: "Volatility regime is part of the calibration scope."
+
+evidence_model:
+  evidence_categories:
+    - name: time_development
+      observations: ["multiple_profile_periods_in_extension", "brief_excursion_only", "observation_window_incomplete"]
+      derivation: "TPO or time spent in the extended auction area relative to calibrated dwell requirements."
+    - name: volume_development
+      observations: ["volume_node_building", "thin_volume_gap", "volume_distribution_unavailable"]
+      derivation: "Volume-at-price or profile evidence showing whether trade is developing in the extended area."
+    - name: value_migration
+      observations: ["value_follows_extension", "value_remains_prior_area", "value_data_missing"]
+      derivation: "Comparison of current developing value against prior accepted value references."
+    - name: rejection_structure
+      observations: ["single_print_rejection", "fast_return_to_prior_area", "extension_holds"]
+      derivation: "Profile and price structure showing whether the advertised price failed to attract trade."
+    - name: flow_confirmation
+      observations: ["delta_supports_development", "delta_diverges_from_development", "delta_missing"]
+      derivation: "Optional cumulative-delta confirmation; never sufficient by itself."
+  evidence_hierarchy: >
+    Profile/time development and volume-at-price development are primary. Value migration confirms
+    durable acceptance. Single prints and fast return support rejection. Delta is optional support.
+  evidence_states:
+    supported:
+      - AUCTION_ACCEPTED
+      - AUCTION_REJECTED
+      - AUCTION_PENDING
+    unsupported:
+      - "Acceptance from a single touch or brief excursion."
+      - "Directional conviction from acceptance without sponsorship, follow-through, and context."
+
+rule_structure:
+  type: calibrated_profile_state_machine
+  description: >
+    Fixed auction-state rule structure with all empirical values supplied by later calibration. No
+    universal dwell time, TPO count, volume-development, or buffer value is defined here.
+  states:
+    - AUCTION_PENDING: "Extension has occurred but the calibrated observation window is incomplete or evidence is mixed."
+    - AUCTION_ACCEPTED: "The extended area holds, develops time/profile activity, and value or volume begins to build there."
+    - AUCTION_REJECTED: "The extended area fails to develop trade and returns toward the prior accepted area."
+    - CONFIRMATION_REQUIRED: "Some evidence supports acceptance or rejection, but confirmation is incomplete."
+    - INSUFFICIENT_EVIDENCE: "Required profile, value, calibration, or price-sequence evidence is absent."
+  rules:
+    - id: R1_extension_detected
+      logic: "Detect price extending beyond auction_reference_area by the calibrated auction_extension_buffer."
+    - id: R2_pending_window
+      logic: "Emit AUCTION_PENDING while the calibrated development window is still open."
+    - id: R3_acceptance
+      logic: >
+        Emit AUCTION_ACCEPTED only when calibrated time development and calibrated volume/profile
+        development occur in the extended area, with value_migration confirmation when available.
+    - id: R4_rejection
+      logic: >
+        Emit AUCTION_REJECTED when price extends, fails to satisfy calibrated development criteria,
+        leaves thin structure or single prints where available, and returns toward the prior area
+        within the calibrated rejection window.
+    - id: R5_confirmation_required
+      logic: "Emit CONFIRMATION_REQUIRED when primary evidence is incomplete or optional confirmation conflicts."
+    - id: R6_refusal
+      logic: "Emit INSUFFICIENT_EVIDENCE or REFUSE_TO_CLASSIFY when required profile data, session scope, or calibration is missing."
+  determinism_note: "The state machine is deterministic once calibrated; threshold values are not part of P15."
+decision_logic:
+  summary: "Evaluate extension, then profile/time development, then value and rejection evidence; refuse or defer when required evidence is absent."
+  single_touch_rule: "A touch, print, or brief excursion cannot emit AUCTION_ACCEPTED."
+  chapter_boundary: "Use Chapter 2 Acceptance vs. Rejection for a supplied single level; use this spec for broader auction-area development."
+
+calibration_parameters:
+  - name: auction_extension_buffer
+    value: null
+    status: calibration_required
+    unit: price_distance_ticks_or_profile_increment
+    calibration_scope: instrument_session_timeframe_regime
+    description: "Minimum excursion beyond the auction reference area before an extension is considered for classification."
+  - name: profile_development_window
+    value: null
+    status: calibration_required
+    unit: duration_or_profile_periods
+    calibration_scope: instrument_session_timeframe_regime
+    description: "Observation window in which TPO/time development must appear."
+  - name: accepted_tpo_development_requirement
+    value: null
+    status: calibration_required
+    unit: profile_period_count_or_relative_tpo_density
+    calibration_scope: instrument_session_timeframe_regime
+    description: "Profile-development requirement for accepted auction-area trade."
+  - name: accepted_volume_development_requirement
+    value: null
+    status: calibration_required
+    unit: relative_volume_at_price_density
+    calibration_scope: instrument_session_timeframe_regime
+    description: "Volume-at-price development requirement when volume profile is the selected profile method."
+  - name: rejection_return_window
+    value: null
+    status: calibration_required
+    unit: duration_or_profile_periods
+    calibration_scope: instrument_session_timeframe_regime
+    description: "Window in which return toward the prior accepted area qualifies as rejection."
+  - name: single_print_rejection_requirement
+    value: null
+    status: calibration_required
+    unit: tpo_structure
+    calibration_scope: instrument_session_timeframe_regime
+    description: "Single-print or thin-structure criteria used as rejection confirmation where TPO data exists."
+parameters:
+  - name: auction_extension_buffer
+    value: null
+    status: calibration_required
+  - name: profile_development_window
+    value: null
+    status: calibration_required
+  - name: accepted_tpo_development_requirement
+    value: null
+    status: calibration_required
+  - name: accepted_volume_development_requirement
+    value: null
+    status: calibration_required
+  - name: rejection_return_window
+    value: null
+    status: calibration_required
+  - name: single_print_rejection_requirement
+    value: null
+    status: calibration_required
+
+confidence_behavior:
+  full_confidence: "Required inputs and calibration present; profile/time, volume development, and value behavior agree."
+  degraded_confidence_triggers:
+    - "Value-area series missing: acceptance can be tagged from profile development but value-migration confirmation is absent."
+    - "Single-print map missing: rejection confidence is lower."
+    - "Cumulative delta missing: flow confirmation omitted."
+  review_required_trigger: "Profile development supports one state while value behavior or return structure contradicts it."
+  no_binary_certainty_claim: "Calibrated auction evidence is not a trade signal and does not forecast continuation."
+confidence_rules:
+  full_confidence_requires:
+    - "Required profile, price, reference, session, and calibration inputs."
+    - "Agreement between profile/time development and value behavior."
+  downgrade_when:
+    - "Optional value, single-print, or delta evidence is missing."
+    - "The extension occurs during an event window or unstable liquidity condition."
+
+refusal_conditions:
+  - "profile_distribution, price_sequence, auction_reference_area, or session_clock missing."
+  - "Profile data too sparse or inconsistent to evaluate TPO/time or volume development."
+  - "Calibration unavailable for the instrument/session/timeframe/regime."
+  - "The alleged extension is only a touch without an evaluable development window."
+  - "Session boundary or profile periodization is ambiguous."
+
+output_labels:
+  - AUCTION_PENDING
+  - AUCTION_ACCEPTED
+  - AUCTION_REJECTED
+  - CONFIRMATION_REQUIRED
+  - REVIEW_REQUIRED
+  - DEGRADED_CONFIDENCE
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+states_emitted:
+  - AUCTION_PENDING
+  - AUCTION_ACCEPTED
+  - AUCTION_REJECTED
+  - CONFIRMATION_REQUIRED
+  - REVIEW_REQUIRED
+  - DEGRADED_CONFIDENCE
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+allowed_action_labels:
+  - AUCTION_PENDING
+  - AUCTION_ACCEPTED
+  - AUCTION_REJECTED
+  - CONFIRMATION_REQUIRED
+  - REVIEW_REQUIRED
+  - DEGRADED_CONFIDENCE
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+
+false_positive_risks:
+  - "Brief excursion misclassified as accepted auction development."
+  - "Thin-liquidity travel through a volume gap misclassified as durable acceptance."
+  - "Event spike treated as value migration before profile evidence develops."
+  - "Chapter 2 level acceptance incorrectly promoted into broader auction acceptance."
+
+false_negative_risks:
+  - "Genuine fast acceptance missed because calibrated development window is too slow for the current regime."
+  - "Accepted extension downgraded because value-area data is delayed."
+  - "Rejection missed when single-print data is unavailable but price clearly repairs."
+  - "Developing profile split across session boundaries because of a bad calendar."
+
+failure_modes:
+  - "Missing or malformed Market Profile, TPO, or volume-at-price feed."
+  - "Incorrect session boundary or profile periodization."
+  - "Stale calibration applied to a different volatility regime."
+  - "Low-liquidity event or holiday session making profile development misleading."
+  - "Contract roll or bad price stitching distorting profile distribution."
+
+validation_requirements:
+  - "Replay accepted auction extensions and verify AUCTION_ACCEPTED is emitted only after calibrated profile development."
+  - "Replay rejected extensions with single prints or fast repair and verify AUCTION_REJECTED."
+  - "Confirm a single touch or one brief excursion emits AUCTION_PENDING or INSUFFICIENT_EVIDENCE, not AUCTION_ACCEPTED."
+  - "Confirm missing profile data produces REFUSE_TO_CLASSIFY."
+  - "Confirm missing calibration produces INSUFFICIENT_EVIDENCE and no default values are substituted."
+  - "Confirm Chapter 2 level-acceptance fixtures do not automatically become auction-area acceptance."
+test_cases:
+  - name: accepted_extension_with_profile_development
+    expected: AUCTION_ACCEPTED
+  - name: brief_poke_without_profile_development
+    expected: AUCTION_PENDING
+  - name: single_print_rejection_back_to_prior_value
+    expected: AUCTION_REJECTED
+  - name: missing_profile_distribution
+    expected: REFUSE_TO_CLASSIFY
+  - name: missing_calibration
+    expected: INSUFFICIENT_EVIDENCE
+
+prohibited_outputs:
+  - trade_permission
+  - entry_instruction
+  - exit_instruction
+  - stop_instruction
+  - target_instruction
+  - position_sizing_instruction
+  - add_or_reduce_instruction
+  - broker_action
+  - order_action
+  - account_instruction
+  - fill_or_pnl_instruction
+  - autonomous_trade_call
+forbidden_outputs:
+  - trade_permission
+  - entry_instruction
+  - exit_instruction
+  - stop_instruction
+  - target_instruction
+  - position_sizing_instruction
+  - add_or_reduce_instruction
+  - broker_action
+  - order_action
+  - account_instruction
+  - fill_or_pnl_instruction
+  - autonomous_trade_call
+
+review_status: DRAFT
+
+notes: >
+  P15 wave 2 draft spec. This spec deliberately separates auction-area acceptance from Chapter 2
+  single-level acceptance. It refuses without profile evidence and leaves every empirical value null
+  pending calibration. It emits auction-read states only; no output implies continuation, reversal,
+  setup quality, or execution permission.

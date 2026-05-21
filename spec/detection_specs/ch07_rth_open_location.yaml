@@ -1,0 +1,320 @@
+spec_id: ch07_rth_open_location
+concept_id: ch07_rth_open_location
+concept_name: "RTH Open Location"
+display_name: "RTH Open Location"
+glossary_ref: "glossary/chapter_07_session_context_sequencing.md#rth-open-location"
+
+chapter:
+  chapter_number: 7
+  chapter_title: "Session Context & Sequencing"
+  glossary_path: "glossary/chapter_07_session_context_sequencing.md"
+
+determinism_class: COMPUTABLE
+
+semantic_source:
+  glossary_path: "glossary/chapter_07_session_context_sequencing.md"
+  concept_heading: "RTH Open Location"
+  doctrine_summary: >
+    RTH Open Location maps where the regular cash session begins relative to overnight range, Globex
+    extremes, prior value, prior range, and nearby session references. The location frames the first
+    auction question; it does not answer whether cash participation will accept, reject, repair, or
+    relocate value.
+
+purpose: >
+  Compute structural open-location tags for the RTH open relative to overnight, prior-session, and
+  value references. The output is context for downstream open, acceptance, inventory, and session
+  reads; it is not a directional prediction or execution permission.
+description: >
+  Direct-computation spec for tagging open location against known session references. Interpretation
+  of the first rotations remains separate and must be handled by later acceptance, opening type, and
+  session-context specs.
+
+non_executional_boundary: >
+  This spec emits semantic market-read context labels only. It never emits trade permission, entry,
+  exit, stop, target, position-sizing, add or reduce, broker, order, account, fill, or P&L
+  instructions, and never an autonomous trade call.
+
+required_inputs:
+  - name: session_clock
+    source: calendar/session_definition_module
+    granularity: session
+    session_dependency: "Defines RTH open timestamp, overnight session boundary, prior RTH session, and holiday handling."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: rth_open_price
+    source: market_data
+    granularity: opening_print_or_first_trade
+    session_dependency: "First valid RTH price for the configured instrument/session."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: overnight_high_low
+    source: market_data
+    granularity: session_extremes
+    session_dependency: "Globex/overnight high and low prior to the RTH open."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: prior_rth_high_low
+    source: market_data
+    granularity: session_extremes
+    session_dependency: "Prior regular-session high and low."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: prior_value_references
+    source: value_area_module
+    granularity: vah_val_poc
+    session_dependency: "Prior VAH, VAL, and POC when value-relative labels are requested."
+    absence_behavior: "DEGRADED_CONFIDENCE: omit value-relative labels rather than approximating."
+
+optional_inputs:
+  - name: late_overnight_structure
+    source: session_structure_module
+    granularity: intraday_reference_set
+    purpose: "Flags London high/low, late overnight balance, or stretched momentum into the open."
+    absence_behavior: "CONTEXT_ONLY: omit late-overnight-structure labels."
+  - name: current_vwap_or_reference_lattice
+    source: vwap_or_structural_reference_module
+    granularity: price_reference
+    purpose: "Adds optional proximity context to VWAP or clustered references."
+    absence_behavior: "CONTEXT_ONLY: omit optional proximity context."
+  - name: opening_rotation_bars
+    source: market_data
+    granularity: intraday_1m_or_finer
+    purpose: "Optional downstream context for whether first rotations accept or reject the mapped location."
+    absence_behavior: "CONTEXT_ONLY: emit open-location tags only."
+
+unavailable_input_behavior:
+  missing_required_input: REFUSE_TO_CLASSIFY
+  missing_prior_value_references: "DEGRADED_CONFIDENCE: emit range and overnight tags only; omit value-relative classifications."
+  missing_optional_inputs: "CONTEXT_ONLY: keep structural open-location labels and omit interpretive context."
+  ambiguous_session_calendar: REFUSE_TO_CLASSIFY
+refusal_behavior:
+  missing_session_or_open_price: REFUSE_TO_CLASSIFY
+  missing_prior_or_overnight_range: REFUSE_TO_CLASSIFY
+  missing_value_data: DEGRADED_CONFIDENCE
+
+detection_scope:
+  allowed_to_classify:
+    - "RTH open inside, above, or below the overnight range."
+    - "RTH open inside, above, or below prior RTH range."
+    - "RTH open inside, above, or below prior value when value references are available."
+    - "RTH open near supplied Globex or late-overnight references when proximity calibration exists."
+    - "Structural context labels requiring confirmation."
+  not_allowed_to_classify:
+    - "Whether the open will continue, reverse, repair inventory, or trend."
+    - "Opening type, acceptance, rejection, or trap outcome from location alone."
+    - "Setup quality, execution environment, trade permission, entries, exits, stops, targets, or sizing."
+  instrument_scope: "Single instrument."
+  session_scope: "RTH open relative to the immediately preceding overnight and prior RTH session."
+  timeframe_scope: "Opening context; optional first-rotation evidence belongs downstream."
+  regime_scope: "Regime-independent structural tags; interpretation is regime-sensitive and separate."
+
+evidence_model:
+  evidence_categories:
+    - name: overnight_location
+      observations: ["open_inside_overnight_range", "open_above_overnight_high", "open_below_overnight_low", "open_at_overnight_extreme"]
+      derivation: "Compare rth_open_price against overnight high and low."
+    - name: prior_range_location
+      observations: ["open_inside_prior_range", "open_above_prior_high", "open_below_prior_low"]
+      derivation: "Compare rth_open_price against prior RTH high and low."
+    - name: prior_value_location
+      observations: ["open_inside_prior_value", "open_above_prior_value", "open_below_prior_value", "value_data_missing"]
+      derivation: "Compare rth_open_price against prior VAH and VAL."
+    - name: reference_proximity
+      observations: ["open_near_globex_high", "open_near_globex_low", "open_near_late_overnight_structure", "proximity_not_evaluated"]
+      derivation: "Compare rth_open_price against supplied references using calibrated proximity tolerance."
+  evidence_hierarchy: "Session clock and clean open/range references define structural tags; value references add value-relative context."
+  evidence_states:
+    supported:
+      - OPEN_LOCATION_STRUCTURAL_CONTEXT
+      - CONFIRMATION_REQUIRED
+    unsupported:
+      - "Directional prediction from open location."
+      - "Acceptance or rejection conclusion before first rotations develop."
+
+rule_structure:
+  type: direct_reference_comparison
+  description: >
+    Direct comparison of RTH open price to overnight, prior RTH, and value references. Optional
+    near-reference labels require a calibrated proximity tolerance. No directional rule is defined.
+  rules:
+    - id: R1_overnight_range
+      logic: "Classify open relative to overnight_high_low as inside, above, below, or at supplied extreme by configured equality/proximity policy."
+    - id: R2_prior_rth_range
+      logic: "Classify open relative to prior_rth_high_low as inside, above, or below."
+    - id: R3_prior_value
+      logic: "If prior_value_references exist, classify open as inside, above, or below prior value."
+    - id: R4_reference_proximity
+      logic: "If optional references and proximity calibration exist, emit near-reference context labels."
+    - id: R5_confirmation_required
+      logic: "Always attach CONFIRMATION_REQUIRED to any structural location label when interpretation is requested."
+  determinism_note: "Reference comparison is computable; the meaning of the open location is not."
+decision_logic:
+  summary: "Map RTH open price against clean session references and emit context labels only."
+  first_rotation_boundary: "Do not classify acceptance, rejection, or inventory repair from the open print alone."
+
+calibration_parameters:
+  - name: reference_proximity_tolerance
+    value: null
+    status: calibration_required
+    unit: ticks_or_volatility_fraction
+    calibration_scope: instrument_session_regime
+    description: "Tolerance for optional near-reference labels such as near Globex high or near prior value edge."
+  - name: equality_policy
+    value: null
+    status: configuration_required
+    unit: enum
+    calibration_scope: implementation_method
+    description: "Defines whether equality at a reference is classified as inside, at-reference, above, or below."
+  - name: rth_open_price_policy
+    value: null
+    status: configuration_required
+    unit: enum
+    calibration_scope: instrument_session
+    description: "Defines source of the RTH open price, such as official open or first valid trade."
+parameters:
+  - name: reference_proximity_tolerance
+    value: null
+    status: calibration_required
+  - name: equality_policy
+    value: null
+    status: configuration_required
+  - name: rth_open_price_policy
+    value: null
+    status: configuration_required
+
+confidence_behavior:
+  full_confidence: "Session clock, RTH open, overnight range, prior RTH range, and prior value references are clean."
+  degraded_confidence_triggers:
+    - "Prior value references missing: omit value-relative labels."
+    - "Optional late-overnight structure missing: omit late-location context."
+    - "Reference proximity calibration missing: emit exact inside/above/below labels only."
+  review_required_trigger: "Session calendar, opening print, or prior references conflict between data sources."
+  no_binary_certainty_claim: "Open-location labels state where the question is being asked; they do not answer it."
+confidence_rules:
+  full_confidence_requires:
+    - "Clean RTH open price and session boundaries."
+    - "Prior overnight, prior range, and value references when requested."
+  downgrade_when:
+    - "Value references or proximity calibration are absent."
+    - "Optional late-overnight structure is unavailable."
+
+refusal_conditions:
+  - "session_clock, rth_open_price, overnight_high_low, or prior_rth_high_low missing."
+  - "Prior-session data belongs to the wrong contract, holiday, or session definition."
+  - "Opening print is missing, duplicated, or outside the declared RTH open policy."
+  - "Session calendar cannot distinguish overnight from RTH."
+
+output_labels:
+  - OPEN_INSIDE_OVERNIGHT_RANGE
+  - OPEN_ABOVE_OVERNIGHT_HIGH
+  - OPEN_BELOW_OVERNIGHT_LOW
+  - OPEN_INSIDE_PRIOR_RTH_RANGE
+  - OPEN_ABOVE_PRIOR_RTH_HIGH
+  - OPEN_BELOW_PRIOR_RTH_LOW
+  - OPEN_INSIDE_PRIOR_VALUE
+  - OPEN_ABOVE_PRIOR_VALUE
+  - OPEN_BELOW_PRIOR_VALUE
+  - OPEN_NEAR_REFERENCE
+  - STRUCTURAL_CONTEXT
+  - CONFIRMATION_REQUIRED
+  - DEGRADED_CONFIDENCE
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+states_emitted:
+  - OPEN_INSIDE_OVERNIGHT_RANGE
+  - OPEN_ABOVE_OVERNIGHT_HIGH
+  - OPEN_BELOW_OVERNIGHT_LOW
+  - OPEN_INSIDE_PRIOR_RTH_RANGE
+  - OPEN_ABOVE_PRIOR_RTH_HIGH
+  - OPEN_BELOW_PRIOR_RTH_LOW
+  - OPEN_INSIDE_PRIOR_VALUE
+  - OPEN_ABOVE_PRIOR_VALUE
+  - OPEN_BELOW_PRIOR_VALUE
+  - OPEN_NEAR_REFERENCE
+  - STRUCTURAL_CONTEXT
+  - CONFIRMATION_REQUIRED
+  - DEGRADED_CONFIDENCE
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+allowed_action_labels:
+  - OPEN_INSIDE_OVERNIGHT_RANGE
+  - OPEN_ABOVE_OVERNIGHT_HIGH
+  - OPEN_BELOW_OVERNIGHT_LOW
+  - OPEN_INSIDE_PRIOR_RTH_RANGE
+  - OPEN_ABOVE_PRIOR_RTH_HIGH
+  - OPEN_BELOW_PRIOR_RTH_LOW
+  - OPEN_INSIDE_PRIOR_VALUE
+  - OPEN_ABOVE_PRIOR_VALUE
+  - OPEN_BELOW_PRIOR_VALUE
+  - OPEN_NEAR_REFERENCE
+  - STRUCTURAL_CONTEXT
+  - CONFIRMATION_REQUIRED
+  - DEGRADED_CONFIDENCE
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+
+false_positive_risks:
+  - "Wrong session calendar makes the open appear outside the correct range."
+  - "Missing profile data causes an outside-value open to be inferred from prior high/low only."
+  - "Proximity tolerance too wide labels an open near a reference when it is not materially near."
+  - "Contract roll or holiday session produces stale prior references."
+
+false_negative_risks:
+  - "Valid value-relative open omitted because profile data arrives late."
+  - "Open near a meaningful late-overnight reference missed because optional structure data is absent."
+  - "Official open and first-trade open differ but policy is not configured."
+  - "Overnight range incomplete due to feed outage."
+
+failure_modes:
+  - "Bad RTH/Globex session boundary."
+  - "Missing or stale prior value references."
+  - "Incorrect contract roll adjustment."
+  - "Holiday or shortened session not represented in calendar."
+  - "Opening auction print differs from continuous-trade open without policy resolution."
+
+validation_requirements:
+  - "Confirm inside/above/below overnight labels from hand-checked sessions."
+  - "Confirm inside/above/below prior RTH and value labels from reference fixtures."
+  - "Confirm missing value references omit value labels and emit DEGRADED_CONFIDENCE."
+  - "Confirm missing session clock or prior range produces REFUSE_TO_CLASSIFY."
+  - "Confirm no output predicts direction or classifies acceptance/rejection from open location alone."
+test_cases:
+  - name: open_inside_overnight_and_prior_value
+    expected: [OPEN_INSIDE_OVERNIGHT_RANGE, OPEN_INSIDE_PRIOR_VALUE, STRUCTURAL_CONTEXT]
+  - name: open_above_overnight_high_and_above_prior_value
+    expected: [OPEN_ABOVE_OVERNIGHT_HIGH, OPEN_ABOVE_PRIOR_VALUE, CONFIRMATION_REQUIRED]
+  - name: missing_prior_value
+    expected: DEGRADED_CONFIDENCE
+  - name: missing_session_clock
+    expected: REFUSE_TO_CLASSIFY
+
+prohibited_outputs:
+  - trade_permission
+  - entry_instruction
+  - exit_instruction
+  - stop_instruction
+  - target_instruction
+  - position_sizing_instruction
+  - add_or_reduce_instruction
+  - broker_action
+  - order_action
+  - account_instruction
+  - fill_or_pnl_instruction
+  - autonomous_trade_call
+forbidden_outputs:
+  - trade_permission
+  - entry_instruction
+  - exit_instruction
+  - stop_instruction
+  - target_instruction
+  - position_sizing_instruction
+  - add_or_reduce_instruction
+  - broker_action
+  - order_action
+  - account_instruction
+  - fill_or_pnl_instruction
+  - autonomous_trade_call
+
+review_status: DRAFT
+
+notes: >
+  P15 wave 2 draft spec. RTH Open Location is computable as structural context. The first rotations,
+  acceptance/rejection, opening type, and inventory repair are deliberately out of scope. Missing
+  profile data limits value-relative labels; missing session definitions or prior ranges block
+  classification.

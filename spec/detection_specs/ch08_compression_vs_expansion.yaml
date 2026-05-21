@@ -1,0 +1,348 @@
+spec_id: ch08_compression_vs_expansion
+concept_id: ch08_compression_vs_expansion
+concept_name: "Compression vs. Expansion"
+display_name: "Compression vs. Expansion"
+glossary_ref: "glossary/chapter_08_volatility_regime.md#compression-vs-expansion-the-volatility-cycle"
+
+chapter:
+  chapter_number: 8
+  chapter_title: "Volatility Regime"
+  glossary_path: "glossary/chapter_08_volatility_regime.md"
+
+determinism_class: CALIBRATED
+
+semantic_source:
+  glossary_path: "glossary/chapter_08_volatility_regime.md"
+  concept_heading: "Compression vs. Expansion (the Volatility Cycle)"
+  doctrine_summary: >
+    Compression is narrowing auction movement and stored potential, not direction. Expansion is
+    released movement, not trend confirmation. Both can be observed through range, overlap,
+    realized-volatility, and value behavior, but all useful thresholds must be calibrated by
+    instrument, session, timeframe, and regime.
+
+purpose: >
+  Emit bounded volatility-state labels for compression, expansion, transition, false-start, and
+  structural-context states. The spec supports volatility regime awareness and never predicts
+  breakout direction, trend durability, or trade permission.
+description: >
+  Calibrated volatility-state contract using range contraction/expansion, overlap, realized
+  volatility, session statistics, and optional auction/tape confirmation.
+
+non_executional_boundary: >
+  This spec emits semantic market-read and volatility-state labels only. It never emits trade
+  permission, entry, exit, stop, target, position-sizing, add or reduce, broker, order, account,
+  fill, or P&L instructions, and never an autonomous trade call.
+
+required_inputs:
+  - name: price_bars
+    source: market_data
+    granularity: configured_timeframe
+    session_dependency: "Clean bar sequence for the evaluated session/timeframe."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: range_statistics
+    source: session_statistics_module
+    granularity: rolling_session_or_intraday
+    session_dependency: "Historical range and overlap context scoped to instrument/session/timeframe/regime."
+    absence_behavior: INSUFFICIENT_EVIDENCE
+  - name: realized_volatility_series
+    source: volatility_statistics_module
+    granularity: configured_timeframe
+    session_dependency: "Realized-volatility or ATR-style series scoped to the same instrument/session/timeframe."
+    absence_behavior: INSUFFICIENT_EVIDENCE
+  - name: session_clock
+    source: calendar/session_definition_module
+    granularity: session
+    session_dependency: "Defines session windows and calibration scope."
+    absence_behavior: REFUSE_TO_CLASSIFY
+
+optional_inputs:
+  - name: value_behavior
+    source: value_area_module
+    granularity: profile_or_session
+    purpose: "Distinguishes structural expansion from value-supported expansion."
+    absence_behavior: "DEGRADED_CONFIDENCE: emit structural volatility context only."
+  - name: volume_profile
+    source: profile_module
+    granularity: volume_at_price
+    purpose: "Identifies balance, value overlap, volume gaps, and air-pocket expansion context."
+    absence_behavior: "DEGRADED_CONFIDENCE: omit auction-quality context."
+  - name: tape_quality
+    source: tape_or_order_flow_module
+    granularity: tick_or_intraday
+    purpose: "Helps separate useful compression from dead tape and real expansion from thin-liquidity travel."
+    absence_behavior: "DEGRADED_CONFIDENCE: do not emit tape-quality interpretation."
+  - name: event_calendar
+    source: calendar_or_catalyst_module
+    granularity: event_window
+    purpose: "Flags pre-event compression or post-event expansion regimes."
+    absence_behavior: "CONTEXT_ONLY: omit event context."
+
+unavailable_input_behavior:
+  missing_required_input: REFUSE_TO_CLASSIFY
+  missing_range_or_volatility_statistics: INSUFFICIENT_EVIDENCE
+  missing_profile_volume_or_tape: "DEGRADED_CONFIDENCE: reduce output to structural volatility context."
+  missing_calibration_parameters: "INSUFFICIENT_EVIDENCE: do not substitute universal range, overlap, or volatility thresholds."
+refusal_behavior:
+  missing_price_bars_or_session_clock: REFUSE_TO_CLASSIFY
+  missing_statistics_or_calibration: INSUFFICIENT_EVIDENCE
+  missing_optional_auction_feeds: DEGRADED_CONFIDENCE
+
+detection_scope:
+  allowed_to_classify:
+    - "Structural compression state."
+    - "Structural expansion state."
+    - "Transition from compression to expansion."
+    - "False-start or failed expansion back into the prior contained area when calibrated structure supports it."
+    - "Structural volatility context with degraded confidence when optional auction/tape feeds are missing."
+  not_allowed_to_classify:
+    - "Breakout direction."
+    - "Trend confirmation or sponsorship."
+    - "Whether expansion creates clean opportunity."
+    - "Trade permission, entries, exits, stops, targets, or sizing."
+  instrument_scope: "Single instrument; calibration is per instrument."
+  session_scope: "Session-specific and window-specific."
+  timeframe_scope: "Configured bar/timeframe scope."
+  regime_scope: "Volatility regime is both an input and calibration dimension; stale regime parameters must not be reused silently."
+
+evidence_model:
+  evidence_categories:
+    - name: range_contraction
+      observations: ["contracting_range", "overlapping_rotations", "contained_prior_extremes"]
+      derivation: "Compare current range and overlap behavior with calibrated historical/session baselines."
+    - name: range_expansion
+      observations: ["range_expanding", "leaving_contained_area", "reduced_overlap"]
+      derivation: "Compare current movement and range extension with calibrated expansion criteria."
+    - name: realized_volatility
+      observations: ["realized_volatility_compressing", "realized_volatility_expanding", "realized_volatility_mixed"]
+      derivation: "Evaluate realized-volatility series against calibrated contraction/expansion parameters."
+    - name: value_behavior
+      observations: ["value_overlaps", "value_migrates", "value_left_behind", "value_missing"]
+      derivation: "Optional value-area evidence for auction quality."
+    - name: tape_context
+      observations: ["stable_slow_tape", "dead_tape", "sustained_chase", "thin_liquidity_travel", "tape_missing"]
+      derivation: "Optional tape evidence; never required for structural state."
+  evidence_hierarchy: >
+    Range statistics and realized-volatility behavior define the structural volatility state.
+    Value and tape evidence determine quality/downgrade labels but do not create direction.
+  evidence_states:
+    supported:
+      - COMPRESSION_STATE
+      - EXPANSION_STATE
+      - TRANSITION_STATE
+      - FAILED_EXPANSION_STATE
+    unsupported:
+      - "Compression as breakout prediction."
+      - "Expansion as trend confirmation."
+
+rule_structure:
+  type: calibrated_volatility_state_machine
+  description: >
+    Calibrated state machine using range contraction/expansion, overlap, realized volatility, and
+    optional value/tape context. No fixed range, ATR, overlap, or volatility values are defined.
+  states:
+    - COMPRESSION_STATE: "Range and realized volatility contract with sufficient overlap or containment."
+    - EXPANSION_STATE: "Range and realized volatility expand and price leaves the contained area."
+    - TRANSITION_FROM_COMPRESSION: "Price begins leaving compression but acceptance/quality evidence is not yet available."
+    - FAILED_EXPANSION_STATE: "Expansion attempt cannot hold beyond the contained area and returns inside."
+    - STRUCTURAL_VOLATILITY_CONTEXT: "Optional feeds missing; emit structural volatility state without quality claims."
+  rules:
+    - id: R1_compression
+      logic: "Emit COMPRESSION_STATE when calibrated contraction, overlap, and containment criteria agree."
+    - id: R2_expansion
+      logic: "Emit EXPANSION_STATE when calibrated expansion criteria and movement beyond the contained area are met."
+    - id: R3_transition
+      logic: "Emit TRANSITION_FROM_COMPRESSION when release begins but calibrated acceptance/failure evidence is incomplete."
+    - id: R4_failed_expansion
+      logic: "Emit FAILED_EXPANSION_STATE when price returns inside the prior contained area within the calibrated failure window."
+    - id: R5_degraded
+      logic: "When value/profile/tape inputs are missing, emit STRUCTURAL_VOLATILITY_CONTEXT with DEGRADED_CONFIDENCE."
+  determinism_note: "Rule shape is observable; useful thresholds are calibration artifacts and remain null in P15."
+decision_logic:
+  summary: "Classify volatility state from calibrated range, overlap, and realized-volatility behavior, then add quality downgrades from missing or conflicting optional evidence."
+  direction_boundary: "No compression or expansion state can emit directional prediction or trend confirmation."
+
+calibration_parameters:
+  - name: compression_range_contraction_requirement
+    value: null
+    status: calibration_required
+    unit: relative_range_statistic
+    calibration_scope: instrument_session_timeframe_regime
+    description: "Range-contraction criterion for compression."
+  - name: compression_overlap_requirement
+    value: null
+    status: calibration_required
+    unit: relative_overlap_measure
+    calibration_scope: instrument_session_timeframe_regime
+    description: "Overlap/containment criterion for compression."
+  - name: expansion_range_requirement
+    value: null
+    status: calibration_required
+    unit: relative_range_statistic
+    calibration_scope: instrument_session_timeframe_regime
+    description: "Range-expansion criterion for expansion."
+  - name: realized_volatility_contraction_requirement
+    value: null
+    status: calibration_required
+    unit: relative_volatility_statistic
+    calibration_scope: instrument_session_timeframe_regime
+    description: "Realized-volatility contraction criterion."
+  - name: realized_volatility_expansion_requirement
+    value: null
+    status: calibration_required
+    unit: relative_volatility_statistic
+    calibration_scope: instrument_session_timeframe_regime
+    description: "Realized-volatility expansion criterion."
+  - name: failed_expansion_return_window
+    value: null
+    status: calibration_required
+    unit: duration_or_bars
+    calibration_scope: instrument_session_timeframe_regime
+    description: "Window for classifying return back into the contained area as failed expansion."
+parameters:
+  - name: compression_range_contraction_requirement
+    value: null
+    status: calibration_required
+  - name: compression_overlap_requirement
+    value: null
+    status: calibration_required
+  - name: expansion_range_requirement
+    value: null
+    status: calibration_required
+  - name: realized_volatility_contraction_requirement
+    value: null
+    status: calibration_required
+  - name: realized_volatility_expansion_requirement
+    value: null
+    status: calibration_required
+  - name: failed_expansion_return_window
+    value: null
+    status: calibration_required
+
+confidence_behavior:
+  full_confidence: "Required price, range-statistic, realized-volatility, session, and calibration inputs present; structural and optional context agree."
+  degraded_confidence_triggers:
+    - "Profile/value inputs missing: omit auction-quality claims."
+    - "Tape inputs missing: cannot separate useful compression from dead tape or real expansion from thin-liquidity travel."
+    - "Event calendar missing around suspected event windows."
+  review_required_trigger: "Range and volatility evidence disagree or optional tape/value evidence contradicts the structural state."
+  no_binary_certainty_claim: "Volatility-state labels do not predict direction or validate trade expression."
+confidence_rules:
+  full_confidence_requires:
+    - "Calibrated range and realized-volatility inputs."
+    - "No major conflict between structural and optional auction/tape evidence."
+  downgrade_when:
+    - "Profile, volume, tape, or event context is missing."
+    - "The move occurs through thin liquidity or during an event window."
+
+refusal_conditions:
+  - "price_bars or session_clock missing."
+  - "range_statistics or realized_volatility_series missing."
+  - "Calibration unavailable for the instrument/session/timeframe/regime."
+  - "Session data too sparse or malformed to compute range/overlap."
+  - "A regime shift makes the selected calibration invalid and no current calibration exists."
+
+output_labels:
+  - COMPRESSION_STATE
+  - EXPANSION_STATE
+  - TRANSITION_FROM_COMPRESSION
+  - FAILED_EXPANSION_STATE
+  - STRUCTURAL_VOLATILITY_CONTEXT
+  - CONFIRMATION_REQUIRED
+  - REVIEW_REQUIRED
+  - DEGRADED_CONFIDENCE
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+states_emitted:
+  - COMPRESSION_STATE
+  - EXPANSION_STATE
+  - TRANSITION_FROM_COMPRESSION
+  - FAILED_EXPANSION_STATE
+  - STRUCTURAL_VOLATILITY_CONTEXT
+  - CONFIRMATION_REQUIRED
+  - REVIEW_REQUIRED
+  - DEGRADED_CONFIDENCE
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+allowed_action_labels:
+  - COMPRESSION_STATE
+  - EXPANSION_STATE
+  - TRANSITION_FROM_COMPRESSION
+  - FAILED_EXPANSION_STATE
+  - STRUCTURAL_VOLATILITY_CONTEXT
+  - CONFIRMATION_REQUIRED
+  - REVIEW_REQUIRED
+  - DEGRADED_CONFIDENCE
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+
+false_positive_risks:
+  - "Dead tape misclassified as useful compression."
+  - "One large bar or event shock misclassified as durable expansion."
+  - "Thin-liquidity travel mistaken for sponsored expansion."
+  - "Universal range or ATR values applied across products or sessions."
+
+false_negative_risks:
+  - "Early expansion missed because calibration is stale for the current volatility regime."
+  - "Meaningful compression missed when overlap is present but range statistics lag."
+  - "Failed expansion missed because the return window is not calibrated to the session."
+  - "Useful compression downgraded because profile or tape inputs are absent."
+
+failure_modes:
+  - "Stale range-statistics or realized-volatility calibration."
+  - "Bad session calendar or malformed bars."
+  - "Event-window distortion not represented by event context."
+  - "Profile/value feed missing while interpretation expects auction quality."
+  - "Regime mismatch between current conditions and calibration scope."
+
+validation_requirements:
+  - "Replay labeled compression, expansion, transition, and failed-expansion sessions with calibrated fixtures."
+  - "Confirm missing calibration produces INSUFFICIENT_EVIDENCE."
+  - "Confirm missing profile/tape emits DEGRADED_CONFIDENCE and structural context only."
+  - "Confirm compression states never predict breakout direction."
+  - "Confirm expansion states never emit trend confirmation or trade-permission labels."
+test_cases:
+  - name: calibrated_range_contraction_with_overlap
+    expected: COMPRESSION_STATE
+  - name: calibrated_range_release_without_confirmation
+    expected: TRANSITION_FROM_COMPRESSION
+  - name: expansion_returns_inside_contained_area
+    expected: FAILED_EXPANSION_STATE
+  - name: missing_calibration
+    expected: INSUFFICIENT_EVIDENCE
+  - name: missing_profile_and_tape
+    expected: DEGRADED_CONFIDENCE
+
+prohibited_outputs:
+  - trade_permission
+  - entry_instruction
+  - exit_instruction
+  - stop_instruction
+  - target_instruction
+  - position_sizing_instruction
+  - add_or_reduce_instruction
+  - broker_action
+  - order_action
+  - account_instruction
+  - fill_or_pnl_instruction
+  - autonomous_trade_call
+forbidden_outputs:
+  - trade_permission
+  - entry_instruction
+  - exit_instruction
+  - stop_instruction
+  - target_instruction
+  - position_sizing_instruction
+  - add_or_reduce_instruction
+  - broker_action
+  - order_action
+  - account_instruction
+  - fill_or_pnl_instruction
+  - autonomous_trade_call
+
+review_status: DRAFT
+
+notes: >
+  P15 wave 2 draft spec. Compression and expansion are volatility-state labels, not directional
+  calls. Every empirical requirement is named with a null value and calibration_required status.
+  Optional profile, volume, and tape inputs improve interpretation but their absence downgrades the
+  output to structural volatility context rather than allowing fake precision.
