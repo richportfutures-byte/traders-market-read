@@ -63,12 +63,14 @@ refusal_behavior:
   out_of_scope_request: REFUSE_TO_CLASSIFY
   executional_output_requested: REFUSE_TO_CLASSIFY
 detection_scope:
-  allowed_to_classify: &id001
-  - LEVEL_MAGNETISM_AND_DECAY_CONTEXT
-  - LEVEL_MAGNETISM_AND_DECAY_CONFIRMED
-  - LEVEL_MAGNETISM_AND_DECAY_NOT_CONFIRMED
-  - LEVEL_MAGNETISM_AND_DECAY_REVIEW_REQUIRED
-  - CALIBRATION_REQUIRED
+  allowed_to_classify:
+  - LEVEL_MAGNETISM_CONTEXT
+  - LEVEL_FRONT_RUN_CONTEXT
+  - LEVEL_OVERSHOOT_CONTEXT
+  - LEVEL_DECAY_EVIDENCE
+  - LEVEL_STRENGTHENED_AFTER_REJECTION
+  - TEST_HISTORY_REQUIRED
+  - DECAY_CONFIDENCE_DEGRADED
   - INSUFFICIENT_EVIDENCE
   not_allowed_to_classify:
   - Directional prediction
@@ -105,7 +107,15 @@ evidence_model:
   evidence_hierarchy: Required feeds establish the narrow state. Optional feeds adjust confidence and review status.
     The determinism class prevents false promotion into a stronger detector.
   evidence_states:
-    supported: *id001
+    supported:
+    - LEVEL_MAGNETISM_CONTEXT
+    - LEVEL_FRONT_RUN_CONTEXT
+    - LEVEL_OVERSHOOT_CONTEXT
+    - LEVEL_DECAY_EVIDENCE
+    - LEVEL_STRENGTHENED_AFTER_REJECTION
+    - TEST_HISTORY_REQUIRED
+    - DECAY_CONFIDENCE_DEGRADED
+    - INSUFFICIENT_EVIDENCE
     unsupported:
     - trade_signal
     - execution_permission
@@ -114,37 +124,35 @@ evidence_model:
     - autonomous_classification_beyond_registry_class
 rule_structure:
   type: calibrated_evidence_state_machine
-  description: State logic follows the registry determinism class. Calibrated rules name parameters without values;
-    judgment-assisted rules preserve review hooks; context-only and feed-blocked rules refuse or downgrade rather
-    than over-detect.
+  description: P19-hardened state logic with concept-specific labels, class-preserving refusal behavior, and no
+    universal thresholds or executional output.
   rules:
-  - id: R1_context
-    logic: Emit LEVEL_MAGNETISM_AND_DECAY_CONTEXT when required feeds support the structural context for Level Magnetism
-      & Decay but calibrated confirmation is not complete.
-  - id: R2_confirmed
-    logic: Emit LEVEL_MAGNETISM_AND_DECAY_CONFIRMED only when the named calibrated requirements are available and
-      satisfied for the instrument/session/timeframe/regime.
-  - id: R3_not_confirmed
-    logic: Emit LEVEL_MAGNETISM_AND_DECAY_NOT_CONFIRMED when required feeds are valid but calibrated evidence does
-      not support the concept.
-  - id: R4_review
-    logic: Emit LEVEL_MAGNETISM_AND_DECAY_REVIEW_REQUIRED when evidence families conflict or optional evidence changes
-      the read quality.
-  - id: R5_no_calibration
-    logic: Emit CALIBRATION_REQUIRED or INSUFFICIENT_EVIDENCE when parameter values have not been supplied by a
-      later calibration artifact.
+  - id: R1_magnetism
+    logic: Emit LEVEL_MAGNETISM_CONTEXT when price behavior shows calibrated drift toward an untested reference,
+      poor extreme, or other declared auction magnet.
+  - id: R2_front_run
+    logic: Emit LEVEL_FRONT_RUN_CONTEXT when reaction begins ahead of the reference inside the calibrated proximity
+      window.
+  - id: R3_overshoot
+    logic: Emit LEVEL_OVERSHOOT_CONTEXT when price briefly breaches the level and reacts without accepted activity
+      beyond it.
+  - id: R4_decay
+    logic: Emit LEVEL_DECAY_EVIDENCE when repeated tests show calibrated weakening in reaction quality.
+  - id: R5_strengthening
+    logic: Emit LEVEL_STRENGTHENED_AFTER_REJECTION when a clean rejection improves next-test credibility; missing
+      test history emits TEST_HISTORY_REQUIRED.
   determinism_note: Registry and matrix class is CALIBRATED. Later work must not promote this spec beyond that class
     without governance review.
 decision_logic:
-  summary: Evaluate Level Magnetism & Decay using declared feeds, class-safe state logic, missing-feed behavior,
-    and non-executional output boundaries.
+  summary: P19-hardened evaluation for Level Magnetism & Decay using concept-specific states, feed-explicit evidence,
+    class-preserving calibration/refusal behavior, and non-executional outputs.
   steps:
-  - Validate required feeds, session definitions, and data freshness.
-  - Collect the declared structural, contextual, and quality evidence for the concept.
-  - Apply the class-appropriate rule structure with all calibration values unset until later calibration artifacts
-    provide them.
-  - Use optional inputs only to strengthen, weaken, or downgrade confidence; never assume missing evidence exists.
-  - Emit bounded evidence, context, confidence, review, or refusal labels only.
+  - Validate the structural level, prior test history, price sequence, and feed health.
+  - Classify magnetism, front-run, overshoot, decay, or strengthening from calibrated proximity, test, and reaction-quality
+    features.
+  - Use volume and prior test history to refine confidence only; missing history blocks decay claims.
+  - Preserve stop-cluster language as inferred context, not direct observation.
+  - Emit level-relevance states only and never predict that a level must break.
   output_boundary: Outputs are read-quality, evidence, context, confidence, review, or refusal labels only.
 calibration_parameters:
 - name: level_magnetism_and_decay_classification_requirement
@@ -191,10 +199,10 @@ confidence_rules:
   - price_sequence
   - feed_quality_and_scope_status
   downgrade_when:
-  - Optional confirmation feeds are absent.
-  - Calibration is required but unavailable or stale.
-  - Required feeds support only structure, not participant intent or thesis quality.
-  - Evidence conflicts across structural, tape, catalyst, intermarket, volatility, thesis, or setup-quality layers.
+  - Prior test history is unavailable.
+  - Volume confirmation is missing.
+  - Reaction quality is mixed across tests.
+  - Level source or session scope is uncertain.
   refuse_when:
   - Required feeds are missing, stale, malformed, or out of scope.
   - The requested output requires unavailable external feeds or direct participant intent.
@@ -207,11 +215,13 @@ refusal_conditions:
 - The requested output would imply trade permission, entry, exit, stop, target, sizing, broker/order/account/fill/P&L
   behavior, or autonomous action.
 output_labels:
-- LEVEL_MAGNETISM_AND_DECAY_CONTEXT
-- LEVEL_MAGNETISM_AND_DECAY_CONFIRMED
-- LEVEL_MAGNETISM_AND_DECAY_NOT_CONFIRMED
-- LEVEL_MAGNETISM_AND_DECAY_REVIEW_REQUIRED
-- CALIBRATION_REQUIRED
+- LEVEL_MAGNETISM_CONTEXT
+- LEVEL_FRONT_RUN_CONTEXT
+- LEVEL_OVERSHOOT_CONTEXT
+- LEVEL_DECAY_EVIDENCE
+- LEVEL_STRENGTHENED_AFTER_REJECTION
+- TEST_HISTORY_REQUIRED
+- DECAY_CONFIDENCE_DEGRADED
 - INSUFFICIENT_EVIDENCE
 - OBSERVED
 - NOT_OBSERVED
@@ -220,7 +230,15 @@ output_labels:
 - DEGRADED_CONFIDENCE
 - CONTEXT_ONLY
 - REFUSE_TO_CLASSIFY
-states_emitted: *id001
+states_emitted:
+- LEVEL_MAGNETISM_CONTEXT
+- LEVEL_FRONT_RUN_CONTEXT
+- LEVEL_OVERSHOOT_CONTEXT
+- LEVEL_DECAY_EVIDENCE
+- LEVEL_STRENGTHENED_AFTER_REJECTION
+- TEST_HISTORY_REQUIRED
+- DECAY_CONFIDENCE_DEGRADED
+- INSUFFICIENT_EVIDENCE
 allowed_action_labels:
 - OBSERVE
 - MONITOR_FOR_CONFIRMATION
@@ -230,22 +248,20 @@ allowed_action_labels:
 - INSUFFICIENT_EVIDENCE
 - REFUSE_TO_CLASSIFY
 false_positive_risks:
-- Treating context as a stronger detector than the registry class allows.
-- Assuming optional feeds are present when they are missing.
-- Using wrong product/session/timeframe/regime calibration.
-- Confusing participant behavior inference with directly observed intent.
-- Interpreting a non-executional label as an action instruction.
+- Treating repeated tests as automatic future breakage.
+- Inferring hidden stop clusters as observed fact.
+- Applying the same decay calibration across products or regimes.
+- Confusing front-running with actual level acceptance.
+- Treating calibrated evidence as deterministic truth rather than calibrated state support.
 false_negative_risks:
-- Over-refusing when structural evidence is clean but optional context is unavailable.
-- Missing a valid provisional read because evidence is distributed across several feeds.
-- Ignoring source-chapter context that narrows the concept boundary.
-- Treating missing calibration as absence of the phenomenon rather than insufficient evidence.
+- Over-refusing when core structural evidence is present but optional feeds are absent.
+- Missing a valid weaker state because calibrated confirmation is unavailable.
+- Treating missing calibration as proof that the concept is absent.
 failure_modes:
-- Feed outage, delayed feed, or stale feed-quality status.
-- Bad session calendar, event calendar, or reference-level construction.
-- Malformed profile, order-flow, cross-asset, catalyst, positioning, or thesis-state input.
-- Stale or wrong-scope calibration after regime change.
-- Implementation emits a label stronger than the registry determinism class allows.
+- Treating repeated tests as automatic future breakage.
+- Inferring hidden stop clusters as observed fact.
+- Applying the same decay calibration across products or regimes.
+- Confusing front-running with actual level acceptance.
 validation_requirements:
 - YAML parses as a mapping and includes all schema-required fields.
 - concept_id exists in spec/concept_registry.yaml and determinism_class matches registry and matrix.
@@ -254,23 +270,26 @@ validation_requirements:
 - No numeric thresholds or calibration values are introduced in the spec.
 - Human review confirms the output remains actionable in judgment and non-executional in instruction.
 test_cases:
-- name: supported_label_path
-  given: All required feeds are present, fresh, synchronized, and scoped to the concept.
-  expect: LEVEL_MAGNETISM_AND_DECAY_CONTEXT
-- name: unsupported_or_unconfirmed_path
-  given: Required feeds are present but concept evidence is incomplete, conflicted, or below class-safe support.
-  expect: REVIEW_REQUIRED, INSUFFICIENT_EVIDENCE, or the concept-specific not-confirmed/context label.
+- name: magnetism_path
+  given: Price drifts toward an untested poor extreme with calibrated proximity behavior.
+  expect: LEVEL_MAGNETISM_CONTEXT
+- name: decay_path
+  given: Repeated tests show progressively weaker rejection response.
+  expect: LEVEL_DECAY_EVIDENCE
+- name: missing_history_path
+  given: Current level test exists but prior test history is missing.
+  expect: TEST_HISTORY_REQUIRED
 - name: missing_required_feed_path
-  given: At least one required feed is absent, stale, malformed, or out of scope.
+  given: A required feed or context input is missing, stale, malformed, or out of scope.
   expect: REFUSE_TO_CLASSIFY
-- name: missing_optional_feed_path
-  given: Required feeds are present but optional confirmation feeds are unavailable.
+- name: missing_optional_feed_downgrade_path
+  given: Required evidence is present but optional confirmation evidence is unavailable.
   expect: DEGRADED_CONFIDENCE
 - name: executional_output_guard
   given: Caller requests trade permission, entry, exit, stop, target, sizing, broker/order/account/fill/P&L behavior,
     or autonomous action.
   expect: REFUSE_TO_CLASSIFY
-prohibited_outputs: &id002
+prohibited_outputs: &id001
 - trade_permission
 - entry_instruction
 - exit_instruction
@@ -283,7 +302,9 @@ prohibited_outputs: &id002
 - account_instruction
 - fill_or_pnl_instruction
 - autonomous_trade_call
-forbidden_outputs: *id002
+forbidden_outputs: *id001
 review_status: DRAFT
-notes: P18 complete-remaining spec generated from registry concept ch02_level_magnetism_and_decay and matrix row
+notes: 'P18 complete-remaining spec generated from registry concept ch02_level_magnetism_and_decay and matrix row
   for Level Magnetism & Decay. It creates no thresholds, calibration profiles, detector code, or executional outputs.
+  P19 hardened: generic P18 states/rules were replaced with concept-specific labels, refusal tests, downgrade behavior,
+  and class-preserving boundaries.'

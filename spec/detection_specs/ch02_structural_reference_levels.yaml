@@ -1,219 +1,226 @@
 spec_id: ch02_structural_reference_levels
 concept_id: ch02_structural_reference_levels
-concept_name: "Structural Reference Levels"
-
+concept_name: Structural Reference Levels
 chapter:
   chapter_number: 2
-  chapter_title: "Level Interaction & Acceptance"
-  glossary_path: "glossary/chapter_02_level_interaction_acceptance.md"
-
+  chapter_title: Level Interaction & Acceptance
+  glossary_path: glossary/chapter_02_level_interaction_acceptance.md
 determinism_class: COMPUTABLE
-
 semantic_source:
-  glossary_path: "glossary/chapter_02_level_interaction_acceptance.md"
-  concept_heading: "Structural Reference Levels"
-  doctrine_summary: >
-    A structural reference level is a price the market itself marked as significant through real
-    auction activity, not a line drawn on a chart. The canonical set is prior-day high and low,
-    prior-day value (VAH/VAL/POC), overnight high and low, the RTH open, Initial Balance high and
-    low, and significant swing pivots. A level matters because of what traded there. Which
-    references deserve the most weight in a given session is a judgment overlay and is out of
-    scope for this spec.
+  glossary_path: glossary/chapter_02_level_interaction_acceptance.md
+  concept_heading: Structural Reference Levels
+  doctrine_summary: 'A structural reference level is a price the market itself marked as significant through real
+    auction activity, not a line drawn on a chart. The canonical set is prior-day high and low, prior-day value
+    (VAH/VAL/POC), overnight high and low, the RTH open, Initial Balance high and low, and significant swing pivots.
+    A level matters because of what traded there. Which references deserve the most weight in a given session is
+    a judgment overlay and is out of scope for this spec.
 
-purpose: >
-  Publish the lattice of market-made structural reference levels in scope for a session as
-  computable context for downstream level-interaction reads. This spec classifies which reference
-  prices exist and are in scope and reports each as observed or not observed; it does not classify
-  how price behaves at any level and does not assign significance weighting.
+    '
+purpose: 'Publish the lattice of market-made structural reference levels in scope for a session as computable context
+  for downstream level-interaction reads. This spec classifies which reference prices exist and are in scope and
+  reports each as observed or not observed; it does not classify how price behaves at any level and does not assign
+  significance weighting.
 
-non_executional_boundary: >
-  This spec emits semantic market-read context labels only. It never emits trade permission, entry,
-  exit, stop, target, position-sizing, add or reduce, broker, order, account, fill, or P&L
-  instructions, and never an autonomous trade call. It publishes reference prices as context; the
-  reaction at a reference is specified by other concepts (Acceptance vs. Rejection, Break Quality).
+  '
+non_executional_boundary: 'This spec emits semantic market-read context labels only. It never emits trade permission,
+  entry, exit, stop, target, position-sizing, add or reduce, broker, order, account, fill, or P&L instructions,
+  and never an autonomous trade call. It publishes reference prices as context; the reaction at a reference is specified
+  by other concepts (Acceptance vs. Rejection, Break Quality).
 
+  '
 required_inputs:
-  - name: session_clock
-    source: calendar/session_definition_module
-    granularity: session
-    session_dependency: "Defines RTH and overnight/Globex session boundaries for the instrument."
-    absence_behavior: REFUSE_TO_CLASSIFY
-  - name: current_session_bars
-    source: market_data
-    granularity: intraday_1m_or_finer
-    session_dependency: "Current session; must cover the RTH open and the Initial Balance window."
-    absence_behavior: REFUSE_TO_CLASSIFY
-  - name: prior_session_bars
-    source: market_data
-    granularity: intraday_1m_or_finer
-    session_dependency: "Prior RTH session and the intervening overnight/Globex session."
-    absence_behavior: "DEGRADED_CONFIDENCE: omit prior-session and overnight references; still publish available current-session references."
-
+- name: session_clock
+  source: calendar/session_definition_module
+  granularity: session
+  session_dependency: Defines RTH and overnight/Globex session boundaries for the instrument.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: current_session_bars
+  source: market_data
+  granularity: intraday_1m_or_finer
+  session_dependency: Current session; must cover the RTH open and the Initial Balance window.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: prior_session_bars
+  source: market_data
+  granularity: intraday_1m_or_finer
+  session_dependency: Prior RTH session and the intervening overnight/Globex session.
+  absence_behavior: 'DEGRADED_CONFIDENCE: omit prior-session and overnight references; still publish available current-session
+    references.'
 optional_inputs:
-  - name: market_profile_or_volume_at_price
-    source: profile_module
-    granularity: session
-    purpose: "Required only to derive prior-day value references (VAH/VAL/POC); see ch03_value_area_vah_val_poc."
-    absence_behavior: "Omit prior-day value references; do not approximate them from bars."
-  - name: swing_pivot_definition
-    source: structural_reference_module
-    granularity: configuration
-    purpose: "A defined pivot rule needed to publish significant swing-pivot references."
-    absence_behavior: "Omit swing-pivot references rather than guess them."
-
+- name: market_profile_or_volume_at_price
+  source: profile_module
+  granularity: session
+  purpose: Required only to derive prior-day value references (VAH/VAL/POC); see ch03_value_area_vah_val_poc.
+  absence_behavior: Omit prior-day value references; do not approximate them from bars.
+- name: swing_pivot_definition
+  source: structural_reference_module
+  granularity: configuration
+  purpose: A defined pivot rule needed to publish significant swing-pivot references.
+  absence_behavior: Omit swing-pivot references rather than guess them.
 unavailable_input_behavior:
   missing_required_input: REFUSE_TO_CLASSIFY
   missing_prior_session_bars: DEGRADED_CONFIDENCE
-  missing_profile_data: "CONTEXT_ONLY for value references only: omit VAH/VAL/POC references; other references unaffected."
-  missing_swing_pivot_definition: "Omit swing-pivot references; remainder of lattice still published."
+  missing_profile_data: 'CONTEXT_ONLY for value references only: omit VAH/VAL/POC references; other references unaffected.'
+  missing_swing_pivot_definition: Omit swing-pivot references; remainder of lattice still published.
   stale_or_low_quality_bars: DEGRADED_CONFIDENCE
-
 detection_scope:
   allowed_to_classify:
-    - "Existence and price of each canonical structural reference for the in-scope instrument and session."
-    - "Per-reference availability state (observed / not observed) given the feeds present."
+  - Existence and price of each canonical structural reference for the in-scope instrument and session.
+  - Per-reference availability state (observed / not observed) given the feeds present.
   not_allowed_to_classify:
-    - "How price behaves at any reference (acceptance, rejection, break, sweep) — out of scope."
-    - "Relative significance or priority ranking of references — judgment overlay, out of scope."
-    - "Drawn trendlines, round numbers as primary references, or analyst-marked levels."
-  instrument_scope: "Single instrument; references are not transferable across instruments."
-  session_scope: "Per-session; references are recomputed each session from that session's clock and bars."
-  timeframe_scope: "Intraday reference lattice; higher-timeframe references are out of scope for this spec."
-  regime_scope: "Regime-independent; the lattice is structural, not regime-conditional."
-
+  - "How price behaves at any reference (acceptance, rejection, break, sweep) \u2014 out of scope."
+  - "Relative significance or priority ranking of references \u2014 judgment overlay, out of scope."
+  - Drawn trendlines, round numbers as primary references, or analyst-marked levels.
+  instrument_scope: Single instrument; references are not transferable across instruments.
+  session_scope: Per-session; references are recomputed each session from that session's clock and bars.
+  timeframe_scope: Intraday reference lattice; higher-timeframe references are out of scope for this spec.
+  regime_scope: Regime-independent; the lattice is structural, not regime-conditional.
 evidence_model:
   evidence_categories:
-    - name: prior_day_extremes
-      observations: ["prior_day_high", "prior_day_low"]
-      derivation: "Max/min of prior RTH session bars."
-    - name: overnight_extremes
-      observations: ["overnight_high", "overnight_low"]
-      derivation: "Max/min of the intervening overnight/Globex session bars."
-    - name: session_open
-      observations: ["rth_open_price"]
-      derivation: "First traded price of the current RTH session per the session clock."
-    - name: initial_balance_extremes
-      observations: ["ib_high", "ib_low"]
-      derivation: "Max/min of the Initial Balance window (see ch03_initial_balance); cross-referenced, not redefined here."
-    - name: prior_day_value
-      observations: ["prior_vah", "prior_val", "prior_poc"]
-      derivation: "Cross-referenced from ch03_value_area_vah_val_poc; requires profile data."
-    - name: swing_pivots
-      observations: ["significant_swing_pivot"]
-      derivation: "Pivot points produced by the supplied swing-pivot definition that previously produced clear rejection or acceptance."
+  - name: prior_day_extremes
+    observations:
+    - prior_day_high
+    - prior_day_low
+    derivation: Max/min of prior RTH session bars.
+  - name: overnight_extremes
+    observations:
+    - overnight_high
+    - overnight_low
+    derivation: Max/min of the intervening overnight/Globex session bars.
+  - name: session_open
+    observations:
+    - rth_open_price
+    derivation: First traded price of the current RTH session per the session clock.
+  - name: initial_balance_extremes
+    observations:
+    - ib_high
+    - ib_low
+    derivation: Max/min of the Initial Balance window (see ch03_initial_balance); cross-referenced, not redefined
+      here.
+  - name: prior_day_value
+    observations:
+    - prior_vah
+    - prior_val
+    - prior_poc
+    derivation: Cross-referenced from ch03_value_area_vah_val_poc; requires profile data.
+  - name: swing_pivots
+    observations:
+    - significant_swing_pivot
+    derivation: Pivot points produced by the supplied swing-pivot definition that previously produced clear rejection
+      or acceptance.
   evidence_states:
     supported:
-      - OBSERVED: "The reference is computable from available feeds and is published with its price."
-      - NOT_OBSERVED: "The reference is in scope but its required feed is absent; it is omitted, not approximated."
+    - OBSERVED: The reference is computable from available feeds and is published with its price.
+    - NOT_OBSERVED: The reference is in scope but its required feed is absent; it is omitted, not approximated.
     unsupported:
-      - "Any inferred significance ranking."
-      - "Any reference derived from drawn chart geometry rather than traded activity."
-
+    - Any inferred significance ranking.
+    - Any reference derived from drawn chart geometry rather than traded activity.
 rule_structure:
   type: direct_computation
-  description: >
-    Each canonical reference is computed by a direct mathematical or session-clock operation on the
-    declared feeds. No thresholds are involved; a reference is either computable from present feeds
-    (OBSERVED) or omitted (NOT_OBSERVED).
+  description: 'Each canonical reference is computed by a direct mathematical or session-clock operation on the
+    declared feeds. No thresholds are involved; a reference is either computable from present feeds (OBSERVED) or
+    omitted (NOT_OBSERVED).
+
+    '
   rules:
-    - id: R1_prior_day_extremes
-      logic: "prior_day_high = max(high) over prior RTH session bars; prior_day_low = min(low) over the same."
-    - id: R2_overnight_extremes
-      logic: "overnight_high = max(high) over the overnight/Globex session bars; overnight_low = min(low) over the same."
-    - id: R3_session_open
-      logic: "rth_open_price = first traded price at or after the RTH session start defined by session_clock."
-    - id: R4_initial_balance
-      logic: "ib_high and ib_low are taken from ch03_initial_balance for the current session; this spec references, it does not recompute."
-    - id: R5_prior_day_value
-      logic: "prior_vah, prior_val, prior_poc are taken from ch03_value_area_vah_val_poc for the prior session; published only if profile data exists."
-    - id: R6_swing_pivots
-      logic: "Swing-pivot references are emitted only where the supplied swing_pivot_definition produces them; this spec does not define the pivot rule."
-  output_assembly: "Publish the set of OBSERVED references with prices, plus the set of NOT_OBSERVED references with the reason each was omitted."
-
+  - id: R1_prior_day_extremes
+    logic: prior_day_high = max(high) over prior RTH session bars; prior_day_low = min(low) over the same.
+  - id: R2_overnight_extremes
+    logic: overnight_high = max(high) over the overnight/Globex session bars; overnight_low = min(low) over the
+      same.
+  - id: R3_session_open
+    logic: rth_open_price = first traded price at or after the RTH session start defined by session_clock.
+  - id: R4_initial_balance
+    logic: ib_high and ib_low are taken from ch03_initial_balance for the current session; this spec references,
+      it does not recompute.
+  - id: R5_prior_day_value
+    logic: prior_vah, prior_val, prior_poc are taken from ch03_value_area_vah_val_poc for the prior session; published
+      only if profile data exists.
+  - id: R6_swing_pivots
+    logic: Swing-pivot references are emitted only where the supplied swing_pivot_definition produces them; this
+      spec does not define the pivot rule.
+  output_assembly: Publish the set of OBSERVED references with prices, plus the set of NOT_OBSERVED references with
+    the reason each was omitted.
 calibration_parameters:
-  - name: none_market_threshold
-    value: null
-    status: not_applicable
-    description: "This concept is definitional and computable; it has no calibrated market thresholds."
-  - name: ib_window_definition
-    value: "first two 30-minute periods of RTH"
-    status: convention_inherited
-    calibration_scope: "Inherited from ch03_initial_balance; product/session convention, not a calibrated market threshold."
-    description: "Session convention used only to locate the Initial Balance reference; defined by the Initial Balance spec."
-  - name: swing_pivot_rule
-    value: null
-    status: external_definition_required
-    calibration_scope: instrument_timeframe
-    description: "The swing-pivot identification rule is an external structural-reference definition, not a market threshold; values are out of scope here."
-
+- name: none_market_threshold
+  value: null
+  status: not_applicable
+  description: This concept is definitional and computable; it has no calibrated market thresholds.
+- name: ib_window_definition
+  value: first two 30-minute periods of RTH
+  status: convention_inherited
+  calibration_scope: Inherited from ch03_initial_balance; product/session convention, not a calibrated market threshold.
+  description: Session convention used only to locate the Initial Balance reference; defined by the Initial Balance
+    spec.
+- name: swing_pivot_rule
+  value: null
+  status: external_definition_required
+  calibration_scope: instrument_timeframe
+  description: The swing-pivot identification rule is an external structural-reference definition, not a market
+    threshold; values are out of scope here.
 confidence_behavior:
-  full_confidence: "All required feeds present and current; each in-scope reference is either OBSERVED with a price or explicitly NOT_OBSERVED."
+  full_confidence: All required feeds present and current; each in-scope reference is either OBSERVED with a price
+    or explicitly NOT_OBSERVED.
   degraded_confidence_triggers:
-    - "Prior-session or overnight bars missing: prior-day and overnight references omitted."
-    - "Profile data missing: prior-day value references omitted."
-    - "Bars stale or low quality: references published with a DEGRADED_CONFIDENCE flag."
-  no_binary_certainty_claim: "The spec reports reference existence and price only; it never claims a reference will hold or break."
-
+  - 'Prior-session or overnight bars missing: prior-day and overnight references omitted.'
+  - 'Profile data missing: prior-day value references omitted.'
+  - 'Bars stale or low quality: references published with a DEGRADED_CONFIDENCE flag.'
+  no_binary_certainty_claim: The spec reports reference existence and price only; it never claims a reference will
+    hold or break.
 refusal_conditions:
-  - "session_clock is missing or cannot define RTH/overnight boundaries."
-  - "current_session_bars are missing or do not cover the RTH open."
-  - "Session boundaries are ambiguous (for example, an unrecognized holiday or shortened session)."
-  - "Bar data is internally inconsistent (for example, high < low) such that extremes cannot be trusted."
-
+- session_clock is missing or cannot define RTH/overnight boundaries.
+- current_session_bars are missing or do not cover the RTH open.
+- Session boundaries are ambiguous (for example, an unrecognized holiday or shortened session).
+- Bar data is internally inconsistent (for example, high < low) such that extremes cannot be trusted.
 output_labels:
-  - OBSERVED
-  - NOT_OBSERVED
-  - CONTEXT_ONLY
-  - DEGRADED_CONFIDENCE
-  - INSUFFICIENT_EVIDENCE
-  - REFUSE_TO_CLASSIFY
-
+- OBSERVED
+- NOT_OBSERVED
+- CONTEXT_ONLY
+- DEGRADED_CONFIDENCE
+- INSUFFICIENT_EVIDENCE
+- REFUSE_TO_CLASSIFY
 false_positive_risks:
-  - "Publishing a reference from an incorrect session definition (for example, a wrong holiday calendar) so the price is real but mislabeled."
-  - "Treating a thin overnight extreme as equivalent in quality to an RTH extreme; this spec publishes the price but must not imply equal weight."
-  - "Substituting a simple-average or bar-derived value when profile data is absent instead of omitting value references."
-
+- Publishing a reference from an incorrect session definition (for example, a wrong holiday calendar) so the price
+  is real but mislabeled.
+- Treating a thin overnight extreme as equivalent in quality to an RTH extreme; this spec publishes the price but
+  must not imply equal weight.
+- Substituting a simple-average or bar-derived value when profile data is absent instead of omitting value references.
 false_negative_risks:
-  - "Omitting a valid reference because prior-session bar history was incomplete."
-  - "Failing to publish swing-pivot references because no pivot definition was supplied, leaving a real reference invisible to downstream specs."
-  - "Missing the true RTH open when first-print data is delayed or filtered."
-
+- Omitting a valid reference because prior-session bar history was incomplete.
+- Failing to publish swing-pivot references because no pivot definition was supplied, leaving a real reference invisible
+  to downstream specs.
+- Missing the true RTH open when first-print data is delayed or filtered.
 failure_modes:
-  - "Feed outage for current or prior session bars."
-  - "Incorrect or stale session/holiday calendar producing wrong session boundaries."
-  - "Roll or contract-change distortions blending two contracts' price history."
-  - "Profile feed gaps causing value references to silently disappear."
-  - "Instrument or session mismatch (references from one product applied to another)."
-
+- Feed outage for current or prior session bars.
+- Incorrect or stale session/holiday calendar producing wrong session boundaries.
+- Roll or contract-change distortions blending two contracts' price history.
+- Profile feed gaps causing value references to silently disappear.
+- Instrument or session mismatch (references from one product applied to another).
 validation_requirements:
-  - "Replay sessions with complete feeds and confirm computed PDH/PDL/ONH/ONL/open/IB match an independent reference computation."
-  - "Confirm that missing prior-session bars yield DEGRADED_CONFIDENCE with prior references omitted, not approximated."
-  - "Confirm that missing profile data omits value references rather than substituting bar-derived proxies."
-  - "Confirm refusal on ambiguous or shortened sessions and on internally inconsistent bars."
-  - "Audit that no significance ranking or behavioral label is ever emitted."
-
-prohibited_outputs:
-  - trade_permission
-  - entry_instruction
-  - exit_instruction
-  - stop_instruction
-  - target_instruction
-  - position_sizing_instruction
-  - add_or_reduce_instruction
-  - broker_action
-  - order_action
-  - account_instruction
-  - fill_or_pnl_instruction
-  - autonomous_trade_call
-
+- Replay sessions with complete feeds and confirm computed PDH/PDL/ONH/ONL/open/IB match an independent reference
+  computation.
+- Confirm that missing prior-session bars yield DEGRADED_CONFIDENCE with prior references omitted, not approximated.
+- Confirm that missing profile data omits value references rather than substituting bar-derived proxies.
+- Confirm refusal on ambiguous or shortened sessions and on internally inconsistent bars.
+- Audit that no significance ranking or behavioral label is ever emitted.
+prohibited_outputs: &id001
+- trade_permission
+- entry_instruction
+- exit_instruction
+- stop_instruction
+- target_instruction
+- position_sizing_instruction
+- add_or_reduce_instruction
+- broker_action
+- order_action
+- account_instruction
+- fill_or_pnl_instruction
+- autonomous_trade_call
 review_status: DRAFT
-
-notes: >
-  P14 first-wave draft spec. Scope is deliberately the reference lattice only; level interaction is
-  specified separately by ch02_acceptance_vs_rejection and related concepts. Value references are
-  cross-referenced to ch03_value_area_vah_val_poc and Initial Balance references to
-  ch03_initial_balance to avoid redefining shared computations. Significance weighting of references
-  is a judgment overlay deferred to a later judgment-assisted spec. The schema review_status enum
-  does not contain a P14-specific value; DRAFT is used per the schema enum, and this note records the
-  P14 first-wave provenance. No calibration values are set because the concept is computable and
-  definitional.
+notes: "P14 first-wave draft spec. Scope is deliberately the reference lattice only; level interaction is specified\
+  \ separately by ch02_acceptance_vs_rejection and related concepts. Value references are cross-referenced to ch03_value_area_vah_val_poc\
+  \ and Initial Balance references to ch03_initial_balance to avoid redefining shared computations. Significance\
+  \ weighting of references is a judgment overlay deferred to a later judgment-assisted spec. The schema review_status\
+  \ enum does not contain a P14-specific value; DRAFT is used per the schema enum, and this note records the P14\
+  \ first-wave provenance. No calibration values are set because the concept is computable and definitional.\n P19\
+  \ hardened: added forbidden_outputs alias for validation and machine-checkable non-executional boundary."
+forbidden_outputs: *id001
