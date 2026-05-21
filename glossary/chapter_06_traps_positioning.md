@@ -95,7 +95,7 @@ The read weakens when price pauses but does not violate the trapped side’s pre
 
 ### Detection Readiness
 
-**Initial class: JUDGMENT_ASSISTED.**
+**JUDGMENT_ASSISTED.**
 
 - **Required feeds or evidence:** structural levels, price sequence, level interaction, value behavior, and preferably tape or delta evidence.
 - **Missing-feed behavior:** without tape, delta, or profile evidence, the system should treat the trap read as lower-confidence context rather than a confirmed condition.
@@ -108,7 +108,7 @@ The read weakens when price pauses but does not violate the trapped side’s pre
 
 ### See Also
 
-Acceptance vs. Rejection; Breakout Continuation vs. Breakout Failure; Liquidity Sweep vs. Real Break; Mechanical Levels & Obvious Traps; Failed Auctions; Fresh Flow vs. Weak/Strong Hands; Sweeps Through Liquidity; Cumulative Delta & Delta Divergence; Context vs. Execution Permission
+Acceptance vs. Rejection; Breakout Continuation vs. Breakout Failure; Liquidity Sweep vs. Real Break; Mechanical Levels & Obvious Traps; Completed, Failed & Unfinished Auctions; Fresh Flow vs. Weak/Strong Hands; Sweeps Through Liquidity; Cumulative Delta & Delta Divergence; Context vs. Execution Permission
 
 ---
 
@@ -146,8 +146,8 @@ Strong-hand defense is also not automatically bullish or bearish. A strong long 
 6. Repeated defense can become fragile if each test consumes more liquidity and produces weaker response.
 7. A strong defense that finally fails can create outsized movement because the market had built around that defense.
 8. Strong-hand reads require caution when tape quality is poor. Thin tape can mimic defense when the real issue is lack of participation.
-9. While a defense is holding, lean with the defenders, not against them. Use the defended reference as a place to join in the defenders' direction, with invalidation defined around acceptance through the level.
-10. Do not lean against a level that strong hands are actively defending — pressing into absorbing size is how good reads become losing trades. Once the defended reference fails and is not reclaimed, the read flips: take the other side, because positions built around that defense must now unwind.
+9. While a defense is holding, the defended-side read has higher quality than the attack against it. The defended reference becomes the key information point, with invalidation defined around acceptance through the level.
+10. Active defense by strong hands downgrades opposing continuation reads because pressure is being absorbed rather than rewarded. Once the defended reference fails and is not reclaimed, the defense read is invalidated and unwind pressure from positions built around that defense becomes the dominant read.
 
 ### How Traders Identify It
 
@@ -199,7 +199,7 @@ The read is invalidated when the defended reference breaks, accepts beyond the l
 
 ### Detection Readiness
 
-**Initial class: JUDGMENT_ASSISTED.**
+**JUDGMENT_ASSISTED.**
 
 - **Required feeds or evidence:** structural level behavior, repeated test quality, value behavior, and ideally tape evidence such as absorption, delta, or DOM.
 - **Missing-feed behavior:** without DOM or footprint, do not claim passive defense directly. Describe only the observable result: repeated failure to accept beyond the defended area.
@@ -212,7 +212,7 @@ The read is invalidated when the defended reference breaks, accepts beyond the l
 
 ### See Also
 
-Fresh Flow vs. Weak/Strong Hands; Acceptance vs. Rejection; Level Test Sequence; Level Magnetism & Decay; Absorption; Refreshing Liquidity; Cumulative Delta & Delta Divergence; Trade-Working Diagnosis
+Fresh Flow vs. Weak/Strong Hands; Acceptance vs. Rejection; Level Test Sequence; Level Magnetism & Decay; Absorption; Refreshing Liquidity; Cumulative Delta & Delta Divergence; Active Trade State vs. Market Thesis State
 
 ---
 
@@ -250,8 +250,8 @@ The critical distinction is forced flow versus genuine initiative. A liquidation
 6. A cascade into a major reference can create exhaustion rather than continuation.
 7. Liquidation conditions can make normal invalidation references unreliable in real time because price may overshoot before stabilizing.
 8. The clean read comes after the cascade: does the market accept the new area, or did it simply flush inventory?
-9. Do not fade a cascade while it is still running — standing in front of forced flow before it exhausts is a low-quality trade. Do not chase it late into the air pocket either; the easy travel is already gone.
-10. Wait for the flush to complete and use the post-flush reaction as the information point. If the cascade stalls at a reference with absorption and cannot extend, that is a candidate to take the other side. If the market instead builds value in the new area, lean with the continuation.
+9. A running cascade is a forced-flow condition, so opposing it before exhaustion and treating late air-pocket travel as fresh edge are both low-quality reads.
+10. The post-flush reaction is the key information point. If the cascade stalls at a reference with absorption and cannot extend, value-repair or opposing-read quality improves; if the market builds value in the new area, continuation quality improves instead.
 
 ### How Traders Identify It
 
@@ -303,7 +303,7 @@ The forced-flow read is invalidated when the market builds stable value in the n
 
 ### Detection Readiness
 
-**Initial class: CALIBRATED.**
+**CALIBRATED.**
 
 - **Required feeds or evidence:** price sequence, structural levels, volatility/velocity behavior, volume, session state, and preferably tick or tape data.
 - **Missing-feed behavior:** without tape or depth, a detector can identify cascade-like price behavior but should not assert true liquidation or stop execution.
@@ -316,7 +316,7 @@ The forced-flow read is invalidated when the market builds stable value in the n
 
 ### See Also
 
-Liquidity Sweep vs. Real Break; Sweeps Through Liquidity; Volume Nodes & Air Pockets; Long-Liquidation Auctions; Short-Covering Rally; Tape Quality Spectrum; Volatility Expansion; Execution Environment Quality
+Liquidity Sweep vs. Real Break; Sweeps Through Liquidity; Volume Nodes & Air Pockets; Short-Covering vs. Long-Liquidation Auctions; Short-Covering Rally; Tape Quality Spectrum; Expansion Outcomes; Execution Environment Quality & Veto
 
 ---
 
@@ -352,8 +352,8 @@ Short covering is not bearish by itself. It can be the first phase of a larger b
 6. If the rally accepts above the reclaimed level and builds value, covering may have transitioned into initiative buying.
 7. Short-covering context can explain speed, but it should not authorize chasing late location.
 8. The best information often comes after the first covering burst, when the market reveals whether fresh demand exists.
-9. Do not fade a short-covering rally while the squeeze is still running — leaning against forced buying before it exhausts is the classic way to get run over.
-10. Once the obvious shorts are forced out and the rally stalls without fresh demand, the move becomes a fade candidate back toward value. If instead price accepts above the reclaimed level and builds value, abandon the fade and lean with the buyers — covering has handed off to initiative.
+9. A short-covering rally remains dangerous to oppose while the squeeze is still running because forced buying has not yet exhausted.
+10. Once the obvious shorts are forced out and the rally stalls without fresh demand, value-repair risk increases. If price accepts above the reclaimed level and builds value, the covering read should be replaced by an initiative-buying read.
 
 ### How Traders Identify It
 
@@ -405,7 +405,7 @@ The read is invalidated as a primary explanation when the market builds sustaine
 
 ### Detection Readiness
 
-**Initial class: JUDGMENT_ASSISTED.**
+**JUDGMENT_ASSISTED.**
 
 - **Required feeds or evidence:** failed breakdown/reclaim sequence, structural levels, price behavior, value behavior, and preferably tape or delta.
 - **Missing-feed behavior:** without positioning data, label as inferred short-covering context, not confirmed participant behavior.
@@ -418,7 +418,7 @@ The read is invalidated as a primary explanation when the market builds sustaine
 
 ### See Also
 
-Trapped Traders; Stop-Out Cascades & Liquidation; Short-Covering vs. Long-Liquidation Auctions; Breakout Failure; Polarity Flip; Value Migration & Overlap; Chasing vs. Pressing; Tape vs. Narrative
+Trapped Traders; Stop-Out Cascades & Liquidation; Short-Covering vs. Long-Liquidation Auctions; Breakout Continuation vs. Breakout Failure; Polarity Flip; Value Migration & Overlap; Chasing vs. Pressing; Tape vs. Narrative
 
 ---
 
@@ -456,8 +456,8 @@ Auction-created trapped positioning occurs when the market itself manufactures t
 6. Pain-trade context is not execution permission. It is a warning about asymmetric vulnerability.
 7. Watch the first failure after consensus forms. That is often where the unwind starts.
 8. A positioning unwind can dominate news, valuation, or macro logic for a period of time.
-9. Do not fade a crowded trade mechanically simply because it is crowded — crowding can persist while fresh flow keeps arriving. Wait for the consensus trade to fail at the exact level where it needed confirmation.
-10. Once the consensus side fails there, the pain trade is the higher-probability side to lean with: take the other side as trapped consensus participants are forced to unwind.
+9. Crowding alone is not enough to support an opposing read because crowded trades can persist while fresh flow keeps arriving. The key evidence is failure of the consensus trade at the exact level where it needed confirmation.
+10. Once the consensus side fails there, the pain-trade read strengthens because trapped consensus participants are forced to unwind.
 
 ### How Traders Identify It
 
@@ -509,7 +509,7 @@ The read weakens when the consensus side continues to receive fresh participatio
 
 ### Detection Readiness
 
-**Initial class: CONTEXT_ONLY.**
+**CONTEXT_ONLY.**
 
 - **Required feeds or evidence:** structural sequence, market positioning proxies, sentiment or consensus inputs, value behavior, and tape confirmation.
 - **Missing-feed behavior:** without positioning or sentiment proxies, describe only observable auction vulnerability, not confirmed crowding.
@@ -522,7 +522,7 @@ The read weakens when the consensus side continues to receive fresh participatio
 
 ### See Also
 
-Mechanical Levels & Obvious Traps; Trapped Traders; Short-Covering Rally; Stop-Out Cascades & Liquidation; Value Non-Migration; Tape vs. Narrative; Catalyst-to-Trade Translation; Setup Fragility
+Mechanical Levels & Obvious Traps; Trapped Traders; Short-Covering Rally; Stop-Out Cascades & Liquidation; Value Migration & Overlap; Tape vs. Narrative; Catalyst-to-Trade Translation; Setup Fragility
 
 ---
 
@@ -611,7 +611,7 @@ The read weakens when price ignores the supposed gamma reference, accepts away f
 
 ### Detection Readiness
 
-**Initial class: NOT_DETECTABLE_WITH_CURRENT_FEEDS.**
+**NOT_DETECTABLE_WITH_CURRENT_FEEDS.**
 
 - **Required feeds or evidence:** options open interest, implied volatility surface, strike-level exposure, expiration calendar, dealer-position assumptions, and a validated gamma model.
 - **Missing-feed behavior:** without these inputs, do not claim dealer gamma detection. At most, describe price as sticky, pinned, suppressed, or accelerating based on observed behavior without attributing cause to dealers.
@@ -624,7 +624,7 @@ The read weakens when price ignores the supposed gamma reference, accepts away f
 
 ### See Also
 
-VWAP Relationship; Level Magnetism & Decay; Mechanical Levels & Obvious Traps; Volatility Compression vs. Expansion; Spread Behavior; Tape Quality Spectrum; Intermarket Confirmation; Context vs. Execution Permission
+VWAP Relationship; Level Magnetism & Decay; Mechanical Levels & Obvious Traps; Compression vs. Expansion; Spread Behavior; Tape Quality Spectrum; Intermarket Confirmation; Context vs. Execution Permission
 
 ---
 
@@ -711,7 +711,7 @@ The read is invalidated when the calendar or market convention does not support 
 
 ### Detection Readiness
 
-**Initial class: CONTEXT_ONLY.**
+**CONTEXT_ONLY.**
 
 - **Required feeds or evidence:** session clock, calendar, roll schedule, settlement windows, auction imbalance data, contract volume/open interest, and preferably product-specific market convention.
 - **Missing-feed behavior:** without auction, roll, or imbalance data, do not assert mechanical cause. Flag only the time-window context and require confirmation.
@@ -724,7 +724,7 @@ The read is invalidated when the calendar or market convention does not support 
 
 ### See Also
 
-Tape Quality Spectrum; Spread Behavior; Liquidity Pulls & Replenishment; VWAP Relationship; Close Quality; Settlement Flow; Intraday Time Windows; Event Volatility Regime; Context vs. Execution Permission
+Tape Quality Spectrum; Spread Behavior; Liquidity Pulls & Replenishment; VWAP Relationship; Close Quality; Mechanical Flows (Rebalance / Month-End / Roll); Intraday Time Windows; Event Volatility Regime; Context vs. Execution Permission
 
 ---
 

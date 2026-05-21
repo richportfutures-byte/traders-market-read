@@ -1,4 +1,4 @@
-# Chapter 5 - Momentum, Follow-Through & Day Types
+# Chapter 5 — Momentum, Follow-Through & Day Types
 
 Chapter 5 governs how traders read directional pressure as a session develops. It covers whether price is moving with real initiative behind it, whether continuation is being accepted or rejected, whether movement is expanding, stalling, exhausting, or rotating, and whether the session is becoming directional, rotational, neutral, or failed-directional.
 
@@ -34,8 +34,8 @@ The shallow interpretation is that fast movement is automatically stronger and s
 3. Be cautious with vertical and parabolic movement when it occurs late in an extension, into a known reference, or after obvious stops have been triggered.
 4. Distinguish clean impulse from air-pocket travel by checking volume, tape quality, value behavior, and post-move acceptance.
 5. Treat grinding continuation differently from stalled drift. A grind still pressures the opposing side; drift lacks active sponsorship.
-6. A grind that holds value and keeps defending shallow pullbacks is a join-the-pullback condition, not a fade. Lean with the persistent side and use each shallow pullback as the information point rather than chasing the print.
-7. A late vertical or parabolic move into a known reference is a stop-run and exhaustion candidate, not a continuation to chase. Do not press it. If it fails to hold the extension, it becomes a candidate to take the other side back toward value.
+6. A grind that holds value and keeps defending shallow pullbacks improves continuation quality; each shallow pullback becomes the key information point for judging whether persistent sponsorship is still present or only visible after the move has become late.
+7. A late vertical or parabolic move into a known reference should be treated as a stop-run and exhaustion candidate until it proves acceptance. If it fails to hold the extension, the continuation read weakens and a value-repair or failed-extension read becomes more relevant.
 
 ### How Traders Identify It
 
@@ -116,8 +116,8 @@ The shallow version treats momentum as any fast move and exhaustion as any pause
 3. Treat a stall as a warning state. It calls for reassessment, not automatic reversal.
 4. Treat exhaustion more seriously when it appears after extension, into a structural level, with poor chase quality, absorption, or delta divergence.
 5. Separate fresh initiative from short covering or liquidation before trusting momentum as durable.
-6. Do not chase the ignition bar itself. Once ignition holds and produces continuation after the first pause, the pullback is the cleaner place to join the move.
-7. Treat a confirmed stall as a stand-aside-from-continuation condition: stop pressing the move and wait. Treat confirmed exhaustion into a reference as a candidate to take the other side back toward value, but only after the tape confirms refusal — never fade exhaustion mechanically on extension alone.
+6. The ignition bar itself is usually poor confirmation because it arrives before the auction has shown durability. Once ignition holds and produces continuation after the first pause, the pullback becomes the cleaner information point for judging sponsorship.
+7. Treat a confirmed stall as a stand-aside-from-continuation condition because the move has stopped proving itself. Confirmed exhaustion into a reference supports a value-repair or opposing-read review only after the tape confirms refusal; extension alone is not enough.
 
 ### How Traders Identify It
 
@@ -198,8 +198,8 @@ The practical value of this concept is that it stops the trader from believing t
 3. Lack of follow-through should reduce conviction, especially if the move occurred into poor location or after obvious stops were triggered.
 4. Failed follow-through can create trapped traders, especially when price falls back through the structure that attracted late participation.
 5. Continuation after a pause is stronger when the pause is orderly, holds structure, and does not show absorption against the direction of the move.
-6. Confirmed follow-through is a join condition. Do not chase the first leg; lean with the move on the first pullback or defended retest that holds the broken reference.
-7. Treat failed follow-through as a reversal trigger. When price re-enters the prior structure and traps the continuation side, lean with the forced unwind back through the failed level, and define invalidation around a reclaim of that level.
+6. Confirmed follow-through improves continuation quality only after the first leg proves durable. The first pullback or defended retest that holds the broken reference is the cleaner information point than the initial displacement.
+7. Failed follow-through supports a failed-continuation read. When price re-enters prior structure and traps the continuation side, forced unwind becomes the relevant pressure, with invalidation tied to reclaiming the failed level.
 
 ### How Traders Identify It
 
@@ -247,7 +247,7 @@ The first move states the thesis; follow-through is the market deciding whether 
 
 ### See Also
 
-Breakout Continuation vs. Breakout Failure; Acceptance vs. Rejection; Polarity Flip; Auction Acceptance vs. Rejection; Momentum Ignition, Stall & Exhaustion; Trapped Traders; Weak Hands Defending
+Breakout Continuation vs. Breakout Failure; Acceptance vs. Rejection; Polarity Flip; Auction Acceptance vs. Rejection; Momentum Ignition, Stall & Exhaustion; Trapped Traders; Fresh Flow vs. Weak/Strong Hands
 
 ---
 
@@ -279,7 +279,7 @@ The important distinction is between an ordinary pause and exhaustion. A pause c
 3. Exhaustion away from a level can mean the initial break was not accepted or the move was mostly stop-driven.
 4. Be careful with late continuation reads when exhaustion appears after a parabolic push or obvious forced flow.
 5. Treat exhaustion as a read requiring confirmation. It can precede reversal, rotation, repair, or simply a pause before renewed continuation.
-6. A confirmed exhaustion read is first a reason to stop pressing the move and stand aside from continuation. It becomes a candidate to take the other side back toward value only once the tape confirms refusal — absorption, delta divergence, failed late extension — not on distance alone. Do not fade exhaustion mechanically before that confirmation.
+6. A confirmed exhaustion read first downgrades continuation quality and supports a stand-aside-from-continuation posture. It supports value-repair or opposing-read review only once the tape confirms refusal through absorption, delta divergence, or failed late extension; distance alone is not confirmation.
 
 ### How Traders Identify It
 
@@ -358,8 +358,8 @@ The shallow mistake is treating close location as mechanically bullish or bearis
 3. A close back inside range after an apparent break should weaken or invalidate the breakout read.
 4. A close outside range matters more when the market spent time outside and built acceptance there.
 5. Separate initiative closing pressure from short covering, long liquidation, rebalance flow, and thin-session markups or markdowns.
-6. A close near an extreme after accepted range expansion and value migration is a read worth holding into the next session. Lean with it until the next session refuses it.
-7. A close back inside range after a failed break is a reversal-trigger context: treat the failed extreme as a magnet and the breakout side as trapped fuel. Do not carry conviction from a forced or mechanical close into the next session — stand aside until the next session shows whether the close is accepted.
+6. A close near an extreme after accepted range expansion and value migration can keep the directional read active into the next session unless the next session refuses it.
+7. A close back inside range after a failed break creates failed-extreme context: the failed extreme becomes an auction magnet and the breakout side becomes trapped fuel. A forced or mechanical close should not carry clean conviction into the next session until acceptance is tested.
 
 ### How Traders Identify It
 
@@ -514,9 +514,9 @@ These labels are not rigid classification boxes and they are not execution permi
 3. A failed trend day matters because early directional traders can become trapped and forced to unwind.
 4. Range and rotational days favor patience and reference awareness; directional assumptions often degrade inside them.
 5. Neutral and neutral extreme days require careful close interpretation because the session explored both sides before resolving or failing to resolve.
-6. Day type sets the playbook. In a confirmed trend day, lean with the trend — join pullbacks and do not fade the directional auction. In a confirmed range or rotational day, fade the edges back toward value and do not chase breaks.
-7. Treat a failed trend day as a take-the-other-side condition: early directional traders are trapped, and their forced unwind back through the opening structure is the fuel.
-8. Do not commit to the fade-edges or join-trend playbook until the session has proven the day type. Acting on the wrong playbook — fading a trend day, or chasing breaks in a range day — is the most expensive day-type error.
+6. Day type sets the posture framework. A confirmed trend day improves continuation quality when pullbacks defend and value migrates; a confirmed range or rotational day makes edge failure and return-to-value behavior more relevant than breakout certainty.
+7. A failed trend day supports a failed-directional read because early directional traders are trapped and their forced unwind back through the opening structure becomes the fuel.
+8. Do not assign the trend-day or range-day posture until the session has proven the day type. The costly error is applying range logic to accepted directional imbalance or applying trend logic to rotational auction behavior.
 
 ### How Traders Identify It
 

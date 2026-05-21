@@ -39,6 +39,12 @@ Before you can read what price does *at* a level, you have to know which levels 
 - The Initial Balance high and low.
 - Significant swing pivots that previously produced clear rejection or acceptance.
 
+### Detection Readiness
+
+**COMPUTABLE.**
+
+Prior-day high and low, overnight high and low, the RTH open, and Initial Balance high and low are computed directly from clean session and prior-session data once session boundaries are defined. Value-area references (VAH/VAL/POC) are computable only where Market Profile or volume-at-price data exists and should be omitted rather than approximated when that feed is missing; swing-pivot references require a defined pivot rule. Which references deserve the most weight in a given session is a judgment overlay and must not be hardcoded. A later spec can publish the reference lattice as structural context; proximity to a level is not a trigger. Detection-spec wiring and calibration are deferred to P13.
+
 ### One-Line Summary
 
 > *"Read the levels the market built, not the lines you drew last night; the auction does not care about your chart."*
@@ -82,6 +88,12 @@ This is the foundational level-interaction read: what price does *after* it reac
 - A probe beyond the level that closes back through it — the signature of failed acceptance.
 - The speed of the reaction at the level.
 - Volume and activity developing beyond the level versus drying up.
+
+### Detection Readiness
+
+**CALIBRATED.**
+
+The rule structure is deterministic — price holds and builds time and activity beyond a level (acceptance), returns through it without progress (rejection), or briefly trades beyond and fails back (failed acceptance) — but the dwell time, activity threshold, and level buffer must be calibrated by instrument, session, timeframe, and volatility regime. Required evidence: a structural level and a trade/price sequence; volume-at-price and cumulative delta improve confidence where available. Missing volume or profile data should lower confidence; a missing price sequence or structural level should refuse the read. Known false positives include a stop run misclassified as acceptance and a thin-liquidity probe misclassified as rejection. This is a strong detection-spec candidate; threshold values belong in calibration profiles, not glossary prose.
 
 ### One-Line Summary
 
@@ -127,6 +139,12 @@ How many times a level has been tested changes what the next test means. The **f
 - Volume and aggression at each successive test.
 - Whether the level produced excess on early tests but poor structure on later ones.
 
+### Detection Readiness
+
+**CALIBRATED.**
+
+The count of distinct tests is computable once a test is defined, but the read — first-test cleanliness versus third-test exhaustion — depends on calibrated parameters: the test-count window, what separates one test from the next, and the reaction-quality threshold that marks decay. Required evidence: a structural level, a price sequence, and the session clock; volume and aggression at each test improve the read. Missing volume should downgrade the decay read to a bare structural test count. No universal "three tests weakens a level" rule should be encoded; test-count windows and reaction-quality thresholds require calibration. A detector can emit a test count and a decay state, not a mechanical break prediction.
+
 ### One-Line Summary
 
 > *"Count the touches — the market is wearing that level down, and the third knock usually opens the door."*
@@ -170,6 +188,12 @@ Levels are not static walls — they *attract* price, and they *wear out*. **Lev
 - A brief poke past the level before the reversal — overshoot.
 - Progressively weaker reactions on successive tests — decay.
 - A sharp, fast rejection on a test — strengthening.
+
+### Detection Readiness
+
+**CALIBRATED.**
+
+Magnet pull, front-run, overshoot, and test-by-test decay can be represented structurally, but the parameters — the drift proximity that counts as magnetism, the overshoot tolerance, and the reaction-decay threshold — must be calibrated by instrument, session, and volatility regime. Required evidence: a structural level and a price sequence; volume and prior test history improve confidence. Missing volume or test history should reduce confidence rather than assert decay. Stop-cluster location behind a level is inferred, not observed, without order-book data. A detector can track a level's test count and reaction trend; it should not claim the level will break on the next test.
 
 ### One-Line Summary
 
@@ -215,12 +239,18 @@ A breakout is price clearing a structural level; the binary question is whether 
 - The speed of any return back inside the range.
 - Whether the broken level flips role (continuation) or does not (failure).
 
+### Detection Readiness
+
+**CALIBRATED.**
+
+The structure is observable — clear the level then extend (continuation), hold a pullback to the broken level (retest), or fail back inside (failure) — but post-break extension, the retest-hold window, and the follow-through window must be calibrated by instrument, session, timeframe, and regime. Required evidence: a structural level and a price sequence; volume, value migration, and tape improve the distinction between sponsored continuation and a naked break. Missing profile or tape data should reduce the read to structural follow-through only. A detector can emit a continuation, retest, or failure state; it must not authorize a trade from the break alone.
+
 ### One-Line Summary
 
 > *"The retest is the breakout's audition — pass it and it's real, flunk it and you've got trapped longs."*
 
 ### See Also
-Acceptance vs. Rejection, Liquidity Sweep vs. Real Break, Break Quality, Polarity Flip, Failed-Followthrough Risk (Ch. 1), Trapped Traders (Ch. 6)
+Acceptance vs. Rejection, Liquidity Sweep vs. Real Break, Break Quality, Polarity Flip, Follow-Through and Failure (Ch. 5), Trapped Traders (Ch. 6)
 
 ---
 
@@ -258,6 +288,12 @@ A **liquidity sweep** — a **stop run** — is price pushing through a level sp
 - Price holding beyond the level and extending — a real break.
 - A single-print or excess tail at the sweep extreme — rejection.
 - A delta spike that sustains (real break) or reverses (sweep).
+
+### Detection Readiness
+
+**CALIBRATED.**
+
+The observable structure — a fast probe through a level followed by a reclaim (false break / stop run) or a hold-and-continue (real break) — can be represented with calibrated parameters for probe speed, the reclaim window, and the hold threshold, scoped by instrument, session, and regime. Required evidence: a structural level and a price sequence; tick data, cumulative delta, and DOM materially improve the read, and order-book data is what would actually confirm clustered resting stops. Missing tape or depth data should keep the read structural and block any claim about engineered intent or stop targeting. The motive behind a sweep is not detectable; only the reclaim-or-hold reaction is. A detector can emit a sweep, false-break, or real-break state, not the intent behind it.
 
 ### One-Line Summary
 
@@ -303,6 +339,12 @@ Two breaks of the same level are not equal — the *texture* of the break carrie
 - Proximity of the next higher-timeframe level overhead.
 - Whether a realistic objective reference and clear invalidation condition exist near the current location.
 
+### Detection Readiness
+
+**CALIBRATED.**
+
+Break texture — clean versus dirty, impulsive versus grinding — and location relative to nearby structure can be graded with calibrated measures of candle structure, breach-and-reclaim count, break velocity, and distance to the next higher-timeframe reference, scoped by instrument and regime. Required evidence: a price sequence and the structural reference lattice; volatility baselines and tape improve the grade. Missing volatility or tape data should downgrade the read to coarse structural texture. A detector can emit a break-quality grade and a location-quality flag; converting that grade into execution permission belongs to Chapter 12 setup quality, not here.
+
 ### One-Line Summary
 
 > *"Grade the break before giving it clean-read language: clean, fast, and with room is different from messy, late, or boxed in."*
@@ -346,6 +388,12 @@ When a level is genuinely broken and accepted, its role inverts — **prior resi
 - The speed and cleanliness of the rejection at the flipped level.
 - Trapped positioning carried over from the original break.
 - Whether the flip aligns with other structure in the area.
+
+### Detection Readiness
+
+**CALIBRATED.**
+
+Whether a broken level is respected in its new role (flip confirmed) or sliced straight through (flip failed) is observable, but the retest window and the hold-or-rejection threshold must be calibrated by instrument, session, timeframe, and regime. Required evidence: the broken structural level and the subsequent price sequence; volume and tape at the retest improve confidence. Missing tape or profile data should reduce the read to a bare structural retest outcome. Reclaim of a prior breakdown and loss of a prior breakout are the same mechanism inverted. A detector can emit a flip-confirmed or flip-failed state; trapped-positioning consequences belong to Chapter 6 and should not be asserted here.
 
 ### One-Line Summary
 
@@ -391,6 +439,12 @@ Some levels are obvious to everyone — round numbers, prior-day high and low, w
 - The setup is the consensus idea; everyone on the desk and the feed is talking about it.
 - Price front-runs or sweeps the level rather than reacting cleanly to it.
 
+### Detection Readiness
+
+**JUDGMENT_ASSISTED.**
+
+Whether a level is "obvious" — a round number, prior-day high or low, or a widely-watched reference — can be partly flagged from computable inputs, but the trap-risk read depends on crowding, consensus, and the likelihood that clustered stops are the auction's target, none of which is observable from ordinary price and volume feeds. Required evidence: the structural level and price behavior around it; sentiment, positioning, and order-book data would strengthen the read but are usually unavailable. Missing positioning data should keep this a caution overlay, not a confirmed condition. This concept should raise a confirmation requirement and downgrade obvious-level reads; it should not become a standalone detector or imply that obvious levels never hold.
+
 ### One-Line Summary
 
 > *"The textbook setup at the obvious level is where the textbook readers go to get hunted — clean and obvious is a warning, not a green light."*
@@ -400,4 +454,4 @@ Liquidity Sweep vs. Real Break, Level Magnetism & Decay, Structural Reference Le
 
 ---
 
-*End of Chapter 2. The structural core — Chapters 2, 3, and 4 — is now complete and fully cross-linked. Remaining chapters: 1 (Read Discipline & Interpretation Method), 5 (Momentum, Follow-Through & Day Types), 6 (Traps & Positioning), 7 (Session Context & Sequencing), 8 (Volatility Regime), 9 (Intermarket Confirmation), 10 (Catalyst Interpretation), 11 (Trade-State Management), 12 (Setup Quality & Action Vocabulary). Recommended next: **Chapter 6 (Traps & Positioning)** — it resolves the heaviest remaining cluster of forward links (Trapped Traders, Crowded Trades, Strong Hands Defending) now pointing in from Chapters 2 and 3. Say "Continue with Chapter N" to proceed.*
+*End of Chapter 2. This chapter defines the structural level-interaction layer: references, tests, acceptance, rejection, sweeps, breaks, polarity, and obvious-level trap risk.*

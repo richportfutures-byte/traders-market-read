@@ -42,6 +42,8 @@ The shallow version treats intermarket confirmation as static correlation: dolla
 5. Distinguish lead/lag from causation. A related market moving first may be early information, mechanical flow, or unrelated noise.
 6. Be more cautious when only one product is moving and the related confirmation set is flat, contradictory, or unavailable.
 7. Treat missing intermarket feeds honestly. No breadth, cash, rates, credit, VIX, dollar, or product-specific data means the read cannot claim confirmation from those sources.
+8. When related markets confirm through a transmission channel that makes sense for the product, conviction improves because the read has broader support than a single-product move.
+9. When related markets diverge, divergence alone does not support an opposing read. It downgrades conviction, requires a tighter read, and demands confirmation from the traded contract's own structure and tape before any directional conclusion is upgraded.
 
 ### How Traders Identify It
 
@@ -94,7 +96,7 @@ Intermarket confirmation improves the read; it does not give the trade permissio
 
 ### See Also
 
-Context vs. Execution Permission; Tape-Confirms-Narrative Rule; Product-Specific Behavior; Acceptance vs. Rejection; Value Migration & Overlap; Tape vs. Narrative; Volatility Regime; Catalyst Interpretation; Thesis State Lifecycle; Setup Quality
+Context vs. Execution Permission; Tape-Confirms-Narrative Rule; Product-Specific Behavior; Acceptance vs. Rejection; Value Migration & Overlap; Tape vs. Narrative; Volatility Regime; Catalyst-to-Trade Translation; Thesis State Lifecycle; Setup Cleanliness & Timing
 
 ---
 
@@ -126,6 +128,7 @@ The shallow read is “NQ is leading, so ES should follow.” That is too blunt.
 5. Weight semis heavily when reading NQ quality, but do not reduce the whole NQ read to semis alone.
 6. Be cautious when NQ is strong but equal-weight indexes, breadth, or cyclicals do not participate. That can be narrow leadership, not broad risk appetite.
 7. Treat leadership shifts around cash open, macro data, and close windows as session-specific, not universal correlation rules.
+8. Broad, confirmed index leadership — ES participating, semis and breadth confirming — improves index-move quality. A narrow megacap-only lift is fragile: conviction should be downgraded, continuation quality is lower, and reversal risk can appear faster than the move built.
 
 ### How Traders Identify It
 
@@ -176,7 +179,7 @@ NQ leading is information; broad confirmation decides whether it is real risk ap
 
 ### See Also
 
-Breadth Confirmation & Divergence; VIX, Credit & Cross-Asset Risk Tone; Momentum Ignition, Stall & Exhaustion; Value Migration & Overlap; Dealer Gamma Dynamics; Context vs. Execution Permission; Setup Quality
+Breadth Confirmation & Divergence; VIX, Credit & Cross-Asset Risk Tone; Momentum Ignition, Stall & Exhaustion; Value Migration & Overlap; Dealer Gamma Dynamics; Context vs. Execution Permission; Setup Cleanliness & Timing
 
 ---
 
@@ -257,7 +260,7 @@ Breadth tells you how many soldiers are following the general; divergence warns,
 
 ### See Also
 
-NQ/ES Relative Strength & Index Internals; Intermarket Confirmation; Value Migration & Overlap; Follow-Through and Failure; Exhaustion; Dealer Gamma Dynamics; Setup Quality
+NQ/ES Relative Strength & Index Internals; Intermarket Confirmation; Value Migration & Overlap; Follow-Through and Failure; Exhaustion; Dealer Gamma Dynamics; Setup Cleanliness & Timing
 
 ---
 
@@ -337,7 +340,7 @@ Risk tone grades the weather; the traded contract still has to prove it can fly.
 
 ### See Also
 
-Breadth Confirmation & Divergence; Dealer Gamma Dynamics; Volatility Crush & Reset; Expanded-Volatility No-Trade Condition; Tape Quality Spectrum; NQ/ES Relative Strength; Catalyst Interpretation; Setup Quality
+Breadth Confirmation & Divergence; Dealer Gamma Dynamics; Volatility Crush & Reset; Expanded-Volatility No-Trade Condition; Tape Quality Spectrum; NQ/ES Relative Strength & Index Internals; Catalyst-to-Trade Translation; Setup Cleanliness & Timing
 
 ---
 
@@ -417,7 +420,7 @@ Gold does not trade “yields”; it trades the channel behind the yields.
 
 ### See Also
 
-Gold Demand Channels; Intermarket Confirmation; The Yield Curve & Rate Repricing; Euro/Dollar Drivers; Catalyst Interpretation; Tape vs. Narrative; Value Migration & Overlap; Thesis State Lifecycle
+Gold Demand Channels; Intermarket Confirmation; The Yield Curve & Rate Repricing; Euro/Dollar Drivers; Catalyst-to-Trade Translation; Tape vs. Narrative; Value Migration & Overlap; Thesis State Lifecycle
 
 ---
 
@@ -449,6 +452,7 @@ The shallow read is “gold is up, so investors want safety” or “gold is up,
 5. Treat central-bank and LBMA context as broader market color unless the traded contract confirms intraday.
 6. Watch whether gold holds after the first futures burst. A channel that cannot survive the first pause is weaker.
 7. Treat missing physical, LBMA, ETF, or positioning data as a limitation. Do not invent demand-channel proof.
+8. A COMEX futures squeeze through obvious stops should be treated as a stop-run candidate that must hold. When a named demand channel is confirmed and value migrates, the move gains continuation quality; when gold spikes but cannot hold after the first burst, value-repair risk increases.
 
 ### How Traders Identify It
 
@@ -499,7 +503,7 @@ Gold up is not the read; which bid is active is the read.
 
 ### See Also
 
-Gold Drivers: Real Yields, DXY, Breakevens; Intermarket Confirmation; Safe-Haven Bid; Inflation-Hedge Bid; Tape vs. Narrative; Catalyst Interpretation; Thesis State Lifecycle
+Gold Drivers: Real Yields, DXY, Breakevens; Intermarket Confirmation; Gold Demand Channels; Tape vs. Narrative; Catalyst-to-Trade Translation; Thesis State Lifecycle
 
 ---
 
@@ -525,13 +529,14 @@ The shallow read is “inventory draw bullish, build bearish.” That is incompl
 
 ### Practical Implications
 
-1. Do not trade the crude inventory headline in isolation. Read crude, products, runs, cracks, and market reaction together.
+1. Do not let the crude inventory headline stand alone. Read crude, products, runs, cracks, and market reaction together.
 2. Treat the EIA reaction as more important than the headline once the data is public. The market decides what mattered.
 3. A bullish crude draw is weaker if products build, cracks weaken, or demand concern dominates.
 4. A bearish crude build is weaker if products draw, cracks strengthen, or physical tightness confirms demand.
 5. Watch whether crude accepts the post-data move or fades it back through the release area.
 6. Distinguish physical confirmation from futures-only volatility. The first spike after EIA can be noise, positioning, or algo reaction.
 7. Treat missing inventory, refinery, product, crack, or physical-market data as a serious limitation.
+8. The first EIA spike is provisional. If crude fades the headline back through the release area and products, cracks, or demand contradict the print, the headline-reaction read weakens and the full-barrel contradiction becomes senior. If crude accepts the post-data move with value migration, the post-data read gains continuation quality.
 
 ### How Traders Identify It
 
@@ -581,7 +586,7 @@ Crude trades the barrel, not the headline.
 
 ### See Also
 
-Crude Spreads & Geopolitical Premium; Catalyst Interpretation; Tape vs. Narrative; Event Volatility Regime; Value Migration & Overlap; Liquidity Sweep vs. Real Break; Thesis State Lifecycle
+Crude Spreads & Geopolitical Premium; Catalyst-to-Trade Translation; Tape vs. Narrative; Event Volatility Regime; Value Migration & Overlap; Liquidity Sweep vs. Real Break; Thesis State Lifecycle
 
 ---
 
@@ -613,6 +618,7 @@ The shallow read is “geopolitical risk means crude up.” Sometimes it does. S
 5. Treat OPEC headlines as catalyst context until calendar spreads, physical indicators, and price acceptance support the move.
 6. Be cautious when crude is moving on headline risk in thin liquidity. The spike can be real but unclean.
 7. Watch whether crude holds the premium after the headline window passes. Failure to hold warns of stale or overpaid premium.
+8. A geopolitical crude spike needs acceptance before it deserves durable premium status. Unconfirmed premium that fails to hold once the headline window passes raises prior-value repair risk; value migration, spread confirmation, and premium still being paid after the first burst improve continuation quality.
 
 ### How Traders Identify It
 
@@ -662,7 +668,7 @@ A headline can buy crude for five minutes; accepted tightness has to hold the au
 
 ### See Also
 
-Crude Fundamentals: Inventories & Cracks; Event Volatility Regime; Catalyst Interpretation; Tape vs. Narrative; Value Migration & Overlap; Intermarket Confirmation; Volatility Regime
+Crude Fundamentals: Inventories & Cracks; Event Volatility Regime; Catalyst-to-Trade Translation; Tape vs. Narrative; Value Migration & Overlap; Intermarket Confirmation; Volatility Regime
 
 ---
 
@@ -742,7 +748,7 @@ EUR/USD up does not tell you whether the euro is strong, the dollar is weak, or 
 
 ### See Also
 
-Euro Event Windows & Carry; Gold Drivers; The Yield Curve & Rate Repricing; Session Sequencing; London Initiative & Traps; NY Inheritance vs. Rejection; Catalyst Interpretation
+Euro Event Windows & Carry; Gold Drivers: Real Yields, DXY, Breakevens; The Yield Curve & Rate Repricing; Session Sequencing; London Initiative & Traps; NY Inheritance vs. Rejection; Catalyst-to-Trade Translation
 
 ---
 
@@ -825,7 +831,7 @@ In euro, the clock matters because the participant base and catalyst set change,
 
 ### See Also
 
-Euro/Dollar Drivers; Session Sequencing; London Initiative & Traps; NY Inheritance vs. Rejection; Event Volatility Regime; Catalyst Interpretation; The Yield Curve & Rate Repricing
+Euro/Dollar Drivers; Session Sequencing; London Initiative & Traps; NY Inheritance vs. Rejection; Event Volatility Regime; Catalyst-to-Trade Translation; The Yield Curve & Rate Repricing
 
 ---
 
@@ -905,7 +911,7 @@ Treasury futures move fast; cash yields tell you whether rates actually repriced
 
 ### See Also
 
-Treasury Auctions & Supply; The Yield Curve & Rate Repricing; Gold Drivers; VIX, Credit & Cross-Asset Risk Tone; Euro/Dollar Drivers; Catalyst Interpretation; Context vs. Execution Permission
+Treasury Auctions & Supply; The Yield Curve & Rate Repricing; Gold Drivers: Real Yields, DXY, Breakevens; VIX, Credit & Cross-Asset Risk Tone; Euro/Dollar Drivers; Catalyst-to-Trade Translation; Context vs. Execution Permission
 
 ---
 
@@ -986,7 +992,7 @@ A Treasury auction can shock rates; only acceptance turns the shock into reprici
 
 ### See Also
 
-Treasury Cash/Futures & Basis; The Yield Curve & Rate Repricing; VIX, Credit & Cross-Asset Risk Tone; Gold Drivers; Euro/Dollar Drivers; Event Volatility Regime; Catalyst Interpretation
+Treasury Cash/Futures & Basis; The Yield Curve & Rate Repricing; VIX, Credit & Cross-Asset Risk Tone; Gold Drivers: Real Yields, DXY, Breakevens; Euro/Dollar Drivers; Event Volatility Regime; Catalyst-to-Trade Translation
 
 ---
 
@@ -1067,7 +1073,7 @@ Do not ask whether yields rose; ask which part of the curve repriced, why, and w
 
 ### See Also
 
-Treasury Cash/Futures & Basis; Treasury Auctions & Supply; Gold Drivers; Euro/Dollar Drivers; VIX, Credit & Cross-Asset Risk Tone; Catalyst Interpretation; Thesis State Lifecycle; Setup Quality
+Treasury Cash/Futures & Basis; Treasury Auctions & Supply; Gold Drivers: Real Yields, DXY, Breakevens; Euro/Dollar Drivers; VIX, Credit & Cross-Asset Risk Tone; Catalyst-to-Trade Translation; Thesis State Lifecycle; Setup Cleanliness & Timing
 
 ---
 

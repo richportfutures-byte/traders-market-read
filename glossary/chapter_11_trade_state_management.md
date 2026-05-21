@@ -44,6 +44,7 @@ The trader does not get to preserve a thesis by rewriting it after the evidence 
 5. Retire invalidated or stale theses instead of changing the story.
 6. Allow supersession when a higher-authority development becomes senior.
 7. Preserve the original thesis, expected behavior, and invalidation logic for review.
+8. Let the state govern posture, not P&L: a confirmed and maintained thesis can remain active; a weakened thesis requires conviction downgrade and clearer review; an invalidated or stale thesis should be retired rather than rewritten to keep it alive.
 
 ### How Traders Identify It
 
@@ -110,7 +111,7 @@ A thesis is alive only while the market keeps proving the premise.
 
 ### See Also
 
-Confirmation & Invalidation Discipline; Context vs. Execution Permission; Acceptance vs. Rejection; Value Migration & Overlap; Tape vs. Narrative; Catalyst Effect on Thesis; Intermarket Confirmation; Setup Quality; Action Vocabulary
+Confirmation & Invalidation Discipline; Context vs. Execution Permission; Acceptance vs. Rejection; Value Migration & Overlap; Tape vs. Narrative; Catalyst Effect on Thesis; Intermarket Confirmation; Setup Cleanliness & Timing; Action Vocabulary
 
 ---
 
@@ -201,7 +202,7 @@ A confirmed thesis says the market agrees with the premise; it does not say the 
 
 ### See Also
 
-Context vs. Execution Permission; Setup Cleanliness & Timing; Location Quality; Execution Environment Quality; Catalyst-to-Trade Translation; Expanded-Volatility No-Trade Condition; Tape Quality Spectrum
+Context vs. Execution Permission; Setup Cleanliness & Timing; Location Quality; Execution Environment Quality & Veto; Catalyst-to-Trade Translation; Expanded-Volatility No-Trade Condition; Tape Quality Spectrum
 
 ---
 
@@ -296,7 +297,7 @@ A weakened thesis is not dead, but it no longer deserves clean-thesis confidence
 
 ### See Also
 
-Follow-Through and Failure; Value Migration & Overlap; Tape vs. Narrative; Cumulative Delta & Delta Divergence; Catalyst Effect on Thesis; Intermarket Confirmation; Volatility Regime; Session Sequencing; Confirmation Clarity
+Follow-Through and Failure; Value Migration & Overlap; Tape vs. Narrative; Cumulative Delta & Delta Divergence; Catalyst Effect on Thesis; Intermarket Confirmation; Volatility Regime; Session Sequencing; Invalidation & Confirmation Clarity
 
 ---
 
@@ -330,6 +331,7 @@ Invalidation must be defined before the market tests it. If it moves after the t
 4. Do not create a new thesis by editing the old one.
 5. Treat invalidation as information. The market clarified what is not true.
 6. Record what invalidated the thesis for later review.
+7. Once the predefined invalidation condition is met, the read should be retired rather than preserved through smaller conviction or new labeling. An invalidated thesis is not automatic support for the opposite thesis; the opposite read needs its own premise and confirmation.
 
 ### How Traders Identify It
 
@@ -396,7 +398,7 @@ Invalidation is not pain. It is the market proving the premise cannot stand.
 
 ### See Also
 
-Confirmation & Invalidation Discipline; Acceptance vs. Rejection; Breakout Continuation vs. Breakout Failure; Auction Acceptance vs. Rejection; Tape vs. Narrative; Catalyst Effect on Thesis; Intermarket Confirmation; Session Sequencing; Invalidation Clarity
+Confirmation & Invalidation Discipline; Acceptance vs. Rejection; Breakout Continuation vs. Breakout Failure; Auction Acceptance vs. Rejection; Tape vs. Narrative; Catalyst Effect on Thesis; Intermarket Confirmation; Session Sequencing; Invalidation & Confirmation Clarity
 
 ---
 
@@ -428,6 +430,7 @@ A catalyst thesis can stale after the event window passes. A breakout thesis can
 4. Distinguish stale from wrong.
 5. Retire stale triggers rather than forcing old setup language onto a changed market.
 6. Rebuild the thesis after handoff, event window, volatility reset, or new value formation.
+7. A stale setup or stale catalyst should not be treated as fresh evidence. The posture may be stand aside while the stale read is retired and rebuilt from the references the current auction is actually respecting.
 
 ### How Traders Identify It
 
@@ -494,7 +497,7 @@ A thesis can be right and still be too late; stale ideas are old information wea
 
 ### See Also
 
-New Information vs. Recycled Context; Pricing-In; Session Sequencing; NY Inheritance vs. Rejection; Volatility Crush & Reset; Follow-Through and Failure; Level Magnetism & Decay; Setup Cleanliness & Timing; Trigger Freshness
+New Information vs. Recycled Context; Pricing-In; Session Sequencing; NY Inheritance vs. Rejection; Volatility Crush & Reset; Follow-Through and Failure; Level Magnetism & Decay; Setup Cleanliness & Timing; Thesis Staleness & Expiration
 
 ---
 
@@ -681,7 +684,7 @@ P&L tells you how the expression is doing; market behavior tells you whether the
 
 ### See Also
 
-Context vs. Execution Permission; Confirmation & Invalidation Discipline; Thesis Weakening & Degradation; Thesis Invalidation; Maintenance Conditions; Setup Quality; Execution Environment Quality; Observation Tracking
+Context vs. Execution Permission; Confirmation & Invalidation Discipline; Thesis Weakening & Degradation; Thesis Invalidation; Maintenance Conditions; Setup Cleanliness & Timing; Execution Environment Quality & Veto; False Precision & Observation Tracking
 
 ---
 
@@ -777,7 +780,7 @@ A thesis is maintained by the behavior it requires; initial confirmation does no
 
 ### See Also
 
-Confirmation & Invalidation Discipline; Follow-Through and Failure; Acceptance vs. Rejection; Value Migration & Overlap; Tape Quality Spectrum; Breadth Confirmation & Divergence; Catalyst Effect on Thesis; Session Sequencing; Volatility Regime; Setup Quality
+Confirmation & Invalidation Discipline; Follow-Through and Failure; Acceptance vs. Rejection; Value Migration & Overlap; Tape Quality Spectrum; Breadth Confirmation & Divergence; Catalyst Effect on Thesis; Session Sequencing; Volatility Regime; Setup Cleanliness & Timing
 
 ---
 
@@ -875,7 +878,7 @@ When the market gives mixed evidence, stale context, bad tape, or no clean expre
 
 ### See Also
 
-Signal Conflict Taxonomy; Context vs. Execution Permission; Expanded-Volatility No-Trade Condition; Tape Quality Spectrum; Source Quality; Intermarket Confirmation; Setup Cleanliness & Timing; Execution Environment Quality; Action Vocabulary
+Signal Conflict Taxonomy; Context vs. Execution Permission; Expanded-Volatility No-Trade Condition; Tape Quality Spectrum; Source Quality; Intermarket Confirmation; Setup Cleanliness & Timing; Execution Environment Quality & Veto; Action Vocabulary
 
 ---
 

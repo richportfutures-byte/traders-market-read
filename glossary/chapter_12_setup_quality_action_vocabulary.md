@@ -165,6 +165,7 @@ The shallow interpretation is that good location means close to support for long
 5. Do not call a thesis wrong merely because the available location is bad.
 6. Treat nearby opposing structure as a practical constraint on expression quality.
 7. Preserve the distinction between "correct read" and "wrong place."
+8. Poor location often appears when the thesis has finally become obvious; that is buying certainty, not edge. The appropriate semantic state may be stand aside, watch for a pullback, retest, or repair that restores location, and treat a confirmed-but-extended read as a watch condition rather than an expression.
 
 ### How Traders Identify It
 
@@ -274,6 +275,7 @@ Target 1, Target 2, target levels, reasonable stop distance, and too-wide stop d
 5. Mark practical R:R poor when volatility, spread, or liquidity consumes the room the setup appears to offer.
 6. Do not force an expression because the thesis is intellectually strong.
 7. Watch whether a cleaner pullback, retest, repair, or volatility reset improves practical asymmetry.
+8. When practical asymmetry is weak, the semantic posture may be stand aside or no expression because a directionally correct read can still have no realistic room before the first obstacle. A pullback or volatility reset may restore room; otherwise the correct conclusion can be no clean expression.
 
 ### How Traders Identify It
 
@@ -384,6 +386,7 @@ The shallow interpretation is that invalidation means price crossing a single li
 5. Use missing-feed awareness: if the proof requires data you do not have, the right state may be insufficient evidence.
 6. Distinguish thesis invalidation from setup invalidation. A setup can fail without killing the broader thesis.
 7. Preserve original proof and failure expectations for review.
+8. If proof and failure cannot be named, the setup belongs in stand aside, confirmation required, or insufficient evidence rather than "it still feels right." Invalidation should be defined around the specific failed reference the premise depends on, so the market, not the trader, decides when the setup is done.
 
 ### How Traders Identify It
 

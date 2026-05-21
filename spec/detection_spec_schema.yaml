@@ -1,0 +1,288 @@
+schema_id: detection_spec_schema
+schema_version: 1
+project: traders-market-read
+schema_status: ACTIVE_FOUNDATION
+purpose: "Contract for future concept-level detection specifications. It separates semantic doctrine from machine-readable detection rules and prevents false determinism, missing-feed hallucination, and executional output."
+semantic_source_of_truth: "glossary/*.md and qa/concept_determinism_matrix.csv"
+individual_spec_location: "spec/detection_specs/"
+individual_specs_created_by_this_file: false
+
+allowed_determinism_classes:
+  - COMPUTABLE
+  - CALIBRATED
+  - JUDGMENT_ASSISTED
+  - CONTEXT_ONLY
+  - NOT_DETECTABLE_WITH_CURRENT_FEEDS
+
+allowed_missing_feed_behaviors:
+  - INSUFFICIENT_EVIDENCE
+  - DEGRADED_CONFIDENCE
+  - CONTEXT_ONLY
+  - REFUSE_TO_CLASSIFY
+
+universal_non_executional_boundary:
+  no_spec_may_emit:
+    - trade_permission
+    - entry_instruction
+    - exit_instruction
+    - stop_instruction
+    - target_instruction
+    - position_sizing_instruction
+    - add_or_reduce_instruction
+    - broker_action
+    - order_action
+    - account_instruction
+    - fill_or_pnl_instruction
+    - autonomous_trade_call
+  allowed_output_character: "Evidence labels, context labels, read-quality states, confidence states, refusal states, and review hooks only."
+
+class_rules:
+  COMPUTABLE:
+    permitted_rule_shape: "Mathematical or directly observable rules derived from declared feeds, with exact formulas or state transitions when inputs are available."
+    required_guard: "Must refuse or narrow output when a required feed is missing; must not approximate a missing feed with unrelated data."
+    calibration_boundary: "May expose implementation parameters only for data hygiene or method selection; no universal market thresholds unless the concept is definitional."
+    prohibited_behavior: "Must not convert an observed condition into execution permission or directional advice."
+  CALIBRATED:
+    permitted_rule_shape: "Named rule structure, named parameters, and output labels whose values are calibrated by instrument, session, timeframe, and regime."
+    required_guard: "Must declare parameters without universal values and must define behavior when calibration is absent."
+    calibration_boundary: "Parameter names belong in the spec; values belong in later calibration artifacts."
+    prohibited_behavior: "Must not hard-code unvalidated thresholds or imply that calibrated evidence is deterministic truth."
+  JUDGMENT_ASSISTED:
+    permitted_rule_shape: "Evidence collection, evidence weighting guidance, confidence/downgrade behavior, refusal logic, and human-review hooks."
+    required_guard: "Must preserve uncertainty and must not pretend that multi-layer judgment is a deterministic detector."
+    calibration_boundary: "May define evidence fields and review states; cannot collapse context hierarchy into a single score without later validation."
+    prohibited_behavior: "Must not emit final autonomous classification where the glossary requires trader judgment."
+  CONTEXT_ONLY:
+    permitted_rule_shape: "Interpretation, governance, posture, and label-boundary logic."
+    required_guard: "Must remain context or posture labeling and must not become a market-pattern detector."
+    calibration_boundary: "No market thresholds; only label governance and refusal/downgrade behavior."
+    prohibited_behavior: "Must not imply tradability, setup permission, or signal validity."
+  NOT_DETECTABLE_WITH_CURRENT_FEEDS:
+    permitted_rule_shape: "Refusal specification that names why current feeds are insufficient and what external evidence would be required."
+    required_guard: "Must emit refusal or insufficient-evidence behavior rather than proxying an unavailable phenomenon."
+    calibration_boundary: "No calibration until the missing feed class exists."
+    prohibited_behavior: "Must not use price-only, bar-only, or narrative proxy data to claim detection of an unavailable feed condition."
+
+field_definitions:
+  spec_id:
+    expected_type: string
+    required: true
+    allowed_values: "Stable lowercase snake_case, normally matching concept_id or concept_id plus a narrow variant suffix."
+    purpose: "Uniquely identifies one future detection spec."
+    guard_against_false_determinism_or_execution: "Prevents duplicate or ambiguous specs from silently redefining the same concept."
+  concept_id:
+    expected_type: string
+    required: true
+    allowed_values: "Must match spec/concept_registry.yaml concept_id pattern: chNN_lowercase_snake_case."
+    purpose: "Links the spec to the P13 registry and P12 determinism matrix."
+    guard_against_false_determinism_or_execution: "Forces every spec to inherit the approved concept boundary and determinism class instead of inventing a new trading signal."
+  concept_name:
+    expected_type: string
+    required: true
+    allowed_values: "Exact glossary concept name."
+    purpose: "Keeps human-readable traceability to the semantic layer."
+    guard_against_false_determinism_or_execution: "Prevents implementation labels from drifting away from trader doctrine."
+  chapter:
+    expected_type: object
+    required: true
+    allowed_values: "Must include chapter_number, chapter_title, and glossary_path."
+    purpose: "Records the semantic source chapter."
+    guard_against_false_determinism_or_execution: "Keeps detection behavior grounded in the source context rather than a decontextualized signal."
+  determinism_class:
+    expected_type: enum
+    required: true
+    allowed_values:
+      - COMPUTABLE
+      - CALIBRATED
+      - JUDGMENT_ASSISTED
+      - CONTEXT_ONLY
+      - NOT_DETECTABLE_WITH_CURRENT_FEEDS
+    purpose: "Declares how machine-usable the concept is allowed to be."
+    guard_against_false_determinism_or_execution: "Blocks calibrated, judgment-assisted, context-only, or feed-blocked concepts from being written as fake deterministic detectors."
+  semantic_source:
+    expected_type: object
+    required: true
+    allowed_values: "Must include glossary_path and should include heading text or anchor when available."
+    purpose: "Identifies the specific doctrine section the spec implements."
+    guard_against_false_determinism_or_execution: "Requires specs to cite semantic doctrine before defining rules."
+  purpose:
+    expected_type: string
+    required: true
+    allowed_values: "Market-read, evidence, context, confidence, refusal, or review purpose only."
+    purpose: "States what the spec is for in non-executional terms."
+    guard_against_false_determinism_or_execution: "Disallows hidden trade-call objectives."
+  non_executional_boundary:
+    expected_type: string
+    required: true
+    allowed_values: "Must explicitly state that the spec emits no trade permission, entry, exit, stop, target, sizing, broker/order/account/fill/P&L instruction, or autonomous trade call."
+    purpose: "Carries the project boundary into every detection spec."
+    guard_against_false_determinism_or_execution: "Makes executional misuse a schema violation."
+  required_inputs:
+    expected_type: list
+    required: true
+    allowed_values: "Each item should name the feed/input, source, granularity, session dependency, and whether absence blocks or degrades classification."
+    purpose: "Defines the minimum evidence the spec needs."
+    guard_against_false_determinism_or_execution: "Prevents missing-feed hallucination and undocumented proxy substitutions."
+  optional_inputs:
+    expected_type: list
+    required: true
+    allowed_values: "Additional feeds that may improve confidence but are not required for the narrow declared output."
+    purpose: "Separates helpful confirmation from hard dependency."
+    guard_against_false_determinism_or_execution: "Prevents optional evidence from being treated as silently present."
+  unavailable_input_behavior:
+    expected_type: object
+    required: true
+    allowed_values:
+      - INSUFFICIENT_EVIDENCE
+      - DEGRADED_CONFIDENCE
+      - CONTEXT_ONLY
+      - REFUSE_TO_CLASSIFY
+    purpose: "Defines what happens when required or optional evidence is unavailable, stale, low quality, or out of scope."
+    guard_against_false_determinism_or_execution: "Forces explicit refusal or downgrade instead of guessed classification."
+  detection_scope:
+    expected_type: object
+    required: true
+    allowed_values: "Instrument, session, timeframe, event window, regime, and feed-quality scope; may include not_applicable when the concept is context-only."
+    purpose: "Defines where the spec is allowed to operate."
+    guard_against_false_determinism_or_execution: "Prevents one product/session/regime from being generalized into another without calibration."
+  evidence_model:
+    expected_type: object
+    required: true
+    allowed_values: "Named evidence fields, observations, feature families, hierarchy, and evidence-state definitions."
+    purpose: "Defines what evidence is collected before any label is emitted."
+    guard_against_false_determinism_or_execution: "Keeps evidence visible and prevents a black-box confidence claim from replacing trader judgment."
+  rule_structure:
+    expected_type: object
+    required: true
+    allowed_values: "Formulas, state machines, rule families, review logic, or refusal-only structure depending on determinism_class."
+    purpose: "Defines the detection or classification logic at the correct level of determinism."
+    guard_against_false_determinism_or_execution: "Requires CALIBRATED and JUDGMENT_ASSISTED concepts to expose structure without invented universal thresholds."
+  calibration_parameters:
+    expected_type: list
+    required: true
+    allowed_values: "Named parameters with descriptions, units, calibration scope, and unset behavior; no universal values unless definitional."
+    purpose: "Identifies what later calibration must supply."
+    guard_against_false_determinism_or_execution: "Defers parameter values to calibration artifacts and prevents false precision."
+  confidence_behavior:
+    expected_type: object
+    required: true
+    allowed_values: "Confidence labels, downgrade triggers, uncertainty handling, and review-required states."
+    purpose: "Defines how evidence quality affects output strength."
+    guard_against_false_determinism_or_execution: "Prevents binary certainty when evidence is partial, conflicted, or late."
+  refusal_conditions:
+    expected_type: list
+    required: true
+    allowed_values: "Missing feeds, stale feeds, out-of-scope sessions, conflicting evidence, insufficient calibration, or concept-specific invalidators."
+    purpose: "Names conditions where the spec must not classify."
+    guard_against_false_determinism_or_execution: "Makes refusal a first-class output instead of an implementation afterthought."
+  output_labels:
+    expected_type: list
+    required: true
+    allowed_values: "Bounded semantic labels such as OBSERVED, NOT_OBSERVED, ACCEPTED, REJECTED, CONFIRMED, WEAKENED, REVIEW_REQUIRED, INSUFFICIENT_EVIDENCE, DEGRADED_CONFIDENCE, CONTEXT_ONLY, REFUSE_TO_CLASSIFY."
+    purpose: "Defines the only labels the spec may emit."
+    guard_against_false_determinism_or_execution: "Restricts outputs to read-quality, evidence, context, confidence, or refusal states."
+  false_positive_risks:
+    expected_type: list
+    required: true
+    allowed_values: "Known ways the spec may over-detect the concept."
+    purpose: "Documents what can make the detector too eager."
+    guard_against_false_determinism_or_execution: "Forces the author to name misleading evidence before implementation."
+  false_negative_risks:
+    expected_type: list
+    required: true
+    allowed_values: "Known ways the spec may miss the concept."
+    purpose: "Documents what can make the detector too conservative."
+    guard_against_false_determinism_or_execution: "Prevents narrow feeds or brittle rules from being mistaken for market truth."
+  failure_modes:
+    expected_type: list
+    required: true
+    allowed_values: "Feed outages, bad session definitions, stale calibration, regime mismatch, event distortion, low liquidity, or concept-specific failure states."
+    purpose: "Names operational and semantic failures."
+    guard_against_false_determinism_or_execution: "Keeps detection from emitting confident labels during known invalid conditions."
+  validation_requirements:
+    expected_type: list
+    required: true
+    allowed_values: "Historical review requirements, feed-quality checks, label audits, replay cases, refusal tests, and calibration-validation requirements."
+    purpose: "Defines what must be proven before implementation is trusted."
+    guard_against_false_determinism_or_execution: "Requires testing of refusals, degradation, and edge cases, not just positive examples."
+  prohibited_outputs:
+    expected_type: list
+    required: true
+    allowed_values:
+      - trade_permission
+      - entry_instruction
+      - exit_instruction
+      - stop_instruction
+      - target_instruction
+      - position_sizing_instruction
+      - add_or_reduce_instruction
+      - broker_action
+      - order_action
+      - account_instruction
+      - fill_or_pnl_instruction
+      - autonomous_trade_call
+    purpose: "Restates outputs the spec must never emit."
+    guard_against_false_determinism_or_execution: "Makes the non-executional boundary machine-checkable in every spec."
+  review_status:
+    expected_type: enum
+    required: true
+    allowed_values:
+      - DRAFT
+      - REVIEW_REQUIRED
+      - APPROVED_FOR_SPEC_REVIEW
+      - BLOCKED_BY_FEEDS
+      - DEPRECATED
+    purpose: "Tracks maturity of the future spec."
+    guard_against_false_determinism_or_execution: "Prevents draft or feed-blocked specs from being treated as production-ready."
+  notes:
+    expected_type: string
+    required: true
+    allowed_values: "Free text for implementation cautions, open questions, and semantic boundary notes."
+    purpose: "Preserves nuance that does not belong in executable logic."
+    guard_against_false_determinism_or_execution: "Keeps unresolved judgment and feed limitations visible instead of hidden in code."
+
+minimum_future_spec_template:
+  spec_id: null
+  concept_id: null
+  concept_name: null
+  chapter:
+    chapter_number: null
+    chapter_title: null
+    glossary_path: null
+  determinism_class: null
+  semantic_source:
+    glossary_path: null
+    concept_heading: null
+  purpose: null
+  non_executional_boundary: "This spec emits semantic market-read labels only and never emits trade permission, entries, exits, stops, targets, sizing, broker/order/account/fill/P&L behavior, or autonomous trade calls."
+  required_inputs: []
+  optional_inputs: []
+  unavailable_input_behavior:
+    missing_required_input: REFUSE_TO_CLASSIFY
+    missing_optional_input: DEGRADED_CONFIDENCE
+  detection_scope: {}
+  evidence_model: {}
+  rule_structure: {}
+  calibration_parameters: []
+  confidence_behavior: {}
+  refusal_conditions: []
+  output_labels: []
+  false_positive_risks: []
+  false_negative_risks: []
+  failure_modes: []
+  validation_requirements: []
+  prohibited_outputs:
+    - trade_permission
+    - entry_instruction
+    - exit_instruction
+    - stop_instruction
+    - target_instruction
+    - position_sizing_instruction
+    - add_or_reduce_instruction
+    - broker_action
+    - order_action
+    - account_instruction
+    - fill_or_pnl_instruction
+    - autonomous_trade_call
+  review_status: DRAFT
+  notes: null

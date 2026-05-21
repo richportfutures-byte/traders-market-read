@@ -1,4 +1,4 @@
-# Chapter 8 : Volatility Regime
+# Chapter 8 — Volatility Regime
 
 Chapter 8 governs the volatility layer of the market read: whether the market is compressing, expanding, resetting, whipsawing, mechanically traveling through thin liquidity, or becoming too unstable for clean execution.
 
@@ -44,6 +44,8 @@ The live read is not “compression means breakout” or “expansion means tren
 5. In persistent compression, expect false starts to increase. Traders anticipate the break before the auction confirms it.
 6. A volatility expansion after long compression can change invalidation quality: old micro references may become too small to matter.
 7. A contraction after expansion can mean repair, balance building, or loss of participation. It is not automatically reversal.
+8. Compression is preparation, not directional proof; the range gives no side by itself. The release needs acceptance before it can name the side.
+9. The first expansion bar is not the verdict. The first pullback after the release is the key information point: holding beyond the range improves continuation quality, while failure back inside supports a false-start read.
 
 ### How Traders Identify It
 
@@ -130,6 +132,8 @@ The live read is to grade the outcome, not worship the size of the move. A large
 5. Failed expansion can trap traders who acted on the first break. The return inside the prior structure matters more than the initial burst.
 6. When expansion is wide but unreadable, the correct conclusion may be that the environment has degraded, not that the trader needs a faster trigger.
 7. The first pause after expansion is often the cleanest information point: trend resumes, chop starts, exhaustion appears, or failure confirms.
+8. Match the posture to the outcome. Expansion into trend improves continuation quality on defended pauses; expansion into chop supports stand-aside or return-to-reference labels because follow-through is low quality; expansion into exhaustion supports opposing-read review once effort stops producing displacement.
+9. Failed expansion supports a failed-break read: when price cannot hold beyond the range and returns inside, trapped participants from the release become the relevant fuel.
 
 ### How Traders Identify It
 
@@ -304,6 +308,8 @@ The live value is not the label. The value is what the label says about containm
 5. Wide range increases late-location and exhaustion risk, especially if the best displacement already occurred.
 6. A wide range with value migration carries different information than a wide range with value left behind.
 7. Read close quality inside the day structure. A wide day closing back inside range says something different from one that holds accepted expansion.
+8. Narrow or inside days should remain directionally unproven until expansion leaves the range and holds with acceptance.
+9. An outside day that sweeps both extremes and reclaims them should be read as whipsaw rather than trend, making return-to-middle repair more relevant than either break. An outside day with clean value migration improves continuation quality in the direction of migration.
 
 ### How Traders Identify It
 
@@ -354,7 +360,7 @@ Inside, outside, narrow, and wide describe the day’s container; auction qualit
 
 ### See Also
 
-Structural Reference Levels; Value Migration & Overlap; Close Quality; Day-Type Taxonomy; Opening Type Taxonomy; Compression vs. Expansion; Expansion Outcomes; Event Volatility Regime; Setup Quality
+Structural Reference Levels; Value Migration & Overlap; Close Quality; Day-Type Taxonomy; Opening Type Taxonomy; Compression vs. Expansion; Expansion Outcomes; Event Volatility Regime; Setup Cleanliness & Timing
 
 ---
 
@@ -390,6 +396,8 @@ The distinction that matters is first-reaction noise versus tradable post-event 
 5. Post-event acceptance is stronger when price holds the reaction area, builds activity, and avoids immediate whipsaw through both sides.
 6. Event volatility can make a correct directional read poor in execution quality if spread, depth, and tape stability are unacceptable.
 7. Do not let the headline explain the trade unless the tape and auction confirm that participants are actually acting on it.
+8. The first event reaction supports a stand-aside posture because the spike may be an algo burst, stop run, or liquidity vacuum rather than accepted repricing.
+9. Once the auction stabilizes, accepted post-event direction improves continuation quality, while a rejected first reaction that repairs back through the reaction area supports an opposing-read review. Even a correct direction can remain poor expression until spread and depth normalize.
 
 ### How Traders Identify It
 
@@ -475,6 +483,8 @@ The shallow mistake is equating violence with conviction. Sometimes violence is 
 5. Mechanical flows may dominate normal level behavior for a window, then lose relevance quickly once the flow completes.
 6. A move that begins mechanically can transition into real initiative if fresh participants take the handoff.
 7. Do not downgrade the movement just because it is mechanical. Downgrade the inference that it proves durable demand or supply.
+8. Liquidity-driven travel is low quality to oppose while it is still running, and late air-pocket travel should not be mistaken for fresh edge; the distance is already paid.
+9. The read becomes cleaner after forced or mechanical flow clears. A stall with absorption at a reference improves value-repair or opposing-read quality; fresh participation taking the handoff and building value improves continuation quality instead.
 
 ### How Traders Identify It
 
@@ -561,6 +571,8 @@ Compression with a catalyst pending behaves differently from compression without
 6. Compression without a catalyst still needs confirmation. It can break because of organic imbalance, but it can also fake out on poor liquidity.
 7. Breakout anticipation can create poor location before the actual confirming behavior appears.
 8. The quality of the first pullback or pause after the break often reveals whether the breakout is real, false, or unstable.
+9. The first thrust out of compression is the least trustworthy part of the sequence because the boundary attracts stops. A real breakout is strengthened by the first pullback holding the boundary in its new role.
+10. A reclaim back inside the range supports a failed-break read, with trapped breakout participants as fuel and invalidation defined around re-acceptance outside the range.
 
 ### How Traders Identify It
 

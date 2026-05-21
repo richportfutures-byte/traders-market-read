@@ -39,9 +39,15 @@
 - Displayed size at a price refills as fast as it is consumed.
 - Time-at-price extends sharply without the bar making a new extreme.
 
+### Detection Readiness
+
+**JUDGMENT_ASSISTED.**
+
+Absorption — passive size soaking aggression so effort produces no displacement — can be supported by footprint imbalance, cumulative-delta-versus-price divergence, refilling displayed size, and elevated time-at-price, but confirming true passive absorption rather than mere low participation requires order-flow feeds and judgment. Required evidence: footprint, DOM, or cumulative delta together with volume and price behavior. Without footprint, DOM, or delta the read cannot be responsibly made and should emit NOT_DETECTABLE_WITH_CURRENT_FEEDS or insufficient evidence for this concept. A detector can surface effort-without-result sub-signals; the absorption conclusion remains interpretive and feed-dependent.
+
 ### One-Line Summary
 
-> *"If you're hitting it and it's not moving, you're not the biggest player here — quit paying up and figure out who is."*
+> *"If aggression is hitting and price is not moving, the bigger participant is on the other side; the read is effort without result."*
 
 ### See Also
 Refreshing Liquidity, Sweeps Through Liquidity, Cumulative Delta & Delta Divergence, Chasing vs. Pressing, Stall & Snap-Back, Excess vs. Poor Highs/Lows
@@ -52,7 +58,7 @@ Refreshing Liquidity, Sweeps Through Liquidity, Cumulative Delta & Delta Diverge
 
 ### Core Concept
 
-**Refreshing liquidity** is a displayed bid or offer that keeps replenishing at the same price after being hit. It is the mechanical substrate of absorption: absorption is the *price outcome*, refreshing is the *order-book behavior* that produces it. "Offers keep refreshing" means a persistent passive seller is reloading; "bids keep refreshing" means a persistent passive buyer is. The critical skill is distinguishing a genuine refreshing iceberg — real size, gets filled, reappears — from a static wall that is spoofed and pulled before it ever trades. Retail conflates the two constantly and fades the wrong one. *Also known as:* iceberg behavior, reserve-order behavior, reloading bid/offer.
+**Refreshing liquidity** is a displayed bid or offer that keeps replenishing at the same price after being hit. It is the mechanical substrate of absorption: absorption is the *price outcome*, refreshing is the *order-book behavior* that produces it. "Offers keep refreshing" means a persistent passive seller is reloading; "bids keep refreshing" means a persistent passive buyer is. The critical skill is distinguishing a genuine refreshing iceberg — real size, gets filled, reappears — from a static wall that is spoofed and pulled before it ever trades. Retail conflates the two constantly and misreads the wrong one. *Also known as:* iceberg behavior, reserve-order behavior, reloading bid/offer.
 
 > A level that keeps refilling after being traded through is being defended by patient size. The read should respect that defense until the refresh fails.
 
@@ -83,9 +89,15 @@ Refreshing Liquidity, Sweeps Through Liquidity, Cumulative Delta & Delta Diverge
 - The level survives multiple aggressive pushes rather than clearing on the first.
 - Size appears and disappears in round-lot increments — the fingerprint of algo slicing.
 
+### Detection Readiness
+
+**NOT_DETECTABLE_WITH_CURRENT_FEEDS.**
+
+Refreshing liquidity is an order-book phenomenon — displayed size at a price decrementing on each hit and then reloading — and distinguishing a genuine refreshing iceberg from a spoofed wall that pulls before it trades fundamentally requires live order-book / DOM event data. Ordinary OHLCV bars, and even trade prints alone, cannot show the book reloading. Required evidence: DOM depth updates or reserve-order / iceberg event data. Until that feed exists the concept must not be claimed; the most a bar-or-tape-only system can responsibly say is that a level repeatedly held, which is the Absorption read, not a refreshing-liquidity detection.
+
 ### One-Line Summary
 
-> *"A wall that pulls is a bluff; a wall that keeps coming back is a balance sheet — know which one you're hitting before you hit it."*
+> *"A wall that pulls is a bluff; a wall that keeps coming back is a balance sheet. Know which condition the read is dealing with."*
 
 ### See Also
 Absorption, Liquidity Pulls & Replenishment, Spread Behavior, Sweeps Through Liquidity, Tape Quality Spectrum
@@ -127,12 +139,18 @@ This is the **aggression read** — whether the active side is genuinely committ
 - Whether pullbacks get *bought aggressively* or merely stop falling.
 - Footprint ratio of market orders to passive fills in the direction of the move.
 
+### Detection Readiness
+
+**JUDGMENT_ASSISTED.**
+
+Whether the active side is genuinely chasing (lifting offers, hitting bids, paying worse prices) or merely present can be supported by trade classification, cumulative-delta slope versus price slope, and tape speed, but the central read — that absence of opposition is a vacuum rather than demand — requires order-flow feeds and judgment. Required evidence: bid/ask-classified trade data or footprint, plus price and volume; tape-speed baselines must be calibrated. Without trade-classification data the read degrades sharply and should fall back to coarse price-velocity context. A detector can emit an aggression-confirmed or vacuum-suspected sub-signal; it should not authorize a trade.
+
 ### One-Line Summary
 
 > *"Price drifting up because the sellers walked away isn't a bid — it's an air pocket, and air pockets close."*
 
 ### See Also
-Cumulative Delta & Delta Divergence, Tape Quality Spectrum, Initiative vs. Responsive Activity, Momentum Ignition Stall & Exhaustion, Crowded Trades & Pain Trades
+Cumulative Delta & Delta Divergence, Tape Quality Spectrum, Initiative vs. Responsive Activity, Momentum Ignition, Stall & Exhaustion, Crowded Trades & Pain Trades
 
 ---
 
@@ -171,12 +189,18 @@ Two tightly linked micro-events. **Price lifts but stalls** — an up-move loses
 - Cumulative delta fails to make a new extreme alongside price.
 - The snap-back travels *faster* than the probe that preceded it — the tell of forced recoil.
 
+### Detection Readiness
+
+**CALIBRATED.**
+
+A stall (velocity collapsing to near zero at a level) and a snap-back (a probe rapidly recovered through a level) have a deterministic structure, but the velocity-collapse threshold, the snap-back window, and the recoil-speed comparison must be calibrated by instrument, session, timeframe, and regime. Required evidence: a price sequence and the relevant structural level; cumulative delta and wick structure improve confidence. Missing tape data should reduce the read to bar-structure stall and snap-back. A detector can emit a stall or a completed stall-then-snap-back rejection state; thresholds belong in calibration profiles.
+
 ### One-Line Summary
 
 > *"When price pokes a level and instantly recoils, that's not noise — that's the level answering you. Listen."*
 
 ### See Also
-Acceptance vs. Rejection, Liquidity Sweep vs. Real Break, Absorption, Excess vs. Poor Highs/Lows, Exhaustion, Follow-Through
+Acceptance vs. Rejection, Liquidity Sweep vs. Real Break, Absorption, Excess vs. Poor Highs/Lows, Exhaustion, Follow-Through and Failure
 
 ---
 
@@ -186,7 +210,7 @@ Acceptance vs. Rejection, Liquidity Sweep vs. Real Break, Absorption, Excess vs.
 
 **Tape quality** is the *condition* of the order flow itself, on an axis entirely separate from direction. Heavy/light is how much size is trading. Fast/slow is the velocity of prints. Thin/wide is how much depth sits in the book and how far price jumps per trade. Sticky/slippery is whether price holds levels or slides through them. Clean/noisy is whether the tape trends in readable bursts or chops randomly. This matters because a read can be directionally correct while the tape still offers poor expression quality. Thin, wide, noisy tape is its own execution-environment condition, not a footnote.
 
-> A correct thesis on a bad tape is still a loss. Slippage and whipsaw eat the edge before it ever pays — check the water before you dive in.
+> A correct thesis on bad tape can still have poor expression. Slippage and whipsaw can consume the edge before the read has a clean way to prove itself.
 
 ### Why It Happens
 
@@ -215,12 +239,18 @@ Acceptance vs. Rejection, Liquidity Sweep vs. Real Break, Absorption, Excess vs.
 - Range of the last several bars measured against the session average.
 - How many prints it takes to move price a fixed distance — the cleanliness ratio.
 
+### Detection Readiness
+
+**CALIBRATED.**
+
+The tape-quality axes — heavy/light, fast/slow, thin/wide, sticky/slippery, clean/noisy — are measurable but only against calibrated baselines: spread width versus session average, depth, prints-per-tick, and bar range versus average, scoped by instrument, session, and regime. Required evidence: ideally tick data, spread history, and depth; bars supply lower-confidence proxies. Missing tick or depth data should downgrade confidence and narrow the claim rather than block the concept entirely. A detector can emit a tape-quality grade that gates other reads; it is an execution-environment condition, not a directional signal.
+
 ### One-Line Summary
 
-> *"Right idea, wrong tape, still a loss. The tape's condition can veto your read — respect that or it'll be a recurring line in the P&L."*
+> *"Right idea, wrong tape, no clean expression. Tape quality can veto a read even when the direction later proves right."*
 
 ### See Also
-Spread Behavior, Liquidity Pulls & Replenishment, Expanded-Volatility No-Trade Condition, Intraday Time Windows, Execution Environment Quality
+Spread Behavior, Liquidity Pulls & Replenishment, Expanded-Volatility No-Trade Condition, Intraday Time Windows, Execution Environment Quality & Veto
 
 ---
 
@@ -258,6 +288,12 @@ This concept governs whether live order flow *agrees* with the story being told 
 - Pre-announcement drift in cumulative delta — flow moving before the catalyst.
 - Whether a structural level holds on the tape regardless of what the story says.
 - Divergence between what is being *reported* and what is actually *printing*.
+
+### Detection Readiness
+
+**JUDGMENT_ASSISTED.**
+
+Whether live order flow confirms, rejects, leads, or ignores a narrative requires a catalyst input, live tape behavior, structural context, and a judgment about whether the catalyst has a valid transmission mechanism — it cannot be reduced to a deterministic rule. Required evidence: catalyst or news timestamps, price and delta behavior, and structural references. Missing catalyst feeds should keep this a price-only read; missing tape feeds should downgrade it. A future spec can require source quality and tape-confirmation states such as `CATALYST_VALID_BUT_TAPE_REJECTS` or `TAPE_VALID_BUT_CATALYST_WEAK`; it should not generate causal certainty from news.
 
 ### One-Line Summary
 
@@ -303,12 +339,18 @@ The **bid-ask spread** is a continuous, real-time liquidity gauge — and it sho
 - Spread widening into a known event time on the economic calendar.
 - Correlation of spread width with bursts of realized volatility.
 
+### Detection Readiness
+
+**CALIBRATED.**
+
+Spread width and stability are measurable, but reading them — widening as stress, normalizing as liquidity returning — requires calibrated baselines because a normal spread in one product or session is abnormal in another. Required evidence: bid/ask quote data; depth behind the inside quote and an economic calendar improve the read. Missing quote data blocks this concept and should refuse rather than infer the spread from bar ranges. A detector can emit a spread-state and execution-environment flag; spread is a cost-and-condition read, not a directional signal.
+
 ### One-Line Summary
 
-> *"The spread is the market's mood ring — when it gaps wide, somebody knows something or fears something. Don't pay full price to find out which."*
+> *"The spread is the market's mood ring — when it gaps wide, treat it as execution-environment evidence before upgrading the read."*
 
 ### See Also
-Tape Quality Spectrum, Liquidity Pulls & Replenishment, Execution Environment Quality, Event Volatility Regime, Expanded-Volatility No-Trade Condition
+Tape Quality Spectrum, Liquidity Pulls & Replenishment, Execution Environment Quality & Veto, Event Volatility Regime, Expanded-Volatility No-Trade Condition
 
 ---
 
@@ -346,6 +388,12 @@ Liquidity is not static — resting orders are withdrawn and restored constantly
 - Price covering large distances on small volume — the air-pocket signature.
 - Depth visibly rebuilding in the period after a release.
 - The book repeatedly thinning in the same recurring time windows.
+
+### Detection Readiness
+
+**NOT_DETECTABLE_WITH_CURRENT_FEEDS.**
+
+Liquidity being pulled and replenished — resting depth collapsing across multiple price levels and later rebuilding — is fundamentally an order-book phenomenon and requires live DOM / depth-of-market data; ordinary OHLCV bars cannot show the book emptying. Required evidence: DOM depth updates across multiple levels. The downstream air-pocket symptom (price covering distance on small volume) is partially visible from price and volume, but that is a consequence, not a detection of the pull itself. Until depth data exists the concept must not be claimed beyond noting air-pocket-style price behavior as low-confidence context.
 
 ### One-Line Summary
 
@@ -391,6 +439,12 @@ A **sweep** is an aggressive order that takes out multiple price levels of resti
 - Whether price holds beyond the swept level or immediately recoils back inside.
 - The speed and depth of the post-sweep move — genuine breaks travel, stop runs stall.
 
+### Detection Readiness
+
+**CALIBRATED.**
+
+A sweep — an aggressive order taking multiple price levels in one motion — and its post-sweep resolution (absorption and reversal versus continuation and acceptance) can be represented with calibrated parameters for the multi-level take, velocity, and the reclaim/hold window, scoped by instrument, session, and regime. Required evidence: a price sequence and structural levels; tick data and cumulative delta materially improve sweep identification and the post-sweep read. Without order-flow data the read degrades to coarse price-spike structure and should be labeled lower confidence. The sweep itself is direction-neutral; a detector should emit the post-sweep state, not treat the sweep as a signal.
+
 ### One-Line Summary
 
 > *"The sweep is the question; absorption is the answer. Any conclusion before the market answers is just guessing fast."*
@@ -434,6 +488,12 @@ Liquidity Sweep vs. Real Break, Absorption, Stall & Snap-Back, Cumulative Delta 
 - Footprint imbalances clustering on one side with no corresponding price progress.
 - Cumulative delta visibly resetting direction at a specific level.
 - Divergence corroborated by an independent tell — a poor high/low or a stall.
+
+### Detection Readiness
+
+**JUDGMENT_ASSISTED.**
+
+Cumulative delta is computable where bid/ask-classified trade data or footprint exists, and delta-versus-price divergence is a mechanical comparison, but the usable read requires judgment: delta measures effort rather than outcome, divergence mid-range is weak while divergence at a structural extreme is informative, and the signal collapses on thin tape. Required evidence: bid/ask-classified trade or footprint data, plus price and structural location. Without trade-classification data, delta cannot be computed and the concept is NOT_DETECTABLE_WITH_CURRENT_FEEDS under that feed condition. A detector can emit delta-confirmation and delta-divergence sub-signals; they must be paired with price location and never stand alone.
 
 ### One-Line Summary
 

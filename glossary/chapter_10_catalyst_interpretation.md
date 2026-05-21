@@ -1,4 +1,4 @@
-# Chapter 10 - Catalyst Interpretation
+# Chapter 10 — Catalyst Interpretation
 
 Chapter 10 governs how traders read catalysts: data releases, central-bank language, policy headlines, inventory reports, geopolitical headlines, earnings-related spillover, analyst framing, desk chatter, revisions, rumors, and any other information event that may change the market's working premise.
 
@@ -45,6 +45,7 @@ This matters because live markets do not pay for information that is merely inte
 5. Be suspicious when the story appears only after price has already moved and no market behavior confirms it.
 6. Track whether related markets moved before the headline. That can mean the catalyst was already being traded, leaked, anticipated, or irrelevant.
 7. A market can ignore important news when the news is not marginal, when the active driver is elsewhere, or when positioning is already full.
+8. Confirmed new information can upgrade thesis quality; recycled or stale headlines should remain context-only. When a headline burst is immediately absorbed and snapped back, the market is refusing the information, which supports an opposing-read review rather than continuation.
 
 ### How Traders Identify It
 
@@ -141,6 +142,7 @@ The same headline can produce continuation, fade, no reaction, or the opposite r
 5. Watch for underpricing when the market continues accepting new prices after the first reaction and related markets confirm the channel.
 6. Treat "ignored" differently from "priced in." Ignored means the market is trading something else or does not view the catalyst as relevant.
 7. A headline that is logically bullish or bearish can produce the opposite move if the pain trade sits the other way.
+8. The first reaction is provisional. An overreaction that fails acceptance and returns into prior value supports a value-repair read; an underpriced catalyst that keeps accepting new prices improves continuation quality. When the market is genuinely priced in, the headline has no remaining edge and the correct label may be stand aside.
 
 ### How Traders Identify It
 
@@ -233,12 +235,13 @@ The shallow read is "bullish headline equals buy" or "bearish headline equals se
 ### Practical Implications
 
 1. Name the transmission channel before assigning catalyst meaning.
-2. Do not trade the headline if the product's active driver is elsewhere.
+2. Do not let the headline drive the read if the product's active driver is elsewhere.
 3. Separate first-order story from second-order and third-order effects.
 4. Treat a catalyst as stronger when the expected channel moves first, confirms, and remains aligned.
 5. Treat a catalyst as weaker when the traded product moves but the required channel refuses to confirm.
 6. Watch for opposite reactions when the second-order effect matters more than the headline polarity.
 7. Use intermarket behavior to test the story, but require the traded contract to confirm through its own structure and tape.
+8. When the expected channel confirms and the traded contract accepts the repricing, the move gains thesis and continuation quality. When the traded contract moves on the headline but the required channel refuses to confirm, the headline move is unsupported and repair risk becomes the senior read.
 
 ### How Traders Identify It
 
@@ -297,11 +300,11 @@ Transmission requires catalyst classification, product driver mapping, related-m
 
 ### One-Line Summary
 
-Do not trade the headline; trade only the channel the market actually accepts.
+The headline is context; the accepted transmission channel is the market read.
 
 ### See Also
 
-Intermarket Confirmation; Gold Drivers; Crude Inventory and Product Confirmation; Euro/Dollar Drivers; Yield Curve and Rate Repricing; Tape vs. Narrative; Product-Specific Behavior; Catalyst Effect on Thesis
+Intermarket Confirmation; Gold Drivers: Real Yields, DXY, Breakevens; Crude Fundamentals: Inventories & Cracks; Euro/Dollar Drivers; The Yield Curve & Rate Repricing; Tape vs. Narrative; Product-Specific Behavior; Catalyst Effect on Thesis
 
 ---
 
@@ -396,7 +399,7 @@ A correct catalyst is not edge until the market gives it a clean, confirmed expr
 
 ### See Also
 
-Context vs. Execution Permission; Setup Cleanliness & Timing; Location Quality; Confirmation and Invalidation Discipline; Event Volatility Regime; Tape Quality Spectrum; Expanded-Volatility No-Trade Condition; Catalyst Alignment; Execution-Environment Veto Labels
+Context vs. Execution Permission; Setup Cleanliness & Timing; Location Quality; Confirmation & Invalidation Discipline; Event Volatility Regime; Tape Quality Spectrum; Expanded-Volatility No-Trade Condition; Alignment Across Dimensions; Execution Environment Quality & Veto
 
 ---
 
@@ -431,6 +434,7 @@ The key point is that tape can invalidate a catalyst even when the story is inte
 5. Treat tape rejection of an intellectually coherent catalyst as serious evidence.
 6. Retire stale catalyst theses once the event window passes or the market stops trading that premise.
 7. Record whether the thesis was confirmed, weakened, invalidated, stale, or replaced rather than forcing a binary right/wrong label.
+8. Let the thesis state set the posture: a catalyst-strengthened thesis that the market accepts can remain active; tape rejection of the catalyst downgrades conviction or invalidates the read; an opposing thesis requires a confirmed bias flip through accepted market behavior, never the headline alone.
 
 ### How Traders Identify It
 
@@ -494,7 +498,7 @@ A catalyst updates the thesis only when the market accepts the update; otherwise
 
 ### See Also
 
-Confirmation and Invalidation Discipline; Tape-Confirms-Narrative Rule; Thesis State Lifecycle; Pricing-In; Transmission Mechanism & Order Effects; Context vs. Execution Permission; Intermarket Confirmation; Catalyst Alignment
+Confirmation & Invalidation Discipline; Tape-Confirms-Narrative Rule; Thesis State Lifecycle; Pricing-In; Transmission Mechanism & Order Effects; Context vs. Execution Permission; Intermarket Confirmation; Alignment Across Dimensions
 
 ---
 
@@ -529,6 +533,7 @@ Pain trades often run opposite the obvious narrative when positioning is crowded
 5. Do not assume analyst consensus equals accepted repricing.
 6. Conflicting catalysts should downgrade clarity until the traded market chooses a channel.
 7. When desk chatter is uniform and location is late, be alert for trap risk.
+8. A consensus narrative should not be upgraded mechanically because a crowded story can keep working while fresh flow arrives. When the consensus trade fails at the level it needed to hold, the pain-trade read strengthens as crowded participants are forced to unwind.
 
 ### How Traders Identify It
 
@@ -689,7 +694,7 @@ Source quality tells you how much to trust the story; market behavior tells you 
 
 ### See Also
 
-Tape-Confirms-Narrative Rule; New Information vs. Recycled Context; Pricing-In; Catalyst Effect on Thesis; Policy Event Windows; Intermarket Confirmation; Confirmation Clarity; Context vs. Execution Permission
+Tape-Confirms-Narrative Rule; New Information vs. Recycled Context; Pricing-In; Catalyst Effect on Thesis; Event Volatility Regime; Intermarket Confirmation; Invalidation & Confirmation Clarity; Context vs. Execution Permission
 
 ---
 

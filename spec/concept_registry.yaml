@@ -1,0 +1,1656 @@
+registry_id: concept_registry
+registry_version: 1
+source_matrix: qa/concept_determinism_matrix.csv
+concept_count: 110
+id_policy: "Stable lowercase snake_case, prefixed by chapter number as chNN_. Exact glossary concept names are preserved separately."
+entries:
+  - concept_id: ch01_the_read_vs_the_touch
+    concept_name: "The Read vs. The Touch"
+    chapter_number: 1
+    chapter_title: "Read Discipline & Interpretation Method"
+    glossary_path: "glossary/chapter_01_read_discipline_interpretation_method.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Price/level interaction sequence, structural levels, session state"
+    optional_inputs_summary: "Volume-at-price, cumulative delta, tape"
+    missing_feed_behavior_summary: "Downgrade to structural touch read"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Classifies post-touch behavior; Detection Readiness present and valid; left unchanged in P12"
+  - concept_id: ch01_signal_conflict_taxonomy
+    concept_name: "Signal Conflict Taxonomy"
+    chapter_number: 1
+    chapter_title: "Read Discipline & Interpretation Method"
+    glossary_path: "glossary/chapter_01_read_discipline_interpretation_method.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Multi-layer reads (structure, tape, catalyst, intermarket), timeframe context"
+    optional_inputs_summary: "Feed-quality metadata"
+    missing_feed_behavior_summary: "Emit review-required label"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Governance/interpretation concept; left unchanged"
+  - concept_id: ch01_leading_vs_coincident_signals
+    concept_name: "Leading vs. Coincident Signals"
+    chapter_number: 1
+    chapter_title: "Read Discipline & Interpretation Method"
+    glossary_path: "glossary/chapter_01_read_discipline_interpretation_method.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Price sequence, signal-timing context"
+    optional_inputs_summary: "Spread, delta, intermarket"
+    missing_feed_behavior_summary: "Tag signal timing as uncertain"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Signal-timing classification; left unchanged"
+  - concept_id: ch01_context_vs_execution_permission
+    concept_name: "Context vs. Execution Permission"
+    chapter_number: 1
+    chapter_title: "Read Discipline & Interpretation Method"
+    glossary_path: "glossary/chapter_01_read_discipline_interpretation_method.md"
+    determinism_class: CONTEXT_ONLY
+    required_inputs_summary: "Observation set, setup-quality context"
+    optional_inputs_summary: "None"
+    missing_feed_behavior_summary: "Keep context-only"
+    calibration_needed: false
+    human_judgment_needed: true
+    spec_candidate: false
+    recommended_spec_phase: CONTEXT_GOVERNANCE_ONLY
+    registry_status: GOVERNANCE_ONLY
+    notes: "Governance boundary; not a detector; left unchanged"
+  - concept_id: ch01_confirmation_and_invalidation_discipline
+    concept_name: "Confirmation & Invalidation Discipline"
+    chapter_number: 1
+    chapter_title: "Read Discipline & Interpretation Method"
+    glossary_path: "glossary/chapter_01_read_discipline_interpretation_method.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Thesis premise, per-layer market behavior"
+    optional_inputs_summary: "Tape, value, intermarket"
+    missing_feed_behavior_summary: "Classify observation as context"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Discipline applied per concept; left unchanged"
+  - concept_id: ch01_tape_confirms_narrative_rule
+    concept_name: "Tape-Confirms-Narrative Rule"
+    chapter_number: 1
+    chapter_title: "Read Discipline & Interpretation Method"
+    glossary_path: "glossary/chapter_01_read_discipline_interpretation_method.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Catalyst input, live tape, structural context"
+    optional_inputs_summary: "Cumulative delta, source timestamps"
+    missing_feed_behavior_summary: "Keep catalyst non-tradable context"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch01_product_specific_behavior
+    concept_name: "Product-Specific Behavior"
+    chapter_number: 1
+    chapter_title: "Read Discipline & Interpretation Method"
+    glossary_path: "glossary/chapter_01_read_discipline_interpretation_method.md"
+    determinism_class: CONTEXT_ONLY
+    required_inputs_summary: "Product/session/regime metadata"
+    optional_inputs_summary: "Calibration profiles"
+    missing_feed_behavior_summary: "Block cross-product parameter transfer"
+    calibration_needed: false
+    human_judgment_needed: true
+    spec_candidate: false
+    recommended_spec_phase: CONTEXT_GOVERNANCE_ONLY
+    registry_status: GOVERNANCE_ONLY
+    notes: "Calibration-scoping principle; not a detector; left unchanged"
+  - concept_id: ch01_false_precision_and_observation_tracking
+    concept_name: "False Precision & Observation Tracking"
+    chapter_number: 1
+    chapter_title: "Read Discipline & Interpretation Method"
+    glossary_path: "glossary/chapter_01_read_discipline_interpretation_method.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Observation records, outcomes, review windows"
+    optional_inputs_summary: "Calibration data"
+    missing_feed_behavior_summary: "Preserve uncertainty; emit refusal/review"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Governance; observation tracking partly computable once records defined; left unchanged"
+  - concept_id: ch02_structural_reference_levels
+    concept_name: "Structural Reference Levels"
+    chapter_number: 2
+    chapter_title: "Level Interaction & Acceptance"
+    glossary_path: "glossary/chapter_02_level_interaction_acceptance.md"
+    determinism_class: COMPUTABLE
+    required_inputs_summary: "Session clock, session and prior-session bars"
+    optional_inputs_summary: "Market Profile / volume-at-price (for value references)"
+    missing_feed_behavior_summary: "Omit profile-derived references rather than approximate"
+    calibration_needed: false
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P14_FIRST_SPEC_CANDIDATE
+    registry_status: READY_FOR_P14
+    notes: "Reference lattice computable; significance weighting is a judgment overlay; Detection Readiness added in P12"
+  - concept_id: ch02_acceptance_vs_rejection
+    concept_name: "Acceptance vs. Rejection"
+    chapter_number: 2
+    chapter_title: "Level Interaction & Acceptance"
+    glossary_path: "glossary/chapter_02_level_interaction_acceptance.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Structural level, trade/price sequence"
+    optional_inputs_summary: "Volume-at-price, cumulative delta"
+    missing_feed_behavior_summary: "Lower confidence; refuse if no price sequence or level"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P14_FIRST_SPEC_CANDIDATE
+    registry_status: READY_FOR_P14
+    notes: "Protocol flagship calibrated concept; strong detection-spec candidate; Detection Readiness added in P12"
+  - concept_id: ch02_level_test_sequence
+    concept_name: "Level Test Sequence"
+    chapter_number: 2
+    chapter_title: "Level Interaction & Acceptance"
+    glossary_path: "glossary/chapter_02_level_interaction_acceptance.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Structural level, price sequence, session clock"
+    optional_inputs_summary: "Volume and aggression per test"
+    missing_feed_behavior_summary: "Downgrade to bare structural test count"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "No universal three-test rule; calibrate test-count window and reaction threshold; Detection Readiness added in P12"
+  - concept_id: ch02_level_magnetism_and_decay
+    concept_name: "Level Magnetism & Decay"
+    chapter_number: 2
+    chapter_title: "Level Interaction & Acceptance"
+    glossary_path: "glossary/chapter_02_level_interaction_acceptance.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Structural level, price sequence"
+    optional_inputs_summary: "Volume, prior test history"
+    missing_feed_behavior_summary: "Reduce confidence rather than assert decay"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Stop-cluster location inferred without order-book data; Detection Readiness added in P12"
+  - concept_id: ch02_breakout_continuation_vs_breakout_failure
+    concept_name: "Breakout Continuation vs. Breakout Failure"
+    chapter_number: 2
+    chapter_title: "Level Interaction & Acceptance"
+    glossary_path: "glossary/chapter_02_level_interaction_acceptance.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Structural level, price sequence"
+    optional_inputs_summary: "Volume, value migration, tape"
+    missing_feed_behavior_summary: "Reduce to structural follow-through only"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Emits continuation/retest/failure state; no trade authorization; Detection Readiness added in P12"
+  - concept_id: ch02_liquidity_sweep_vs_real_break
+    concept_name: "Liquidity Sweep vs. Real Break"
+    chapter_number: 2
+    chapter_title: "Level Interaction & Acceptance"
+    glossary_path: "glossary/chapter_02_level_interaction_acceptance.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Structural level, price sequence"
+    optional_inputs_summary: "Tick data, cumulative delta, DOM"
+    missing_feed_behavior_summary: "Keep structural; block intent claims"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Motive not detectable; only reclaim/hold reaction; Detection Readiness added in P12"
+  - concept_id: ch02_break_quality
+    concept_name: "Break Quality"
+    chapter_number: 2
+    chapter_title: "Level Interaction & Acceptance"
+    glossary_path: "glossary/chapter_02_level_interaction_acceptance.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Price sequence, structural reference lattice"
+    optional_inputs_summary: "Volatility baselines, tape"
+    missing_feed_behavior_summary: "Downgrade to coarse structural texture"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Grade only; execution permission belongs to Chapter 12; Detection Readiness added in P12"
+  - concept_id: ch02_polarity_flip
+    concept_name: "Polarity Flip"
+    chapter_number: 2
+    chapter_title: "Level Interaction & Acceptance"
+    glossary_path: "glossary/chapter_02_level_interaction_acceptance.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Broken level, subsequent price sequence"
+    optional_inputs_summary: "Volume, tape at retest"
+    missing_feed_behavior_summary: "Reduce to bare structural retest outcome"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Reclaim of breakdown and loss of breakout are the same mechanism inverted; Detection Readiness added in P12"
+  - concept_id: ch02_mechanical_levels_and_obvious_traps
+    concept_name: "Mechanical Levels & Obvious Traps"
+    chapter_number: 2
+    chapter_title: "Level Interaction & Acceptance"
+    glossary_path: "glossary/chapter_02_level_interaction_acceptance.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Structural level, price behavior around it"
+    optional_inputs_summary: "Sentiment, positioning, order-book data"
+    missing_feed_behavior_summary: "Keep caution overlay, not confirmed condition"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Trap-risk read needs crowding inference; raises confirmation requirement; Detection Readiness added in P12"
+  - concept_id: ch03_the_auction_framework
+    concept_name: "The Auction Framework"
+    chapter_number: 3
+    chapter_title: "Auction & Market Profile"
+    glossary_path: "glossary/chapter_03_auction_market_profile.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Price/bar structure"
+    optional_inputs_summary: "Market Profile / volume-at-price"
+    missing_feed_behavior_summary: "Downgrade to bar-structure regime context"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Balance/imbalance/transition state; transitions lower confidence; Detection Readiness added in P12"
+  - concept_id: ch03_auction_acceptance_vs_rejection
+    concept_name: "Auction Acceptance vs. Rejection"
+    chapter_number: 3
+    chapter_title: "Auction & Market Profile"
+    glossary_path: "glossary/chapter_03_auction_market_profile.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Price sequence, Market Profile / TPO / volume-at-price"
+    optional_inputs_summary: "Cumulative delta"
+    missing_feed_behavior_summary: "Refuse without profile data"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P14_FIRST_SPEC_CANDIDATE
+    registry_status: READY_FOR_P14
+    notes: "Auction-level acceptance read; Detection Readiness added in P12"
+  - concept_id: ch03_initiative_vs_responsive_activity
+    concept_name: "Initiative vs. Responsive Activity"
+    chapter_number: 3
+    chapter_title: "Auction & Market Profile"
+    glossary_path: "glossary/chapter_03_auction_market_profile.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Value-area reference, price sequence"
+    optional_inputs_summary: "Delta, aggression at value edges"
+    missing_feed_behavior_summary: "Keep context-only"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Location split mechanical, conviction read interpretive; Detection Readiness added in P12"
+  - concept_id: ch03_completed_failed_and_unfinished_auctions
+    concept_name: "Completed, Failed & Unfinished Auctions"
+    chapter_number: 3
+    chapter_title: "Auction & Market Profile"
+    glossary_path: "glossary/chapter_03_auction_market_profile.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Market Profile / TPO data, price sequence"
+    optional_inputs_summary: "None"
+    missing_feed_behavior_summary: "Refuse excess/poor without profile; failed auction from bars at low confidence"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Auction-quality context; Detection Readiness added in P12"
+  - concept_id: ch03_excess_vs_poor_highs_lows
+    concept_name: "Excess vs. Poor Highs/Lows"
+    chapter_number: 3
+    chapter_title: "Auction & Market Profile"
+    glossary_path: "glossary/chapter_03_auction_market_profile.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Market Profile / TPO data, price sequence"
+    optional_inputs_summary: "Rejection speed, participation"
+    missing_feed_behavior_summary: "Not detectable without profile/TPO data; refuse"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Tail vs flat extreme; magnet behavior is context; Detection Readiness added in P12"
+  - concept_id: ch03_value_area_vah_val_poc
+    concept_name: "Value Area: VAH / VAL / POC"
+    chapter_number: 3
+    chapter_title: "Auction & Market Profile"
+    glossary_path: "glossary/chapter_03_auction_market_profile.md"
+    determinism_class: COMPUTABLE
+    required_inputs_summary: "Market Profile / TPO / volume-at-price, session boundaries"
+    optional_inputs_summary: "None"
+    missing_feed_behavior_summary: "NOT_DETECTABLE without volume-at-price or TPO data"
+    calibration_needed: false
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P14_FIRST_SPEC_CANDIDATE
+    registry_status: READY_FOR_P14
+    notes: "Hard data dependency; mechanically computed once profile data exists; Detection Readiness added in P12"
+  - concept_id: ch03_value_migration_and_overlap
+    concept_name: "Value Migration & Overlap"
+    chapter_number: 3
+    chapter_title: "Auction & Market Profile"
+    glossary_path: "glossary/chapter_03_auction_market_profile.md"
+    determinism_class: COMPUTABLE
+    required_inputs_summary: "Per-session value areas (profile data)"
+    optional_inputs_summary: "None"
+    missing_feed_behavior_summary: "Not detectable without profile data"
+    calibration_needed: false
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Day-over-day mechanical comparison; trend-at-value read; Detection Readiness added in P12"
+  - concept_id: ch03_price_outside_value_acceptance_test
+    concept_name: "Price Outside Value / Acceptance Test"
+    chapter_number: 3
+    chapter_title: "Auction & Market Profile"
+    glossary_path: "glossary/chapter_03_auction_market_profile.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Value-area reference, price sequence, volume-at-price beyond value"
+    optional_inputs_summary: "None"
+    missing_feed_behavior_summary: "Downgrade to bare inside/outside-value flag"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Live acceptance test; calibrated dwell; Detection Readiness added in P12"
+  - concept_id: ch03_volume_nodes_and_air_pockets
+    concept_name: "Volume Nodes & Air Pockets"
+    chapter_number: 3
+    chapter_title: "Auction & Market Profile"
+    glossary_path: "glossary/chapter_03_auction_market_profile.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Volume-at-price / volume-profile data, prior price path"
+    optional_inputs_summary: "None"
+    missing_feed_behavior_summary: "Not detectable without volume-at-price data; refuse"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "HVN/LVN map; calibrated node/gap thresholds; Detection Readiness added in P12"
+  - concept_id: ch03_single_prints
+    concept_name: "Single Prints"
+    chapter_number: 3
+    chapter_title: "Auction & Market Profile"
+    glossary_path: "glossary/chapter_03_auction_market_profile.md"
+    determinism_class: COMPUTABLE
+    required_inputs_summary: "TPO / Market Profile data, defined TPO period"
+    optional_inputs_summary: "Volume-at-price low-volume node (proxy)"
+    missing_feed_behavior_summary: "NOT_DETECTABLE without TPO data"
+    calibration_needed: false
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Mechanically identified; excess/initiative interpretation is separate; Detection Readiness added in P12"
+  - concept_id: ch03_initial_balance
+    concept_name: "Initial Balance"
+    chapter_number: 3
+    chapter_title: "Auction & Market Profile"
+    glossary_path: "glossary/chapter_03_auction_market_profile.md"
+    determinism_class: COMPUTABLE
+    required_inputs_summary: "Session clock, RTH bars"
+    optional_inputs_summary: "Historical IB widths"
+    missing_feed_behavior_summary: "Refuse without session clock or bars"
+    calibration_needed: false
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P14_FIRST_SPEC_CANDIDATE
+    registry_status: READY_FOR_P14
+    notes: "IB high/low computable; width-vs-average is a calibrated comparison; Detection Readiness added in P12"
+  - concept_id: ch03_vwap_relationship
+    concept_name: "VWAP Relationship"
+    chapter_number: 3
+    chapter_title: "Auction & Market Profile"
+    glossary_path: "glossary/chapter_03_auction_market_profile.md"
+    determinism_class: COMPUTABLE
+    required_inputs_summary: "Intraday trade price, volume"
+    optional_inputs_summary: "Anchor events (for anchored VWAP)"
+    missing_feed_behavior_summary: "Refuse without volume; no simple-average substitute"
+    calibration_needed: false
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P14_FIRST_SPEC_CANDIDATE
+    registry_status: READY_FOR_P14
+    notes: "Calculation computable; magnet/SR behavior is regime-dependent; Detection Readiness added in P12"
+  - concept_id: ch03_overnight_inventory_and_inventory_correction
+    concept_name: "Overnight Inventory & Inventory Correction"
+    chapter_number: 3
+    chapter_title: "Auction & Market Profile"
+    glossary_path: "glossary/chapter_03_auction_market_profile.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Overnight bars, RTH open"
+    optional_inputs_summary: "Overnight profile shape, positioning data"
+    missing_feed_behavior_summary: "Keep lopsidedness read provisional"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Range computable; too-long/short and correction call are inference; Detection Readiness added in P12"
+  - concept_id: ch03_short_covering_vs_long_liquidation_auctions
+    concept_name: "Short-Covering vs. Long-Liquidation Auctions"
+    chapter_number: 3
+    chapter_title: "Auction & Market Profile"
+    glossary_path: "glossary/chapter_03_auction_market_profile.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Price sequence, value behavior"
+    optional_inputs_summary: "Cumulative delta, aggression, positioning/COT/options"
+    missing_feed_behavior_summary: "Label inferred covering/liquidation context"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Forced-flow vs fresh-initiative is judgment; Detection Readiness added in P12"
+  - concept_id: ch03_fresh_flow_vs_weak_strong_hands
+    concept_name: "Fresh Flow vs. Weak/Strong Hands"
+    chapter_number: 3
+    chapter_title: "Auction & Market Profile"
+    glossary_path: "glossary/chapter_03_auction_market_profile.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Price sequence, value behavior"
+    optional_inputs_summary: "Delta, aggression"
+    missing_feed_behavior_summary: "Keep participant-quality read provisional"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Participant quality not directly observable; Detection Readiness added in P12"
+  - concept_id: ch04_absorption
+    concept_name: "Absorption"
+    chapter_number: 4
+    chapter_title: "Tape Reading & Microstructure"
+    glossary_path: "glossary/chapter_04_tape_reading_microstructure.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Footprint / DOM / cumulative delta, volume, price behavior"
+    optional_inputs_summary: "Time-at-price"
+    missing_feed_behavior_summary: "Emit NOT_DETECTABLE or insufficient evidence without footprint/DOM/delta"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Effort-without-result read; feed-dependent; Detection Readiness added in P12"
+  - concept_id: ch04_refreshing_liquidity
+    concept_name: "Refreshing Liquidity"
+    chapter_number: 4
+    chapter_title: "Tape Reading & Microstructure"
+    glossary_path: "glossary/chapter_04_tape_reading_microstructure.md"
+    determinism_class: NOT_DETECTABLE_WITH_CURRENT_FEEDS
+    required_inputs_summary: "DOM depth updates / iceberg event data"
+    optional_inputs_summary: "None"
+    missing_feed_behavior_summary: "Do not claim; falls back to the Absorption read"
+    calibration_needed: false
+    human_judgment_needed: true
+    spec_candidate: false
+    recommended_spec_phase: BLOCKED_BY_FEEDS
+    registry_status: BLOCKED_PENDING_FEEDS
+    notes: "Order-book phenomenon; cannot be read from bars or tape; Detection Readiness added in P12"
+  - concept_id: ch04_chasing_vs_pressing
+    concept_name: "Chasing vs. Pressing"
+    chapter_number: 4
+    chapter_title: "Tape Reading & Microstructure"
+    glossary_path: "glossary/chapter_04_tape_reading_microstructure.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Bid/ask-classified trade data or footprint, price, volume"
+    optional_inputs_summary: "Tape-speed baselines"
+    missing_feed_behavior_summary: "Fall back to coarse price-velocity context"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Vacuum-vs-demand read is interpretive; Detection Readiness added in P12"
+  - concept_id: ch04_stall_and_snap_back
+    concept_name: "Stall & Snap-Back"
+    chapter_number: 4
+    chapter_title: "Tape Reading & Microstructure"
+    glossary_path: "glossary/chapter_04_tape_reading_microstructure.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Price sequence, structural level"
+    optional_inputs_summary: "Cumulative delta, wick structure"
+    missing_feed_behavior_summary: "Reduce to bar-structure stall/snap-back"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Velocity and snap-back thresholds calibrated; Detection Readiness added in P12"
+  - concept_id: ch04_tape_quality_spectrum
+    concept_name: "Tape Quality Spectrum"
+    chapter_number: 4
+    chapter_title: "Tape Reading & Microstructure"
+    glossary_path: "glossary/chapter_04_tape_reading_microstructure.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Tick data, spread history, depth (ideal); bars as proxy"
+    optional_inputs_summary: "None"
+    missing_feed_behavior_summary: "Downgrade confidence and narrow claim"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Execution-environment condition, not directional; Detection Readiness added in P12"
+  - concept_id: ch04_tape_vs_narrative
+    concept_name: "Tape vs. Narrative"
+    chapter_number: 4
+    chapter_title: "Tape Reading & Microstructure"
+    glossary_path: "glossary/chapter_04_tape_reading_microstructure.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Catalyst/news timestamps, price and delta behavior, structural references"
+    optional_inputs_summary: "Source quality"
+    missing_feed_behavior_summary: "Price-only read or downgrade"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Transmission-mechanism judgment; Detection Readiness added in P12"
+  - concept_id: ch04_spread_behavior
+    concept_name: "Spread Behavior"
+    chapter_number: 4
+    chapter_title: "Tape Reading & Microstructure"
+    glossary_path: "glossary/chapter_04_tape_reading_microstructure.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Bid/ask quote data"
+    optional_inputs_summary: "Depth behind inside quote, economic calendar"
+    missing_feed_behavior_summary: "Refuse without quote data"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Cost-and-condition read; calibrated baselines; Detection Readiness added in P12"
+  - concept_id: ch04_liquidity_pulls_and_replenishment
+    concept_name: "Liquidity Pulls & Replenishment"
+    chapter_number: 4
+    chapter_title: "Tape Reading & Microstructure"
+    glossary_path: "glossary/chapter_04_tape_reading_microstructure.md"
+    determinism_class: NOT_DETECTABLE_WITH_CURRENT_FEEDS
+    required_inputs_summary: "DOM / depth-of-market data across multiple levels"
+    optional_inputs_summary: "None"
+    missing_feed_behavior_summary: "Do not claim; air-pocket price behavior is low-confidence context only"
+    calibration_needed: false
+    human_judgment_needed: true
+    spec_candidate: false
+    recommended_spec_phase: BLOCKED_BY_FEEDS
+    registry_status: BLOCKED_PENDING_FEEDS
+    notes: "Order-book phenomenon; bars cannot show the book emptying; Detection Readiness added in P12"
+  - concept_id: ch04_sweeps_through_liquidity
+    concept_name: "Sweeps Through Liquidity"
+    chapter_number: 4
+    chapter_title: "Tape Reading & Microstructure"
+    glossary_path: "glossary/chapter_04_tape_reading_microstructure.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Price sequence, structural levels"
+    optional_inputs_summary: "Tick data, cumulative delta"
+    missing_feed_behavior_summary: "Coarse price-spike structure, lower confidence"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Sweep is direction-neutral; emit post-sweep state; Detection Readiness added in P12"
+  - concept_id: ch04_cumulative_delta_and_delta_divergence
+    concept_name: "Cumulative Delta & Delta Divergence"
+    chapter_number: 4
+    chapter_title: "Tape Reading & Microstructure"
+    glossary_path: "glossary/chapter_04_tape_reading_microstructure.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Bid/ask-classified trade or footprint data, price, structural location"
+    optional_inputs_summary: "None"
+    missing_feed_behavior_summary: "NOT_DETECTABLE without trade-classification data"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Effort not outcome; never stand-alone; Detection Readiness added in P12"
+  - concept_id: ch05_impulse_vs_grind
+    concept_name: "Impulse vs. Grind"
+    chapter_number: 5
+    chapter_title: "Momentum, Follow-Through & Day Types"
+    glossary_path: "glossary/chapter_05_momentum_follow_through_day_types.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Price bars, volume, session context, volatility baselines"
+    optional_inputs_summary: "Tape, volume-at-price"
+    missing_feed_behavior_summary: "Downgrade to structural texture"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Protocol calibrated example; Detection Readiness present and valid; left unchanged"
+  - concept_id: ch05_momentum_ignition_stall_and_exhaustion
+    concept_name: "Momentum Ignition, Stall & Exhaustion"
+    chapter_number: 5
+    chapter_title: "Momentum, Follow-Through & Day Types"
+    glossary_path: "glossary/chapter_05_momentum_follow_through_day_types.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Price, volume, session state, volatility baselines, structural references"
+    optional_inputs_summary: "Tape, delta, footprint, DOM"
+    missing_feed_behavior_summary: "Downgrade; block absorption/exhaustion claims"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch05_follow_through_and_failure
+    concept_name: "Follow-Through and Failure"
+    chapter_number: 5
+    chapter_title: "Momentum, Follow-Through & Day Types"
+    glossary_path: "glossary/chapter_05_momentum_follow_through_day_types.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Structural level, price sequence"
+    optional_inputs_summary: "Volume, value, tape, delta"
+    missing_feed_behavior_summary: "Reduce to structural follow-through only"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch05_exhaustion
+    concept_name: "Exhaustion"
+    chapter_number: 5
+    chapter_title: "Momentum, Follow-Through & Day Types"
+    glossary_path: "glossary/chapter_05_momentum_follow_through_day_types.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Price, volume, structural references, value/profile"
+    optional_inputs_summary: "Delta, footprint"
+    missing_feed_behavior_summary: "Lower-confidence structural read"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch05_close_quality
+    concept_name: "Close Quality"
+    chapter_number: 5
+    chapter_title: "Momentum, Follow-Through & Day Types"
+    glossary_path: "glossary/chapter_05_momentum_follow_through_day_types.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Session structure, range, value, close location"
+    optional_inputs_summary: "Imbalance feeds, volume profile, cumulative delta"
+    missing_feed_behavior_summary: "Compute close location only; no causal claims"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch05_one_timeframing
+    concept_name: "One-Timeframing"
+    chapter_number: 5
+    chapter_title: "Momentum, Follow-Through & Day Types"
+    glossary_path: "glossary/chapter_05_momentum_follow_through_day_types.md"
+    determinism_class: COMPUTABLE
+    required_inputs_summary: "Clean period bars, defined session/timeframe"
+    optional_inputs_summary: "Profile, value, tape, delta"
+    missing_feed_behavior_summary: "Structural state still computable"
+    calibration_needed: false
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P14_FIRST_SPEC_CANDIDATE
+    registry_status: READY_FOR_P14
+    notes: "Structural state computable; quality interpretation separate; left unchanged"
+  - concept_id: ch05_day_type_taxonomy
+    concept_name: "Day-Type Taxonomy"
+    chapter_number: 5
+    chapter_title: "Momentum, Follow-Through & Day Types"
+    glossary_path: "glossary/chapter_05_momentum_follow_through_day_types.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Session bars, IB references, prior value, volume/profile"
+    optional_inputs_summary: "Tape, delta"
+    missing_feed_behavior_summary: "Keep day-type labels provisional"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch06_trapped_traders
+    concept_name: "Trapped Traders"
+    chapter_number: 6
+    chapter_title: "Traps & Positioning"
+    glossary_path: "glossary/chapter_06_traps_positioning.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Structural levels, price sequence, level interaction, value behavior"
+    optional_inputs_summary: "Tape, delta"
+    missing_feed_behavior_summary: "Treat as lower-confidence context"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch06_strong_hands_defending
+    concept_name: "Strong Hands Defending"
+    chapter_number: 6
+    chapter_title: "Traps & Positioning"
+    glossary_path: "glossary/chapter_06_traps_positioning.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Level behavior, repeated-test quality, value behavior"
+    optional_inputs_summary: "Absorption, delta, DOM"
+    missing_feed_behavior_summary: "Describe observable result only"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch06_stop_out_cascades_and_liquidation
+    concept_name: "Stop-Out Cascades & Liquidation"
+    chapter_number: 6
+    chapter_title: "Traps & Positioning"
+    glossary_path: "glossary/chapter_06_traps_positioning.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Price sequence, structural levels, velocity/volume, session state"
+    optional_inputs_summary: "Tick/tape data"
+    missing_feed_behavior_summary: "Cascade-like behavior only; no liquidation claims"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch06_short_covering_rally
+    concept_name: "Short-Covering Rally"
+    chapter_number: 6
+    chapter_title: "Traps & Positioning"
+    glossary_path: "glossary/chapter_06_traps_positioning.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Failed-breakdown/reclaim sequence, structural levels, value behavior"
+    optional_inputs_summary: "Tape, delta, positioning data"
+    missing_feed_behavior_summary: "Label inferred short-covering context"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch06_crowded_trades_and_pain_trades
+    concept_name: "Crowded Trades & Pain Trades"
+    chapter_number: 6
+    chapter_title: "Traps & Positioning"
+    glossary_path: "glossary/chapter_06_traps_positioning.md"
+    determinism_class: CONTEXT_ONLY
+    required_inputs_summary: "Structural sequence, positioning/sentiment proxies, value behavior"
+    optional_inputs_summary: "Options OI, COT, fund-flow data"
+    missing_feed_behavior_summary: "Describe observable vulnerability only"
+    calibration_needed: false
+    human_judgment_needed: true
+    spec_candidate: false
+    recommended_spec_phase: CONTEXT_GOVERNANCE_ONLY
+    registry_status: GOVERNANCE_ONLY
+    notes: "Context/vulnerability concept; not a direct detector; left unchanged"
+  - concept_id: ch06_dealer_gamma_dynamics
+    concept_name: "Dealer Gamma Dynamics"
+    chapter_number: 6
+    chapter_title: "Traps & Positioning"
+    glossary_path: "glossary/chapter_06_traps_positioning.md"
+    determinism_class: NOT_DETECTABLE_WITH_CURRENT_FEEDS
+    required_inputs_summary: "Options OI, implied-vol surface, strike exposure, expiration calendar, dealer-position model"
+    optional_inputs_summary: "None"
+    missing_feed_behavior_summary: "Do not claim gamma; describe price behavior only"
+    calibration_needed: false
+    human_judgment_needed: true
+    spec_candidate: false
+    recommended_spec_phase: BLOCKED_BY_FEEDS
+    registry_status: BLOCKED_PENDING_FEEDS
+    notes: "Requires unavailable options data and a model; left unchanged"
+  - concept_id: ch06_mechanical_flows_rebalance_month_end_roll
+    concept_name: "Mechanical Flows (Rebalance / Month-End / Roll)"
+    chapter_number: 6
+    chapter_title: "Traps & Positioning"
+    glossary_path: "glossary/chapter_06_traps_positioning.md"
+    determinism_class: CONTEXT_ONLY
+    required_inputs_summary: "Session clock, calendar, roll/settlement schedule, auction imbalance data"
+    optional_inputs_summary: "Contract volume / open interest"
+    missing_feed_behavior_summary: "Flag time-window context only; require confirmation"
+    calibration_needed: false
+    human_judgment_needed: true
+    spec_candidate: false
+    recommended_spec_phase: CONTEXT_GOVERNANCE_ONLY
+    registry_status: GOVERNANCE_ONLY
+    notes: "Context/risk-condition module; not an actionable detector; left unchanged"
+  - concept_id: ch07_session_sequencing
+    concept_name: "Session Sequencing"
+    chapter_number: 7
+    chapter_title: "Session Context & Sequencing"
+    glossary_path: "glossary/chapter_07_session_context_sequencing.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Session bars/boundaries, structural references"
+    optional_inputs_summary: "Profile, delta, DOM, session statistics"
+    missing_feed_behavior_summary: "Structural/contextual sequencing only"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch07_asia_session_character
+    concept_name: "Asia Session Character"
+    chapter_number: 7
+    chapter_title: "Session Context & Sequencing"
+    glossary_path: "glossary/chapter_07_session_context_sequencing.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Session bars, volume, session definitions"
+    optional_inputs_summary: "Profile / volume-at-price"
+    missing_feed_behavior_summary: "Downgrade to structural context"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Range-quality calibration; left unchanged"
+  - concept_id: ch07_london_initiative_and_traps
+    concept_name: "London Initiative & Traps"
+    chapter_number: 7
+    chapter_title: "Session Context & Sequencing"
+    glossary_path: "glossary/chapter_07_session_context_sequencing.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Session bars, session clock, volume, structural references"
+    optional_inputs_summary: "Profile, delta, DOM, footprint"
+    missing_feed_behavior_summary: "Downgrade trap claims"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch07_ny_inheritance_vs_rejection
+    concept_name: "NY Inheritance vs. Rejection"
+    chapter_number: 7
+    chapter_title: "Session Context & Sequencing"
+    glossary_path: "glossary/chapter_07_session_context_sequencing.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Session bars, prior value/profile references, volume, session clock"
+    optional_inputs_summary: "Delta, footprint, DOM, internals, intermarket"
+    missing_feed_behavior_summary: "Keep contextual"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch07_rth_open_location
+    concept_name: "RTH Open Location"
+    chapter_number: 7
+    chapter_title: "Session Context & Sequencing"
+    glossary_path: "glossary/chapter_07_session_context_sequencing.md"
+    determinism_class: COMPUTABLE
+    required_inputs_summary: "Session clock, RTH open price, overnight high/low, prior value/range references"
+    optional_inputs_summary: "Profile data"
+    missing_feed_behavior_summary: "Limit value-based classifications"
+    calibration_needed: false
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P14_FIRST_SPEC_CANDIDATE
+    registry_status: READY_FOR_P14
+    notes: "Open location computable; interpretation separate; left unchanged"
+  - concept_id: ch07_opening_type_taxonomy
+    concept_name: "Opening Type Taxonomy"
+    chapter_number: 7
+    chapter_title: "Session Context & Sequencing"
+    glossary_path: "glossary/chapter_07_session_context_sequencing.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "RTH bars, session clock, prior references, volume"
+    optional_inputs_summary: "Delta, DOM, footprint, profile, internals"
+    missing_feed_behavior_summary: "Keep classification provisional"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch07_intraday_time_windows
+    concept_name: "Intraday Time Windows"
+    chapter_number: 7
+    chapter_title: "Session Context & Sequencing"
+    glossary_path: "glossary/chapter_07_session_context_sequencing.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Session clock, bars, volume, spread"
+    optional_inputs_summary: "DOM, depth, imbalance feeds, cash data, delta"
+    missing_feed_behavior_summary: "Downgrade to time-window context"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch07_session_quality_vs_session_completion
+    concept_name: "Session Quality vs. Session Completion"
+    chapter_number: 7
+    chapter_title: "Session Context & Sequencing"
+    glossary_path: "glossary/chapter_07_session_context_sequencing.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Range, value, session references, close location, profile structure"
+    optional_inputs_summary: "Tape, delta, DOM, imbalance, settlement data"
+    missing_feed_behavior_summary: "Block causal claims about completion"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch08_compression_vs_expansion
+    concept_name: "Compression vs. Expansion"
+    chapter_number: 8
+    chapter_title: "Volatility Regime"
+    glossary_path: "glossary/chapter_08_volatility_regime.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Price bars, range statistics, session range, realized volatility, value behavior"
+    optional_inputs_summary: "Profile, volume, tape"
+    missing_feed_behavior_summary: "Structural volatility context only"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P14_FIRST_SPEC_CANDIDATE
+    registry_status: READY_FOR_P14
+    notes: "Left unchanged"
+  - concept_id: ch08_expansion_outcomes_trend_chop_exhaustion
+    concept_name: "Expansion Outcomes (Trend / Chop / Exhaustion)"
+    chapter_number: 8
+    chapter_title: "Volatility Regime"
+    glossary_path: "glossary/chapter_08_volatility_regime.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Price sequence, volatility baseline, structural references"
+    optional_inputs_summary: "Volume/profile, tape"
+    missing_feed_behavior_summary: "Prevent strong trend/chop/exhaustion classification"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch08_volatility_crush_and_reset
+    concept_name: "Volatility Crush & Reset"
+    chapter_number: 8
+    chapter_title: "Volatility Regime"
+    glossary_path: "glossary/chapter_08_volatility_regime.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Realized volatility, range contraction, spread behavior, event timing, auction development"
+    optional_inputs_summary: "Implied-vol/options data, DOM"
+    missing_feed_behavior_summary: "Limit to observed realized-volatility behavior"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch08_inside_outside_and_narrow_wide_range_days
+    concept_name: "Inside/Outside & Narrow/Wide Range Days"
+    chapter_number: 8
+    chapter_title: "Volatility Regime"
+    glossary_path: "glossary/chapter_08_volatility_regime.md"
+    determinism_class: COMPUTABLE
+    required_inputs_summary: "Session high/low data, clean session definitions"
+    optional_inputs_summary: "Profile, tape (for quality)"
+    missing_feed_behavior_summary: "Block classification on bad session data"
+    calibration_needed: false
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P14_FIRST_SPEC_CANDIDATE
+    registry_status: READY_FOR_P14
+    notes: "Inside/outside computable; narrow/wide need calibrated comparison; left unchanged"
+  - concept_id: ch08_event_volatility_regime
+    concept_name: "Event Volatility Regime"
+    chapter_number: 8
+    chapter_title: "Volatility Regime"
+    glossary_path: "glossary/chapter_08_volatility_regime.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Event calendar, price/range/spread behavior"
+    optional_inputs_summary: "Tape, depth, options, intermarket"
+    missing_feed_behavior_summary: "Prevent scheduled-event classification without calendar"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch08_liquidity_driven_and_mechanical_volatility
+    concept_name: "Liquidity-Driven & Mechanical Volatility"
+    chapter_number: 8
+    chapter_title: "Volatility Regime"
+    glossary_path: "glossary/chapter_08_volatility_regime.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Price sequence, structural levels, velocity, value behavior"
+    optional_inputs_summary: "DOM, tick, footprint, options/flow data"
+    missing_feed_behavior_summary: "Conservative language; no participant-motive claims"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch08_compression_breakouts_real_vs_false
+    concept_name: "Compression Breakouts (Real vs. False)"
+    chapter_number: 8
+    chapter_title: "Volatility Regime"
+    glossary_path: "glossary/chapter_08_volatility_regime.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Price bars, structural range, session clock"
+    optional_inputs_summary: "Volume/profile, tape, event calendar"
+    missing_feed_behavior_summary: "Reduce confidence; no sponsorship or stop-run-motive claims"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch08_expanded_volatility_no_trade_condition
+    concept_name: "Expanded-Volatility No-Trade Condition"
+    chapter_number: 8
+    chapter_title: "Volatility Regime"
+    glossary_path: "glossary/chapter_08_volatility_regime.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Spread behavior, depth, range expansion, realized volatility, failed-break frequency, feed quality"
+    optional_inputs_summary: "Tape"
+    missing_feed_behavior_summary: "Downgrade to structural volatility caution"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Gating/veto detector, never directional; left unchanged"
+  - concept_id: ch09_intermarket_confirmation_general_principle
+    concept_name: "Intermarket Confirmation (General Principle)"
+    chapter_number: 9
+    chapter_title: "Intermarket Confirmation"
+    glossary_path: "glossary/chapter_09_intermarket_confirmation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Traded contract, related-market inputs, session and catalyst context"
+    optional_inputs_summary: "DOM, footprint, delta"
+    missing_feed_behavior_summary: "Do not claim confirmation from unavailable feeds"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch09_nq_es_relative_strength_and_index_internals
+    concept_name: "NQ/ES Relative Strength & Index Internals"
+    chapter_number: 9
+    chapter_title: "Intermarket Confirmation"
+    glossary_path: "glossary/chapter_09_intermarket_confirmation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "NQ/ES data, cash index, breadth, sector inputs"
+    optional_inputs_summary: "ETF flow, options data"
+    missing_feed_behavior_summary: "Stay at futures-relative-strength level"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch09_breadth_confirmation_and_divergence
+    concept_name: "Breadth Confirmation & Divergence"
+    chapter_number: 9
+    chapter_title: "Intermarket Confirmation"
+    glossary_path: "glossary/chapter_09_intermarket_confirmation.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Cash index, constituent/advance-decline, sector, equal-weight data"
+    optional_inputs_summary: "Cumulative delta"
+    missing_feed_behavior_summary: "Emit no breadth claim"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch09_vix_credit_and_cross_asset_risk_tone
+    concept_name: "VIX, Credit & Cross-Asset Risk Tone"
+    chapter_number: 9
+    chapter_title: "Intermarket Confirmation"
+    glossary_path: "glossary/chapter_09_intermarket_confirmation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "VIX, credit spreads, rates, dollar, realized volatility, breadth"
+    optional_inputs_summary: "Options / dealer-gamma estimates"
+    missing_feed_behavior_summary: "Block claims tied to missing inputs"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch09_gold_drivers_real_yields_dxy_breakevens
+    concept_name: "Gold Drivers: Real Yields, DXY, Breakevens"
+    chapter_number: 9
+    chapter_title: "Intermarket Confirmation"
+    glossary_path: "glossary/chapter_09_intermarket_confirmation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Gold, real yields, nominal yields, breakevens, DXY"
+    optional_inputs_summary: "VIX, credit, silver, miners"
+    missing_feed_behavior_summary: "Prevent driver-channel claims"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch09_gold_demand_channels
+    concept_name: "Gold Demand Channels"
+    chapter_number: 9
+    chapter_title: "Intermarket Confirmation"
+    glossary_path: "glossary/chapter_09_intermarket_confirmation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Gold price, candidate channel inputs (VIX/credit/breakevens/silver/miners)"
+    optional_inputs_summary: "ETF/COMEX OI, physical/LBMA data"
+    missing_feed_behavior_summary: "Prevent strong channel claims"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch09_crude_fundamentals_inventories_and_cracks
+    concept_name: "Crude Fundamentals: Inventories & Cracks"
+    chapter_number: 9
+    chapter_title: "Intermarket Confirmation"
+    glossary_path: "glossary/chapter_09_intermarket_confirmation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Crude price, EIA inventory data, products, refinery utilization, cracks"
+    optional_inputs_summary: "SPR, calendar spreads, Brent-WTI"
+    missing_feed_behavior_summary: "No physical-market confirmation claims without report-detail feeds"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch09_crude_spreads_and_geopolitical_premium
+    concept_name: "Crude Spreads & Geopolitical Premium"
+    chapter_number: 9
+    chapter_title: "Intermarket Confirmation"
+    glossary_path: "glossary/chapter_09_intermarket_confirmation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Crude price, Brent-WTI, calendar spreads, headline context"
+    optional_inputs_summary: "OPEC communication, dollar, risk tone"
+    missing_feed_behavior_summary: "Block causal claims"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch09_euro_dollar_drivers
+    concept_name: "Euro/Dollar Drivers"
+    chapter_number: 9
+    chapter_title: "Intermarket Confirmation"
+    glossary_path: "glossary/chapter_09_intermarket_confirmation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "EUR/USD, DXY, euro crosses, rate differentials"
+    optional_inputs_summary: "Equities, credit, volatility"
+    missing_feed_behavior_summary: "Block strong driver claims"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch09_euro_event_windows_and_carry
+    concept_name: "Euro Event Windows & Carry"
+    chapter_number: 9
+    chapter_title: "Intermarket Confirmation"
+    glossary_path: "glossary/chapter_09_intermarket_confirmation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Event timestamps/calendars, session windows, cross-currency moves, rate data"
+    optional_inputs_summary: "DOM, tick, futures order flow"
+    missing_feed_behavior_summary: "Block event-window attribution"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch09_treasury_cash_futures_and_basis
+    concept_name: "Treasury Cash/Futures & Basis"
+    chapter_number: 9
+    chapter_title: "Intermarket Confirmation"
+    glossary_path: "glossary/chapter_09_intermarket_confirmation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Treasury futures, cash yields, yield curve"
+    optional_inputs_summary: "Basis, CTD, repo, swap data"
+    missing_feed_behavior_summary: "Block cash-confirmation and basis/repo claims"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Primarily context outside a rates-specific scope; left unchanged"
+  - concept_id: ch09_treasury_auctions_and_supply
+    concept_name: "Treasury Auctions & Supply"
+    chapter_number: 9
+    chapter_title: "Intermarket Confirmation"
+    glossary_path: "glossary/chapter_09_intermarket_confirmation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Auction statistics, post-auction price, cash yields"
+    optional_inputs_summary: "Bid-to-cover/takedown detail, curve, cross-asset feeds"
+    missing_feed_behavior_summary: "Block auction-quality labels"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch09_the_yield_curve_and_rate_repricing
+    concept_name: "The Yield Curve & Rate Repricing"
+    chapter_number: 9
+    chapter_title: "Intermarket Confirmation"
+    glossary_path: "glossary/chapter_09_intermarket_confirmation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Treasury cash yields, futures, curve spreads, real yields, breakevens, policy-expectation data"
+    optional_inputs_summary: "Cross-asset feeds"
+    missing_feed_behavior_summary: "Block precise driver attribution"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch10_new_information_vs_recycled_context
+    concept_name: "New Information vs. Recycled Context"
+    chapter_number: 10
+    chapter_title: "Catalyst Interpretation"
+    glossary_path: "glossary/chapter_10_catalyst_interpretation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "News timestamps, source classification, event calendars, consensus, prior market movement"
+    optional_inputs_summary: "Tape, intermarket"
+    missing_feed_behavior_summary: "Prevent novelty claims without catalyst feeds"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch10_pricing_in
+    concept_name: "Pricing-In"
+    chapter_number: 10
+    chapter_title: "Catalyst Interpretation"
+    glossary_path: "glossary/chapter_10_catalyst_interpretation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Consensus expectations, event details, price/value response"
+    optional_inputs_summary: "Options/event pricing, tape, intermarket"
+    missing_feed_behavior_summary: "Prevent priced-in claims without expectation data"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch10_transmission_mechanism_and_order_effects
+    concept_name: "Transmission Mechanism & Order Effects"
+    chapter_number: 10
+    chapter_title: "Catalyst Interpretation"
+    glossary_path: "glossary/chapter_10_catalyst_interpretation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Catalyst classification, product driver mapping, related-market feeds, market response"
+    optional_inputs_summary: "Source detail"
+    missing_feed_behavior_summary: "Block channel claims tied to missing inputs"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch10_catalyst_to_trade_translation
+    concept_name: "Catalyst-to-Trade Translation"
+    chapter_number: 10
+    chapter_title: "Catalyst Interpretation"
+    glossary_path: "glossary/chapter_10_catalyst_interpretation.md"
+    determinism_class: CONTEXT_ONLY
+    required_inputs_summary: "Catalyst evidence, structure, location, tape, volatility, intermarket, setup-quality labels"
+    optional_inputs_summary: "None"
+    missing_feed_behavior_summary: "Block promotion from context to permission"
+    calibration_needed: false
+    human_judgment_needed: true
+    spec_candidate: false
+    recommended_spec_phase: CONTEXT_GOVERNANCE_ONLY
+    registry_status: GOVERNANCE_ONLY
+    notes: "Governance/setup-quality boundary; not a detector; left unchanged"
+  - concept_id: ch10_catalyst_effect_on_thesis
+    concept_name: "Catalyst Effect on Thesis"
+    chapter_number: 10
+    chapter_title: "Catalyst Interpretation"
+    glossary_path: "glossary/chapter_10_catalyst_interpretation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Stored thesis state, catalyst classification, market response, tape, intermarket"
+    optional_inputs_summary: "None"
+    missing_feed_behavior_summary: "Downgrade to review-required"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch10_narrative_consensus_and_disagreement
+    concept_name: "Narrative Consensus & Disagreement"
+    chapter_number: 10
+    chapter_title: "Catalyst Interpretation"
+    glossary_path: "glossary/chapter_10_catalyst_interpretation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Narrative inputs, source classification, positioning proxies, market response, intermarket"
+    optional_inputs_summary: "Sentiment / news clustering"
+    missing_feed_behavior_summary: "Prevent consensus claims without narrative feeds"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch10_source_quality
+    concept_name: "Source Quality"
+    chapter_number: 10
+    chapter_title: "Catalyst Interpretation"
+    glossary_path: "glossary/chapter_10_catalyst_interpretation.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Source metadata (type, timestamp, confirmation count, revision status)"
+    optional_inputs_summary: "Market reaction, intermarket"
+    missing_feed_behavior_summary: "Emit insufficient evidence without source metadata"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch11_thesis_state_lifecycle
+    concept_name: "Thesis State Lifecycle"
+    chapter_number: 11
+    chapter_title: "Trade-State Management"
+    glossary_path: "glossary/chapter_11_trade_state_management.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Preserved thesis text, structural references, session context, price/value behavior, catalyst and intermarket context, operator notes"
+    optional_inputs_summary: "Tape"
+    missing_feed_behavior_summary: "Unreliable without historical thesis snapshots"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch11_thesis_confirmation_vs_execution_permission
+    concept_name: "Thesis Confirmation vs. Execution Permission"
+    chapter_number: 11
+    chapter_title: "Trade-State Management"
+    glossary_path: "glossary/chapter_11_trade_state_management.md"
+    determinism_class: CONTEXT_ONLY
+    required_inputs_summary: "Thesis state, setup-quality observations, location, event calendar, volatility, tape quality"
+    optional_inputs_summary: "None"
+    missing_feed_behavior_summary: "Prevent tradable claim without setup-quality evidence"
+    calibration_needed: false
+    human_judgment_needed: true
+    spec_candidate: false
+    recommended_spec_phase: CONTEXT_GOVERNANCE_ONLY
+    registry_status: GOVERNANCE_ONLY
+    notes: "Governance boundary; not a market detector; left unchanged"
+  - concept_id: ch11_thesis_weakening_and_degradation
+    concept_name: "Thesis Weakening & Degradation"
+    chapter_number: 11
+    chapter_title: "Trade-State Management"
+    glossary_path: "glossary/chapter_11_trade_state_management.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Original premise, structure, value, follow-through, tape, catalyst and intermarket context, volatility, session"
+    optional_inputs_summary: "Specialized order-flow feeds"
+    missing_feed_behavior_summary: "Block tape/absorption/divergence claims without feeds"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch11_thesis_invalidation
+    concept_name: "Thesis Invalidation"
+    chapter_number: 11
+    chapter_title: "Trade-State Management"
+    glossary_path: "glossary/chapter_11_trade_state_management.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Original premise, predefined invalidation condition, structural/auction/value behavior, preserved thesis artifacts"
+    optional_inputs_summary: "Tape, catalyst, intermarket"
+    missing_feed_behavior_summary: "Unreliable without preserved thesis notes"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch11_thesis_staleness_and_expiration
+    concept_name: "Thesis Staleness & Expiration"
+    chapter_number: 11
+    chapter_title: "Trade-State Management"
+    glossary_path: "glossary/chapter_11_trade_state_management.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Thesis timestamp, session clock, event calendar, structural references, value development, preserved artifacts"
+    optional_inputs_summary: "Tape"
+    missing_feed_behavior_summary: "Elapsed time computable; stale-vs-active needs judgment"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch11_thesis_replacement_and_bias_flip
+    concept_name: "Thesis Replacement & Bias Flip"
+    chapter_number: 11
+    chapter_title: "Trade-State Management"
+    glossary_path: "glossary/chapter_11_trade_state_management.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Old thesis artifacts, invalidation/staleness evidence, new structural anchors, value behavior, operator notes"
+    optional_inputs_summary: "Tape, catalyst, intermarket"
+    missing_feed_behavior_summary: "Hard to distinguish replacement from rewritten bias without artifacts"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch11_active_trade_state_vs_market_thesis_state
+    concept_name: "Active Trade State vs. Market Thesis State"
+    chapter_number: 11
+    chapter_title: "Trade-State Management"
+    glossary_path: "glossary/chapter_11_trade_state_management.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Preserved thesis artifacts, current market state, structural references, value behavior"
+    optional_inputs_summary: "Trade timestamp, tape, catalyst, intermarket"
+    missing_feed_behavior_summary: "Descriptive state labels only"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Descriptive only; must not become broker/order automation; left unchanged"
+  - concept_id: ch11_maintenance_conditions
+    concept_name: "Maintenance Conditions"
+    chapter_number: 11
+    chapter_title: "Trade-State Management"
+    glossary_path: "glossary/chapter_11_trade_state_management.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Thesis-type-specific structure/value/tape/catalyst/intermarket/volatility/session data"
+    optional_inputs_summary: "Specialized feeds"
+    missing_feed_behavior_summary: "Block claims about an unmonitored maintenance layer"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch11_review_reduce_stand_aside_state
+    concept_name: "Review / Reduce / Stand-Aside State"
+    chapter_number: 11
+    chapter_title: "Trade-State Management"
+    glossary_path: "glossary/chapter_11_trade_state_management.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Thesis state, conflict classification, feed availability, setup-quality/tape/volatility/session/catalyst/intermarket context"
+    optional_inputs_summary: "None"
+    missing_feed_behavior_summary: "Emit insufficient evidence explicitly"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Refusal/review labels; left unchanged"
+  - concept_id: ch12_setup_cleanliness_and_timing
+    concept_name: "Setup Cleanliness & Timing"
+    chapter_number: 12
+    chapter_title: "Setup Quality & Action Vocabulary"
+    glossary_path: "glossary/chapter_12_setup_quality_action_vocabulary.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Level interaction, location vs references, session window, volatility state, spread/depth, feed availability"
+    optional_inputs_summary: "Profile, tape"
+    missing_feed_behavior_summary: "Emit insufficient evidence per affected layer"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch12_location_quality
+    concept_name: "Location Quality"
+    chapter_number: 12
+    chapter_title: "Setup Quality & Action Vocabulary"
+    glossary_path: "glossary/chapter_12_setup_quality_action_vocabulary.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Distance from references, position vs value/VWAP, session window, range extension, volatility regime, opposing structure"
+    optional_inputs_summary: "Profile, spread, intermarket"
+    missing_feed_behavior_summary: "Downgrade confidence"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch12_asymmetry_and_practical_r_r
+    concept_name: "Asymmetry & Practical R:R"
+    chapter_number: 12
+    chapter_title: "Setup Quality & Action Vocabulary"
+    glossary_path: "glossary/chapter_12_setup_quality_action_vocabulary.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Structural distances, proximity to references, volatility baselines, spread/depth"
+    optional_inputs_summary: "Profile, liquidity data"
+    missing_feed_behavior_summary: "Prevent strong practical-asymmetry claims"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Setup-quality labels only; no exact targets/stops/sizing; left unchanged"
+  - concept_id: ch12_invalidation_and_confirmation_clarity
+    concept_name: "Invalidation & Confirmation Clarity"
+    chapter_number: 12
+    chapter_title: "Setup Quality & Action Vocabulary"
+    glossary_path: "glossary/chapter_12_setup_quality_action_vocabulary.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Thesis premise, per-layer proof and failure references"
+    optional_inputs_summary: "Tape, profile, intermarket"
+    missing_feed_behavior_summary: "Emit insufficient evidence rather than infer proof"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch12_alignment_across_dimensions
+    concept_name: "Alignment Across Dimensions"
+    chapter_number: 12
+    chapter_title: "Setup Quality & Action Vocabulary"
+    glossary_path: "glossary/chapter_12_setup_quality_action_vocabulary.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Structure, auction, tape, catalyst, intermarket, volatility, session, thesis/setup evidence"
+    optional_inputs_summary: "None"
+    missing_feed_behavior_summary: "Represent missing feeds explicitly, not as neutral"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Not an alignment score; left unchanged"
+  - concept_id: ch12_setup_fragility
+    concept_name: "Setup Fragility"
+    chapter_number: 12
+    chapter_title: "Setup Quality & Action Vocabulary"
+    glossary_path: "glossary/chapter_12_setup_quality_action_vocabulary.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Proximity to invalidation, volatility state, distance from value, unresolved-conflict count, feed gaps, cross-market dependency"
+    optional_inputs_summary: "Tape, profile"
+    missing_feed_behavior_summary: "Increase fragility or emit insufficient evidence"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Left unchanged"
+  - concept_id: ch12_execution_environment_quality_and_veto
+    concept_name: "Execution Environment Quality & Veto"
+    chapter_number: 12
+    chapter_title: "Setup Quality & Action Vocabulary"
+    glossary_path: "glossary/chapter_12_setup_quality_action_vocabulary.md"
+    determinism_class: CALIBRATED
+    required_inputs_summary: "Spread, depth, realized volatility, range expansion, session window, event calendar, feed health, tape speed"
+    optional_inputs_summary: "Intermarket/volatility feeds"
+    missing_feed_behavior_summary: "Emit insufficient evidence or a narrower label"
+    calibration_needed: true
+    human_judgment_needed: false
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Gating/veto detector, never directional; left unchanged"
+  - concept_id: ch12_setup_expression_and_no_clean_expression
+    concept_name: "Setup Expression & No Clean Expression"
+    chapter_number: 12
+    chapter_title: "Setup Quality & Action Vocabulary"
+    glossary_path: "glossary/chapter_12_setup_quality_action_vocabulary.md"
+    determinism_class: JUDGMENT_ASSISTED
+    required_inputs_summary: "Thesis context, setup quality, evidence hierarchy"
+    optional_inputs_summary: "Profile, tape, intermarket"
+    missing_feed_behavior_summary: "Preserve no-clean-expression/insufficient-evidence rather than force a label"
+    calibration_needed: true
+    human_judgment_needed: true
+    spec_candidate: true
+    recommended_spec_phase: P15_SPEC_BACKLOG
+    registry_status: BACKLOG_READY
+    notes: "Output-label governance layer; left unchanged"
+  - concept_id: ch12_action_vocabulary
+    concept_name: "Action Vocabulary"
+    chapter_number: 12
+    chapter_title: "Setup Quality & Action Vocabulary"
+    glossary_path: "glossary/chapter_12_setup_quality_action_vocabulary.md"
+    determinism_class: CONTEXT_ONLY
+    required_inputs_summary: "Evidence hierarchy, thesis state, setup quality, feed availability, market regime"
+    optional_inputs_summary: "None"
+    missing_feed_behavior_summary: "Keep labels bounded; insufficient evidence stays explicit"
+    calibration_needed: false
+    human_judgment_needed: true
+    spec_candidate: false
+    recommended_spec_phase: CONTEXT_GOVERNANCE_ONLY
+    registry_status: GOVERNANCE_ONLY
+    notes: "Semantic governance label set, not a detector; left unchanged"

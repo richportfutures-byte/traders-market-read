@@ -39,6 +39,12 @@ Market Profile treats the market as a continuous, two-way **auction** whose only
 - Symmetry of the TPO / volume distribution around the POC.
 - Whether price repeatedly returns to the POC (balance) or leaves it behind (imbalance).
 
+### Detection Readiness
+
+**CALIBRATED.**
+
+Balance versus imbalance is a regime classification with a deterministic rule structure — rotational and two-sided versus directional and one-sided — but the thresholds (rotation count, distribution-shape measures, value-overlap tolerance) must be calibrated by instrument, session, timeframe, and volatility regime. Required evidence: price/bar structure and ideally Market Profile or volume-at-price data; profile shape and value behavior materially sharpen the read. Missing profile data should downgrade the read to bar-structure regime context. Regime transitions are the weak point and should lower confidence. A detector can emit a balance, imbalance, or transition state; it should not select a trading playbook on its own.
+
 ### One-Line Summary
 
 > *"First question every session: are we building value or moving it? Everything else is downstream of that answer."*
@@ -82,6 +88,12 @@ When the auction extends price into a new area, the market then *votes* on wheth
 - Price holding the extension over time versus snapping back into the range.
 - Single prints left behind at the extension — the signature of rejection.
 - The value area shifting to include the new price — the confirmation of acceptance.
+
+### Detection Readiness
+
+**CALIBRATED.**
+
+Acceptance versus rejection of an extended price is the auction-level form of the Chapter 2 acceptance read: the rule structure is deterministic but the dwell time, TPO/volume-development threshold, and buffer must be calibrated by instrument, session, timeframe, and regime. Required evidence: a price sequence and Market Profile, TPO, or volume-at-price data; without profile data the concept cannot be responsibly detected and should refuse rather than approximate. Single-print formation and a value-area shift are the main confirmation signals. A detector can emit an accepted, rejected, or pending state; threshold values belong in calibration profiles.
 
 ### One-Line Summary
 
@@ -127,6 +139,12 @@ The Auction Framework, Single Prints, Value Migration & Overlap, Price Outside V
 - Whether the move builds value (initiative accepted) or gets rejected (initiative failed).
 - Delta and aggression readings at the value-area edges.
 
+### Detection Readiness
+
+**JUDGMENT_ASSISTED.**
+
+Location of activity relative to value mechanically separates initiative (buying above value, selling below value) from responsive activity, but the usable read — whether a notable push is genuine directional conviction or mean-reversion defense that will repair — requires a value reference, order-flow attribution, and a follow-through judgment. Required evidence: a value-area reference (profile data), a price sequence, and ideally delta or aggression data at the value edges. Missing value or order-flow data should keep the read context-only. A detector can tag activity location relative to value; the initiative-versus-responsive consequence remains interpretive and should not be emitted as a deterministic signal.
+
 ### One-Line Summary
 
 > *"Above value, that's somebody with a reason; below value, that's somebody with a limit order — never confuse the two."*
@@ -171,6 +189,12 @@ An auction is **completed** when it has done its job — extended far enough to 
 - Overnight inventory and prior structure pointing toward an unfinished level.
 - The TPO count at the extreme — one period is excess, several is unfinished.
 
+### Detection Readiness
+
+**CALIBRATED.**
+
+Excess (a single-print tail at an extreme), a poor high or low (a flat multi-TPO extreme), and a failed auction (break then reverse back through the reference) have deterministic structure, but the thresholds — the TPO count that distinguishes excess from poor, the failed-break window — must be calibrated by instrument, session, and regime. Required evidence: Market Profile or TPO data and a price sequence; without profile data, excess versus poor cannot be classified and the read should refuse. Failed auctions can be read from bars alone at lower confidence. A detector can emit completed, failed, or unfinished states as auction-quality context.
+
 ### One-Line Summary
 
 > *"Did the auction finish its business? No tail means no — and the market comes back to settle up."*
@@ -184,9 +208,9 @@ Excess vs. Poor Highs/Lows, Single Prints, Auction Acceptance vs. Rejection, Ove
 
 ### Core Concept
 
-**Excess** is the market's signature of a *finished* auction extreme — a sharp rejection that leaves a tail of single prints where price was advertised, found no trade, and snapped away. An **excess high** or **excess low** is a quality, durable turning point. A **poor high** or **poor low** is the opposite — a flat extreme where multiple TPOs printed at the same price, the auction stopped without rejection, and there is no tail. Poor highs and lows are weak, unfinished, and act as magnets the market returns to. This is one of the highest-value reads in Market Profile: where retail sees a "double top" to short, a profile trader sees a poor high that is going to get taken out.
+**Excess** is the market's signature of a *finished* auction extreme — a sharp rejection that leaves a tail of single prints where price was advertised, found no trade, and snapped away. An **excess high** or **excess low** is a quality, durable turning point. A **poor high** or **poor low** is the opposite — a flat extreme where multiple TPOs printed at the same price, the auction stopped without rejection, and there is no tail. Poor highs and lows are weak, unfinished, and act as magnets the market returns to. This is one of the highest-value reads in Market Profile: where retail sees a bearish double-top story, a profile trader sees a poor high that still needs auction resolution.
 
-> Excess is a finished auction; a poor high is an IOU. The market collects on poor highs and lows — treat them as targets, not as resistance.
+> Excess is a finished auction; a poor high is an IOU. Poor highs and lows are auction magnets, not clean resistance or support by default.
 
 ### Why It Happens
 
@@ -194,7 +218,7 @@ Excess vs. Poor Highs/Lows, Single Prints, Auction Acceptance vs. Rejection, Ove
 |---|---|
 | Aggressive rejection | Excess forms when one side decisively rejects a price, shutting off the other |
 | Time-based stalling | A poor extreme forms when the auction stalls on time, not on conviction |
-| Clustered stops | Stops resting above poor highs / below poor lows make them magnetic targets |
+| Clustered stops | Stops resting above poor highs / below poor lows make them magnetic references |
 | Responsive flow | Clean responsive selling/buying at an extreme is what produces sharp excess |
 | Lack of opposite-side participation | A flat extreme means the other side never showed up to create rejection |
 | Thin overnight trade | Overnight sessions frequently leave poor extremes from low participation |
@@ -215,9 +239,15 @@ Excess vs. Poor Highs/Lows, Single Prints, Auction Acceptance vs. Rejection, Ove
 - Whether the extreme was made on high or low participation.
 - Whether prior poor highs/lows in the area were later taken out — they usually are.
 
+### Detection Readiness
+
+**CALIBRATED.**
+
+A single-print tail (excess) versus a flat, repeated-TPO extreme (poor high/low) is near-structural once TPO or profile data exists, but the quality threshold — how sharp a rejection counts as excess, how many TPOs at the extreme count as poor — must be calibrated by instrument and regime. Required evidence: Market Profile or TPO data and a price sequence; rejection speed and participation improve the grade. Without profile or TPO data this concept is not detectable and should refuse rather than guess. A detector can emit an excess or poor-extreme label; the magnet behavior of poor extremes is context, not a target instruction.
+
 ### One-Line Summary
 
-> *"A poor high is an unpaid bill — the market always comes back to collect."*
+> *"A poor high is unfinished business; the market often comes back to resolve what the auction left open."*
 
 ### See Also
 Completed, Failed & Unfinished Auctions, Single Prints, Auction Acceptance vs. Rejection, Value Migration & Overlap, Stall & Snap-Back (Ch. 4)
@@ -258,6 +288,12 @@ The **Value Area** is the price range where roughly 70% of the session's volume 
 - Day-over-day drift of the POC — the read on where value is migrating.
 - Price repeatedly returning to the POC — the magnet is active, regime is balanced.
 - Open location relative to the prior session's VAH and VAL.
+
+### Detection Readiness
+
+**COMPUTABLE.**
+
+VAH, VAL, and POC are mechanically computed from the session's volume or TPO distribution (the conventional ~70% / one-standard-deviation band and the highest-volume price) once profile data exists; POC migration across sessions is an equally mechanical comparison. Required evidence: Market Profile, TPO, or volume-at-price data and clean session boundaries. This is a hard data dependency: without volume-at-price or TPO data the value area cannot be computed or approximated, and the concept becomes NOT_DETECTABLE_WITH_CURRENT_FEEDS under that feed condition. The computed levels are structural references only; how price responds to them is a separate calibrated and judgment-assisted read.
 
 ### One-Line Summary
 
@@ -303,6 +339,12 @@ The Auction Framework, Value Migration & Overlap, Price Outside Value / Acceptan
 - The sequence of value areas across the last three to five sessions.
 - Value building — TPOs and volume accumulating — at the new level.
 
+### Detection Readiness
+
+**COMPUTABLE.**
+
+Once value areas exist, the day-over-day relationship — value higher, lower, overlapping, inside, or outside prior value — is a mechanical comparison, and "value not migrating despite price extension" is a computable divergence between the price extreme and the value boundary. Required evidence: per-session value areas, which themselves require Market Profile or volume-at-price data. Missing profile data makes this concept not detectable under that feed condition. The computed migration relationship is the trend read at the value level; whether a given migration is durable still depends on the calibrated acceptance read.
+
 ### One-Line Summary
 
 > *"Show me where value went, not where price poked — value migration is the trend; the rest is noise."*
@@ -346,6 +388,12 @@ Two specific, opposite intraday micro-conditions. **Price outside value but no a
 - A quick return inside value — the signature of a failed break.
 - A volume node beginning to form outside value — acceptance starting.
 - Whether the POC begins migrating toward the probe (acceptance) or stays put (rejection).
+
+### Detection Readiness
+
+**CALIBRATED.**
+
+Price's position relative to the value area is computable, but the live acceptance test — is volume and time building outside value, or is the probe failing back inside — depends on calibrated dwell and volume-development thresholds scoped by instrument, session, and regime. Required evidence: a value-area reference (profile data), a price sequence, and volume-at-price beyond value. Missing volume or profile data should downgrade the read to a bare inside/outside-value flag. A detector can emit an accepted, unaccepted-probe, or failed-break state; it should not treat the outside-value print alone as a breakout.
 
 ### One-Line Summary
 
@@ -391,9 +439,15 @@ The volume profile is not uniform — it has **high-volume nodes** (HVNs), price
 - Whether the zone aligns with single prints on the TPO profile.
 - How price behaves when it revisits the node — grind at HVN, run at LVN.
 
+### Detection Readiness
+
+**CALIBRATED.**
+
+High-volume nodes and low-volume nodes / air pockets are identified from the volume-at-price distribution, but the node and gap thresholds — how heavy counts as an HVN, how thin counts as an LVN — must be calibrated by instrument, timeframe, and regime. Required evidence: volume-at-price or volume-profile data and the prior price path through the zone. Without volume-at-price data this concept is not detectable and should refuse rather than infer nodes from bars. A detector can emit an HVN/LVN map as path-quality context; the live response at a node still decides its quality.
+
 ### One-Line Summary
 
-> *"Air pockets pay fast and high-volume nodes make you wait — match your target to the terrain."*
+> *"Air pockets travel fast and high-volume nodes make price work — match the path-quality read to the terrain."*
 
 ### See Also
 Single Prints, Value Area: VAH / VAL / POC, Auction Acceptance vs. Rejection, Liquidity Pulls & Replenishment (Ch. 4), Break Quality (Ch. 2)
@@ -434,6 +488,12 @@ Single Prints, Value Area: VAH / VAL / POC, Auction Acceptance vs. Rejection, Li
 - Whether the single prints sit at an extreme (excess) or mid-profile (initiative).
 - Whether prior single prints in the area held or got filled.
 - The speed of the move that created them.
+
+### Detection Readiness
+
+**COMPUTABLE.**
+
+A single print is mechanically identified once the TPO period is defined: a price with exactly one time-bracket. Required evidence: TPO or Market Profile data and a defined TPO period. This is a hard data dependency — without TPO data, single prints cannot be detected and the concept is NOT_DETECTABLE_WITH_CURRENT_FEEDS under that feed condition; a volume-at-price low-volume node is a related but distinct proxy. The print itself is computable; whether single prints mark excess at an extreme or an initiative move mid-profile, and whether they hold or fill, is a separate profile-position and calibrated read.
 
 ### One-Line Summary
 
@@ -479,6 +539,12 @@ The **Initial Balance** (IB) is the price range established in the first hour of
 - Single prints printed on the IB extension.
 - The day type developing around it — open-drive versus rotational.
 
+### Detection Readiness
+
+**COMPUTABLE.**
+
+IB high and IB low are computed directly from the first two 30-minute periods of the RTH session. Required evidence: a session clock and clean RTH bars. IB width relative to the recent average is a calibrated comparison rather than part of the base computation, and whether an IB extension holds or fails is a separate calibrated level-interaction read. A detector can publish the IB range and IB-extension state as structural context; day-type conclusions belong to Chapter 5.
+
 ### One-Line Summary
 
 > *"The IB is the day's opening question — extend and hold is a trend answer, fail back inside is a range answer."*
@@ -522,6 +588,12 @@ The Auction Framework, Initiative vs. Responsive Activity, Day-Type Taxonomy (Ch
 - Standard-deviation band touches and the reactions to them.
 - Whether price reclaims or rejects VWAP on a test.
 - An anchored VWAP from a swing showing where trapped or profitable positioning sits.
+
+### Detection Readiness
+
+**COMPUTABLE.**
+
+Session VWAP, its standard-deviation bands, and price's location relative to VWAP are computed directly from intraday price and volume; anchored VWAP is the same computation from a chosen origin. Required evidence: intraday trade price and volume. Missing volume data blocks a true volume-weighted VWAP and should refuse rather than substitute a simple average. The calculation is computable; VWAP's behavior as a magnet in balance versus dynamic support/resistance in trend is a regime-dependent read, and the anchor choice for an anchored VWAP is a judgment input.
 
 ### One-Line Summary
 
@@ -567,6 +639,12 @@ Value Area: VAH / VAL / POC, The Auction Framework, Value Migration & Overlap, M
 - Where price opens relative to the overnight range.
 - Whether the correction stalls and reverses — the signal the real day is beginning.
 
+### Detection Readiness
+
+**JUDGMENT_ASSISTED.**
+
+The overnight range, its direction, and the RTH open's location within it are computable, but whether the overnight book is "too long" or "too short" is an inference about positioning that ordinary price and volume feeds do not directly observe, and distinguishing an early inventory correction from the start of a real trend requires judgment. Required evidence: overnight session bars, the RTH open, and ideally overnight profile shape; positioning data would strengthen the read but is usually unavailable. Missing profile or positioning data should keep the lopsidedness read provisional. A detector can flag overnight direction and open location; the correction call remains interpretive.
+
 ### One-Line Summary
 
 > *"Check the overnight book before the bell — if it's too long, the open's first job is to punish it."*
@@ -580,9 +658,9 @@ Initiative vs. Responsive Activity, Short-Covering vs. Long-Liquidation Auctions
 
 ### Core Concept
 
-Not every up-move is buying and not every down-move is selling. A **short-covering auction** is a rally driven by shorts being forced to buy back — defensive demand, not initiative demand. A **long-liquidation auction** is a decline driven by longs being forced to sell out — defensive supply, not fresh shorting. The critical distinction: covering and liquidation auctions *exhaust their own fuel as they run*. They tend to stall sharply once the trapped side is flushed, because no fresh participants exist to continue the move. Mistaking a short-covering rally for genuine initiative buying is a classic way to buy the exact high.
+Not every up-move is buying and not every down-move is selling. A **short-covering auction** is a rally driven by shorts being forced to buy back — defensive demand, not initiative demand. A **long-liquidation auction** is a decline driven by longs being forced to sell out — defensive supply, not fresh shorting. The critical distinction: covering and liquidation auctions *exhaust their own fuel as they run*. They tend to stall sharply once the trapped side is flushed, because no fresh participants exist to continue the move. Mistaking a short-covering rally for genuine initiative buying is a classic way to mistake the rally's endpoint for strength.
 
-> A short-covering rally isn't demand — it's shorts buying their way out of pain. When the pain ends, so does the rally; don't be the one buying it for "strength."
+> A short-covering rally isn't demand — it's shorts buying their way out of pain. When the pain ends, continuation needs fresh sponsorship or the read weakens.
 
 ### Why It Happens
 
@@ -611,6 +689,12 @@ Not every up-move is buying and not every down-move is selling. A **short-coveri
 - Lack of value migration accompanying the price move.
 - A sharp stall once an obvious stop cluster has been cleared.
 
+### Detection Readiness
+
+**JUDGMENT_ASSISTED.**
+
+A sharp move that decelerates without fresh sponsorship, with fading delta and no value migration, can support a covering or liquidation read, but proving that the move is forced exit flow rather than fresh initiative requires judgment and ideally positioning data. Required evidence: a price sequence, value behavior, and preferably cumulative delta and aggression; positioning, COT, or options data would strengthen the read but are usually unavailable or delayed. Missing order-flow or positioning data should label this inferred covering or liquidation context, not a confirmed participant condition. This concept should not become a deterministic detector.
+
 ### One-Line Summary
 
 > *"Covering and liquidation burn their own fuel; when the trapped crowd is out, the move can be done. Do not mistake forced exit flow for fresh sponsorship."*
@@ -626,7 +710,7 @@ Initiative vs. Responsive Activity, Overnight Inventory & Inventory Correction, 
 
 This entry classifies the *quality* of the participants behind a move. **Fresh buying** and **fresh selling** are new initiative positions being established — real conviction entering, the fuel for a sustainable move. **Weak-handed positioning** is participants with low conviction, poor location, or forced timeframes; they are quick to liquidate and often the first to fold under pressure. **Strong-handed positioning** is high-conviction participants with good location and a longer timeframe — they sit through noise and defend their positions. A move backed by fresh flow and strong hands continues; a move populated by weak hands reverses the moment it is tested. This ties auction quality to participant quality — the "who is actually behind this" question.
 
-> A move is only as durable as the hands holding it. Fresh flow and strong hands continue; weak hands fold at the first test — find out who you're trading alongside.
+> A move is only as durable as the hands holding it. Fresh flow and strong hands continue; weak hands fold at the first test — know which participant quality the read is relying on.
 
 ### Why It Happens
 
@@ -655,6 +739,12 @@ This entry classifies the *quality* of the participants behind a move. **Fresh b
 - Delta and aggression sustaining (fresh) versus fading (weak or covering).
 - How the move behaves on its first genuine test.
 
+### Detection Readiness
+
+**JUDGMENT_ASSISTED.**
+
+Participant quality cannot be observed directly: fresh flow, weak hands, and strong hands are inferred from value migration, pullback behavior, location quality, and how a move behaves on its first genuine test. Required evidence: a price sequence, value behavior, and ideally delta and aggression; direct positioning data is generally unavailable. Missing profile or order-flow data should keep the participant-quality read provisional and conservative. A detector can supply supporting sub-signals such as value migration and defended-pullback behavior, but the fresh-versus-weak-versus-strong conclusion remains interpretive.
+
 ### One-Line Summary
 
 > *"Ask who's holding the position — strong hands sit through the noise, weak hands are gone on the first tick against them."*
@@ -664,4 +754,4 @@ Initiative vs. Responsive Activity, Short-Covering vs. Long-Liquidation Auctions
 
 ---
 
-*End of Chapter 3. Both structural chapters (3 and 4) are now complete and cross-link tightly. Recommended next: **Chapter 2 (Level Interaction & Acceptance)** — it completes the structural core (acceptance, sweep-vs-break, break quality, polarity flips) and resolves the largest cluster of forward See-Also links currently pointing into it. Say "Continue with Chapter N" to proceed.*
+*End of Chapter 3. This chapter defines the auction and profile layer: balance, imbalance, value, acceptance, excess, unfinished auctions, VWAP, inventory, forced-flow auctions, and participant-quality reads.*

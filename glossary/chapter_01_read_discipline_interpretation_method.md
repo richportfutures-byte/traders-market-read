@@ -65,7 +65,7 @@ A touch becomes a usable read when the behavior after contact matches the claime
 
 ### Detection Readiness
 
-**Initial class: JUDGMENT_ASSISTED.**
+**JUDGMENT_ASSISTED.**
 
 The distinction can be supported by computable and calibrated sub-signals such as dwell beyond a level, volume-at-price, polarity retest, delta confirmation, and snap-back behavior. The final classification still requires context: level quality, session state, product behavior, and whether the move represents acceptance, trap, or liquidation. A detector may support the read; it should not pretend the touch itself decides it.
 
@@ -130,7 +130,7 @@ A structural conflict is resolved only when the structural condition changes: va
 
 ### Detection Readiness
 
-**Initial class: JUDGMENT_ASSISTED.**
+**JUDGMENT_ASSISTED.**
 
 Individual conflicts can be surfaced by rules, but severity classification depends on hierarchy: timeframe, market layer, concept type, feed quality, and thesis state. This is a governance and interpretation concept. A future spec should emit bounded labels such as `CONFIRMATION_REQUIRED`, `REVIEW_REQUIRED`, `STRUCTURE_VALID_BUT_NO_TRIGGER`, or `TRIGGER_VALID_BUT_LOCATION_POOR`, not a fake deterministic "conflict score."
 
@@ -195,7 +195,7 @@ A leading signal is confirmed when the expected market layer follows through: pr
 
 ### Detection Readiness
 
-**Initial class: JUDGMENT_ASSISTED.**
+**JUDGMENT_ASSISTED.**
 
 Some leading or coincident components are computable, such as spread widening, price relative to VWAP, or level breach. Classifying whether a given observation is truly leading, coincident, or late depends on the concept, timeframe, and thesis state. A future spec should tag signal timing and confidence, not convert timing into execution permission.
 
@@ -260,7 +260,7 @@ Context becomes more actionable only when the required permission layer appears.
 
 ### Detection Readiness
 
-**Initial class: CONTEXT_ONLY.**
+**CONTEXT_ONLY.**
 
 This is a governance concept. It should not be built as a market-condition detector. Its future spec role is to prevent promotion of context into execution labels. It should map observations to bounded labels such as `CONTEXT_ONLY`, `BIAS_ONLY`, `STRUCTURE_VALID_BUT_NO_TRIGGER`, `TRIGGER_VALID_BUT_LOCATION_POOR`, `EVENT_RISK_BLOCKED`, `LIQUIDITY_BLOCKED`, or `SPREAD_BLOCKED`.
 
@@ -270,7 +270,7 @@ This is a governance concept. It should not be built as a market-condition detec
 
 ### See Also
 
-Action Vocabulary; Setup Cleanliness & Timing; Location Quality; Execution Environment Quality; Catalyst-to-Trade Translation; Tape vs. Narrative
+Action Vocabulary; Setup Cleanliness & Timing; Location Quality; Execution Environment Quality & Veto; Catalyst-to-Trade Translation; Tape vs. Narrative
 
 ---
 
@@ -327,7 +327,7 @@ Confirmation occurs when the claimed market behavior appears in the relevant lay
 
 ### Detection Readiness
 
-**Initial class: JUDGMENT_ASSISTED.**
+**JUDGMENT_ASSISTED.**
 
 The discipline can be formalized in later specs as required fields and state transitions, but the content of confirmation and invalidation is concept-specific. A future implementation should require every detection/spec entry to define emitted states, refusal behavior, and failure modes. It should not generate exact entries, exact stops, exact targets, or autonomous execution instructions.
 
@@ -349,7 +349,7 @@ Thesis State Lifecycle; Invalidation & Confirmation Clarity; Acceptance vs. Reje
 
 The tape does not need to agree with the story immediately. Sometimes the narrative is early. Sometimes the market has already priced it. Sometimes the first-order story is wrong and the second-order transmission is what matters. But until live price behavior confirms the story, the narrative should not be allowed to override structure, tape, or execution quality.
 
-> The story is a hypothesis. The tape is the witness. Trade the witness, not the speech.
+> The story is a hypothesis. The tape is the witness. Upgrade the read only when the witness confirms the speech.
 
 ### Why It Happens
 
@@ -365,7 +365,7 @@ The tape does not need to agree with the story immediately. Sometimes the narrat
 ### Practical Implications
 
 1. Do not let news explain price unless the tape confirms the explanation.
-2. Do not add conviction to a trade because the narrative improved while the tape weakened.
+2. Do not add conviction to a thesis because the narrative improved while the tape weakened.
 3. Treat a catalyst the tape ignores as non-tradable until expression appears.
 4. Treat tape leading the news as evidence that informed flow may already be acting.
 5. When tape and narrative conflict, classify the conflict instead of forcing agreement.
@@ -392,7 +392,7 @@ A narrative is confirmed when the expected market expression appears: price acce
 
 ### Detection Readiness
 
-**Initial class: JUDGMENT_ASSISTED.**
+**JUDGMENT_ASSISTED.**
 
 This concept requires catalyst inputs, live tape behavior, structural context, and interpretation of whether the catalyst has a valid transmission mechanism. It should not be converted into a deterministic rule. A future spec can require source quality, timestamping, tape confirmation, and refusal states such as `CATALYST_VALID_BUT_TAPE_REJECTS`, `TAPE_VALID_BUT_CATALYST_WEAK`, `WAIT_FOR_CONFIRMATION`, or `INSUFFICIENT_EVIDENCE`.
 
@@ -457,17 +457,17 @@ A product-specific read is confirmed when the behavior aligns with that product'
 
 ### Detection Readiness
 
-**Initial class: CONTEXT_ONLY.**
+**CONTEXT_ONLY.**
 
 This is a calibration and interpretation principle, not a standalone market detector. It governs how future detection specs and calibration profiles must be scoped. Later specs must define product, session, timeframe, and regime applicability. No detector should silently apply one product's parameters to another.
 
 ### One-Line Summary
 
-> *"Do not trade products like chart skins. Every contract has its own auction, flow, and lie patterns."*
+> *"Do not read products like chart skins. Every contract has its own auction, flow, and lie patterns."*
 
 ### See Also
 
-Volatility Regime; Event Volatility Regime; Intermarket Confirmation; Gold Drivers; Crude Fundamentals; Euro/Dollar Drivers; Calibration Profile Layer
+Volatility Regime; Event Volatility Regime; Intermarket Confirmation; Gold Drivers: Real Yields, DXY, Breakevens; Crude Fundamentals: Inventories & Cracks; Euro/Dollar Drivers; False Precision & Observation Tracking
 
 ---
 
@@ -522,7 +522,7 @@ False precision is exposed when the number cannot be tied to calibrated inputs, 
 
 ### Detection Readiness
 
-**Initial class: JUDGMENT_ASSISTED.**
+**JUDGMENT_ASSISTED.**
 
 The governance principle is judgment-assisted, while parts of observation tracking can later become computable once the project defines observation records, outcomes, review windows, and scoring rules. Until then, the correct behavior is to preserve uncertainty, require calibration, and emit refusal or review labels where evidence is incomplete.
 
@@ -532,8 +532,8 @@ The governance principle is judgment-assisted, while parts of observation tracki
 
 ### See Also
 
-Observation Tracking; Detection Specification Layer; Calibration Profile Layer; Action Vocabulary; Confirmation & Invalidation Discipline; Setup Quality & Action Vocabulary
+False Precision & Observation Tracking; Action Vocabulary; Confirmation & Invalidation Discipline; Product-Specific Behavior; Setup Cleanliness & Timing
 
 ---
 
-*End of Chapter 1. This chapter establishes the interpretive rules for the remaining semantic layer: behavior over touch, conflict classification, timing of signals, context-vs-permission separation, confirmation and invalidation, tape-confirmed narrative, product-specific interpretation, and anti-false-precision discipline. Recommended next semantic target: **Chapter 6 — Traps & Positioning**, because Chapters 2, 3, and 4 already point heavily into trapped traders, weak hands, strong hands, crowded positioning, pain trades, and liquidation mechanics.*
+*End of Chapter 1. This chapter establishes the interpretive rules for the semantic layer: behavior over touch, conflict classification, timing of signals, context-vs-permission separation, confirmation and invalidation, tape-confirmed narrative, product-specific interpretation, and anti-false-precision discipline.*

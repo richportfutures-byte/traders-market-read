@@ -1,0 +1,220 @@
+spec_id: ch03_vwap_relationship
+concept_id: ch03_vwap_relationship
+concept_name: "VWAP Relationship"
+
+chapter:
+  chapter_number: 3
+  chapter_title: "Auction & Market Profile"
+  glossary_path: "glossary/chapter_03_auction_market_profile.md"
+
+determinism_class: COMPUTABLE
+
+semantic_source:
+  glossary_path: "glossary/chapter_03_auction_market_profile.md"
+  concept_heading: "VWAP Relationship"
+  doctrine_summary: >
+    VWAP is the volume-weighted average traded price of a session. The read is in price's
+    relationship to VWAP, not the line itself: above VWAP the session's longs are in profit and
+    buyers have control, below it sellers do. VWAP acts as a magnet in balance and as dynamic
+    support/resistance in trend. Anchored VWAP is the same computation from a chosen origin. The
+    calculation is computable; whether VWAP behaves as a magnet or as trend support is a
+    regime-dependent read, and the anchor choice for anchored VWAP is a judgment input.
+
+purpose: >
+  Compute session VWAP, its standard-deviation bands, and price's location relative to VWAP, and
+  publish them as computable session-bias context. It reports where price sits relative to VWAP and
+  the bands; it does not classify regime, does not decide whether VWAP will act as magnet or
+  support/resistance, and does not grant trade permission.
+
+non_executional_boundary: >
+  This spec emits semantic market-read context labels only. It never emits trade permission, entry,
+  exit, stop, target, position-sizing, add or reduce, broker, order, account, fill, or P&L
+  instructions, and never an autonomous trade call.
+
+required_inputs:
+  - name: session_clock
+    source: calendar/session_definition_module
+    granularity: session
+    session_dependency: "Defines the session over which VWAP accumulates."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: intraday_trade_price
+    source: market_data
+    granularity: tick_or_1m
+    session_dependency: "Current session; traded prices used in the volume-weighted average."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: intraday_traded_volume
+    source: market_data
+    granularity: tick_or_1m
+    session_dependency: "Current session; per-interval traded volume used as the VWAP weight."
+    absence_behavior: REFUSE_TO_CLASSIFY
+
+optional_inputs:
+  - name: anchor_event
+    source: structural_reference_module
+    granularity: event
+    purpose: "An origin (swing high/low, catalyst print) from which an anchored VWAP is computed."
+    absence_behavior: "Compute session VWAP only; omit anchored VWAP."
+  - name: standard_deviation_band_config
+    source: configuration
+    granularity: configuration
+    purpose: "Band multipliers (for example, 1 and 2 standard deviations) for VWAP deviation bands."
+    absence_behavior: "Publish VWAP and price-vs-VWAP location; omit band labels."
+
+unavailable_input_behavior:
+  missing_required_input: REFUSE_TO_CLASSIFY
+  missing_volume: "REFUSE_TO_CLASSIFY: VWAP is volume-weighted by definition; a simple price average is not a permitted substitute."
+  missing_anchor_event: "CONTEXT_ONLY for anchored VWAP only: omit anchored VWAP; session VWAP unaffected."
+  missing_band_config: "DEGRADED_CONFIDENCE for band labels only: publish VWAP and location without band classification."
+  stale_or_partial_session_data: DEGRADED_CONFIDENCE
+
+detection_scope:
+  allowed_to_classify:
+    - "Session VWAP value and slope sign (flat / sloping)."
+    - "Price location relative to VWAP: above, below, or at VWAP within a tolerance."
+    - "Price location relative to VWAP standard-deviation bands when band config is supplied."
+    - "Anchored VWAP value and price location relative to it when an anchor event is supplied."
+  not_allowed_to_classify:
+    - "Whether VWAP will act as a magnet or as dynamic support/resistance — regime-dependent, out of scope."
+    - "Whether a band touch will reject or be accepted — handled by acceptance specs."
+    - "Selection of the anchor for anchored VWAP — a judgment input supplied from outside."
+  instrument_scope: "Single instrument."
+  session_scope: "Per session; VWAP resets at the session boundary defined by the session clock."
+  timeframe_scope: "Intraday."
+  regime_scope: "Computation is regime-independent; interpretation of VWAP behavior is regime-dependent and out of scope."
+
+evidence_model:
+  evidence_categories:
+    - name: vwap_value
+      observations: ["session_vwap", "vwap_slope_sign"]
+      derivation: "Cumulative sum(price * volume) / cumulative sum(volume) over the session; slope sign from recent VWAP change."
+    - name: price_vwap_location
+      observations: ["above_vwap", "below_vwap", "at_vwap"]
+      derivation: "Comparison of current price to VWAP within the at-VWAP tolerance parameter."
+    - name: deviation_bands
+      observations: ["within_band_1", "between_band_1_and_2", "beyond_band_2"]
+      derivation: "Current price positioned against VWAP standard-deviation bands when band config is supplied."
+    - name: anchored_vwap
+      observations: ["anchored_vwap_value", "price_vs_anchored_vwap"]
+      derivation: "VWAP computed from the supplied anchor event; published only when an anchor is provided."
+  evidence_states:
+    supported:
+      - OBSERVED: "VWAP and price-vs-VWAP location computed from complete price and volume feeds."
+      - DEGRADED_CONFIDENCE: "Computed from partial or stale session data."
+    unsupported:
+      - "Any magnet-versus-support/resistance behavioral claim."
+      - "Any VWAP computed without true traded volume."
+
+rule_structure:
+  type: direct_computation
+  description: >
+    VWAP and its bands are exact volume-weighted formulas over the session window. Price location is
+    a direct comparison using a small at-VWAP tolerance parameter for data hygiene only.
+  rules:
+    - id: R1_session_vwap
+      logic: "session_vwap = (cumulative sum of price*volume from session start) / (cumulative sum of volume from session start)."
+    - id: R2_vwap_slope
+      logic: "vwap_slope_sign = sign of VWAP change over the recent slope-window; reported as flat within a small tolerance."
+    - id: R3_price_location
+      logic: >
+        If price > session_vwap + at_vwap_tolerance -> above_vwap;
+        if price < session_vwap - at_vwap_tolerance -> below_vwap; else at_vwap.
+    - id: R4_deviation_bands
+      logic: "If band config supplied, compute volume-weighted standard deviation and place price within band-1/band-2 zones."
+    - id: R5_anchored_vwap
+      logic: "If an anchor event is supplied, recompute the VWAP formula from the anchor timestamp and report price location relative to it."
+  output_assembly: "Publish session VWAP, slope sign, price-vs-VWAP location, band location (if available), and anchored VWAP (if anchored)."
+
+calibration_parameters:
+  - name: at_vwap_tolerance
+    value: null
+    status: calibration_required
+    calibration_scope: instrument_timeframe
+    description: >
+      Small price tolerance (in ticks or an ATR fraction) within which price is treated as at VWAP
+      rather than above or below. A data-hygiene parameter to avoid flip-flop on noise; it is not a
+      market-significance threshold.
+  - name: vwap_slope_window
+    value: null
+    status: calibration_required
+    calibration_scope: instrument_timeframe
+    description: "Lookback window used to compute the VWAP slope sign."
+  - name: vwap_slope_flat_tolerance
+    value: null
+    status: calibration_required
+    calibration_scope: instrument_timeframe
+    description: "Slope magnitude below which VWAP is reported as flat rather than sloping."
+  - name: standard_deviation_band_multipliers
+    value: null
+    status: configuration_required
+    calibration_scope: instrument_session
+    description: "Band multipliers for VWAP deviation bands; supplied as configuration, not an empirical market threshold."
+
+confidence_behavior:
+  full_confidence: "Complete, current price and volume feeds for the session; VWAP and location published as OBSERVED."
+  degraded_confidence_triggers:
+    - "Partial or stale session data: VWAP published with DEGRADED_CONFIDENCE."
+    - "Band config absent: band labels withheld, VWAP and location still published."
+  no_binary_certainty_claim: "The spec reports VWAP geometry only; it never claims VWAP will hold, reject, or attract price."
+
+refusal_conditions:
+  - "session_clock missing or unable to bound the session."
+  - "intraday_trade_price missing."
+  - "intraday_traded_volume missing — VWAP must not be approximated by an unweighted average."
+  - "Volume data present but known to be unreliable or synthetic such that the weighting is meaningless."
+  - "Session boundary ambiguous so the VWAP accumulation window cannot be fixed."
+
+output_labels:
+  - OBSERVED
+  - CONTEXT_ONLY
+  - DEGRADED_CONFIDENCE
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+
+false_positive_risks:
+  - "Reporting a VWAP computed from unreliable or estimated volume as if it were a true volume-weighted average."
+  - "Flip-flopping the above/below label on noise when the at-VWAP tolerance is too small."
+  - "Publishing band labels from a misconfigured standard-deviation multiplier."
+
+false_negative_risks:
+  - "Withholding VWAP entirely when only a brief volume gap occurred, when DEGRADED_CONFIDENCE would have been adequate."
+  - "Reporting price as at VWAP when the tolerance is too wide and a genuine above/below location exists."
+  - "Omitting anchored VWAP because the anchor event was not propagated even though the origin was valid."
+
+failure_modes:
+  - "Volume feed outage or unreliable consolidated volume."
+  - "Session boundary errors causing VWAP to reset at the wrong time."
+  - "Contract roll blending volume across two contracts."
+  - "Timezone or daylight-saving errors shifting the session window."
+  - "Anchored VWAP computed from a stale or wrong anchor."
+
+validation_requirements:
+  - "Replay sessions with complete feeds and confirm computed VWAP matches an independent volume-weighted computation."
+  - "Confirm REFUSE_TO_CLASSIFY when volume is missing and that no unweighted-average substitute is emitted."
+  - "Confirm above/below/at-VWAP labels are stable under the calibrated tolerance and do not flip on noise."
+  - "Confirm band labels are withheld when band config is absent."
+  - "Confirm anchored VWAP is computed only when a valid anchor is supplied."
+
+prohibited_outputs:
+  - trade_permission
+  - entry_instruction
+  - exit_instruction
+  - stop_instruction
+  - target_instruction
+  - position_sizing_instruction
+  - add_or_reduce_instruction
+  - broker_action
+  - order_action
+  - account_instruction
+  - fill_or_pnl_instruction
+  - autonomous_trade_call
+
+review_status: DRAFT
+
+notes: >
+  P14 first-wave draft spec. VWAP, its bands, and price location are computable; the only parameters
+  are data-hygiene tolerances and band/slope configuration, left null pending calibration. The hard
+  rule is that VWAP must not be approximated by an unweighted price average when volume is missing —
+  the spec refuses instead. Whether VWAP behaves as a magnet or as dynamic support/resistance is a
+  regime-dependent read deferred to later regime and acceptance specs, and the anchor for anchored
+  VWAP is a judgment input supplied from outside this spec. The schema review_status enum has no
+  P14-specific value; DRAFT is used and this note records P14 first-wave provenance.

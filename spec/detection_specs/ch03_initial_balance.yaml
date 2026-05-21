@@ -1,0 +1,212 @@
+spec_id: ch03_initial_balance
+concept_id: ch03_initial_balance
+concept_name: "Initial Balance"
+
+chapter:
+  chapter_number: 3
+  chapter_title: "Auction & Market Profile"
+  glossary_path: "glossary/chapter_03_auction_market_profile.md"
+
+determinism_class: COMPUTABLE
+
+semantic_source:
+  glossary_path: "glossary/chapter_03_auction_market_profile.md"
+  concept_heading: "Initial Balance"
+  doctrine_summary: >
+    The Initial Balance (IB) is the price range established in the first hour of the RTH session,
+    conventionally the first two 30-minute TPO periods. IB high and IB low define the day's opening
+    reference range. IB width relative to the recent average is a calibrated comparison, and whether
+    an IB extension holds or fails is a separate calibrated level-interaction read; both are out of
+    scope here. Day-type conclusions belong to Chapter 5.
+
+purpose: >
+  Compute and publish the Initial Balance range (IB high, IB low, IB width) and the directional
+  state of any range extension beyond it, as computable structural context for downstream day-type
+  and session reads. It does not classify whether an extension is accepted or whether the day is a
+  trend or range day.
+
+non_executional_boundary: >
+  This spec emits semantic market-read context labels only. It never emits trade permission, entry,
+  exit, stop, target, position-sizing, add or reduce, broker, order, account, fill, or P&L
+  instructions, and never an autonomous trade call.
+
+required_inputs:
+  - name: session_clock
+    source: calendar/session_definition_module
+    granularity: session
+    session_dependency: "Defines the RTH session start and the Initial Balance window."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: rth_session_bars
+    source: market_data
+    granularity: intraday_1m_or_finer
+    session_dependency: "Current RTH session; must fully cover the Initial Balance window."
+    absence_behavior: REFUSE_TO_CLASSIFY
+
+optional_inputs:
+  - name: historical_ib_widths
+    source: session_statistics_module
+    granularity: per_session_history
+    purpose: "Recent IB-width distribution used only to contextualize current IB width as relatively narrow or wide."
+    absence_behavior: "DEGRADED_CONFIDENCE: publish raw IB width but do not emit a narrow/wide relative label."
+  - name: post_ib_session_bars
+    source: market_data
+    granularity: intraday_1m_or_finer
+    purpose: "Bars after the IB window, used to report whether and in which direction price has extended beyond the IB."
+    absence_behavior: "Report IB range only; omit the extension state until post-IB bars exist."
+
+unavailable_input_behavior:
+  missing_required_input: REFUSE_TO_CLASSIFY
+  missing_historical_ib_widths: DEGRADED_CONFIDENCE
+  missing_post_ib_bars: "CONTEXT_ONLY: publish IB high/low/width; extension state reported as PENDING."
+  ib_window_incomplete: "INSUFFICIENT_EVIDENCE: the IB window has not finished; IB range is provisional and flagged."
+
+detection_scope:
+  allowed_to_classify:
+    - "IB high, IB low, and IB width for the current RTH session."
+    - "Whether price has extended beyond IB high or IB low after the IB window, and the direction of that extension."
+    - "Relative IB width (narrow / typical / wide) only when historical IB-width context is supplied."
+  not_allowed_to_classify:
+    - "Whether an IB extension is accepted or rejected — handled by acceptance specs."
+    - "Day type (trend, range, neutral) — Chapter 5 doctrine, out of scope."
+    - "Whether a narrow IB will break or a wide IB will contain — predictive claims are out of scope."
+  instrument_scope: "Single instrument."
+  session_scope: "RTH session only; the IB concept is defined on the regular cash session."
+  timeframe_scope: "Intraday; IB window is conventionally the first two 30-minute periods."
+  regime_scope: "Regime-independent computation; relative-width context is regime-sensitive and only emitted with historical data."
+
+evidence_model:
+  evidence_categories:
+    - name: ib_range
+      observations: ["ib_high", "ib_low", "ib_width"]
+      derivation: "Max high and min low of all bars within the IB window; width = ib_high - ib_low."
+    - name: ib_extension
+      observations: ["extension_above_ib", "extension_below_ib", "no_extension"]
+      derivation: "Comparison of post-IB session extremes against IB high and IB low."
+    - name: ib_width_context
+      observations: ["narrow_ib", "typical_ib", "wide_ib"]
+      derivation: "Current IB width positioned within the supplied historical IB-width distribution."
+  evidence_states:
+    supported:
+      - OBSERVED: "IB range computed from a complete IB window."
+      - PENDING: "IB window not yet complete, or post-IB bars not yet available for the extension read."
+    unsupported:
+      - "Any claim that an extension is accepted."
+      - "Any day-type label."
+
+rule_structure:
+  type: direct_computation_with_session_window
+  description: >
+    The IB range is a direct min/max computation over a session-clock-defined window. The extension
+    state is a direct comparison. Relative-width labeling uses a calibrated comparison window and is
+    only produced when historical width data is supplied.
+  rules:
+    - id: R1_ib_window
+      logic: "IB window = [RTH_start, RTH_start + ib_window_duration] per session_clock and the ib_window_duration convention."
+    - id: R2_ib_range
+      logic: "ib_high = max(high) within IB window; ib_low = min(low) within IB window; ib_width = ib_high - ib_low."
+    - id: R3_extension_state
+      logic: >
+        After the IB window: if max(high of post-IB bars) > ib_high -> extension_above_ib;
+        if min(low of post-IB bars) < ib_low -> extension_below_ib; both may hold (two-sided);
+        neither -> no_extension.
+    - id: R4_relative_width
+      logic: >
+        If historical_ib_widths is supplied, position ib_width within that distribution using the
+        calibrated narrow/wide percentile parameters; otherwise emit no relative-width label.
+  output_assembly: "Publish ib_high, ib_low, ib_width, extension state, and (when available) a relative-width context label."
+
+calibration_parameters:
+  - name: ib_window_duration
+    value: "60 minutes (two 30-minute periods)"
+    status: convention_default
+    calibration_scope: instrument_session
+    description: >
+      Standard Market Profile convention for the Initial Balance window. Stated as the conventional
+      default because it is a definitional session convention, not an empirical market threshold;
+      a product or session that uses a different convention must override it in a calibration profile.
+  - name: ib_width_narrow_percentile
+    value: null
+    status: calibration_required
+    calibration_scope: instrument_session_regime
+    description: "Percentile of the historical IB-width distribution below which an IB is labeled narrow."
+  - name: ib_width_wide_percentile
+    value: null
+    status: calibration_required
+    calibration_scope: instrument_session_regime
+    description: "Percentile of the historical IB-width distribution above which an IB is labeled wide."
+  - name: ib_width_lookback
+    value: null
+    status: calibration_required
+    calibration_scope: instrument_session
+    description: "Number of prior sessions forming the historical IB-width distribution."
+
+confidence_behavior:
+  full_confidence: "Complete IB window covered by clean bars; IB range published as OBSERVED."
+  degraded_confidence_triggers:
+    - "Historical IB-width data missing or short: raw width published, relative-width label withheld."
+    - "Post-IB bars sparse or low quality: extension state flagged DEGRADED_CONFIDENCE."
+  pending_state: "Before the IB window completes, IB range is PENDING and explicitly provisional."
+  no_binary_certainty_claim: "The spec reports the IB range and extension geometry only; it never predicts whether the IB will contain or release the day."
+
+refusal_conditions:
+  - "session_clock missing or unable to define the RTH start."
+  - "rth_session_bars missing or not covering the IB window."
+  - "Shortened or irregular session where the IB-window convention does not apply and no override is supplied."
+  - "Bar data internally inconsistent within the IB window."
+
+output_labels:
+  - OBSERVED
+  - PENDING
+  - CONTEXT_ONLY
+  - DEGRADED_CONFIDENCE
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+
+false_positive_risks:
+  - "Computing an IB on a shortened or holiday session where the standard window convention does not hold."
+  - "Reporting an extension from a single thin print that does not reflect genuine range extension."
+  - "Emitting a narrow/wide label from too short a historical width sample."
+
+false_negative_risks:
+  - "Missing a genuine extension because post-IB bar data is delayed."
+  - "Failing to flag an unusually narrow or wide IB because historical width data was unavailable."
+  - "Understating IB width when early bars are missing from the IB window."
+
+failure_modes:
+  - "Feed outage during the IB window."
+  - "Incorrect RTH start from a stale session/holiday calendar."
+  - "Contract roll splicing two contracts within the IB window."
+  - "Daylight-saving or timezone errors shifting the IB window."
+  - "Applying the IB convention to a product whose session structure differs."
+
+validation_requirements:
+  - "Replay complete sessions and confirm IB high/low/width match an independent computation."
+  - "Confirm PENDING is emitted before the IB window completes and OBSERVED only after."
+  - "Confirm extension state correctly reports above, below, two-sided, and none cases."
+  - "Confirm relative-width labels are withheld when historical width data is absent or too short."
+  - "Confirm refusal on shortened/irregular sessions without an override."
+
+prohibited_outputs:
+  - trade_permission
+  - entry_instruction
+  - exit_instruction
+  - stop_instruction
+  - target_instruction
+  - position_sizing_instruction
+  - add_or_reduce_instruction
+  - broker_action
+  - order_action
+  - account_instruction
+  - fill_or_pnl_instruction
+  - autonomous_trade_call
+
+review_status: DRAFT
+
+notes: >
+  P14 first-wave draft spec. IB high/low/width and the extension geometry are computable; the
+  relative narrow/wide labeling is a calibrated comparison and its percentile parameters are left
+  null pending calibration. Whether an extension is accepted, and the resulting day type, are
+  deliberately out of scope and belong to acceptance specs and Chapter 5 day-type doctrine. The
+  ib_window_duration is recorded as a conventional default rather than an empirical threshold; a
+  product with a different session convention must override it. The schema review_status enum has no
+  P14-specific value; DRAFT is used and this note records P14 first-wave provenance.

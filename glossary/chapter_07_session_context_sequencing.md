@@ -108,6 +108,8 @@ The common mistake is treating every Asia high and low as equally meaningful. In
 3. Do not over-weight a thin Asia high or low unless later participants defend, accept, or reject it.
 4. Watch whether London expands Asia's range with initiative or simply sweeps it and reclaims.
 5. In products where Asia participation is more relevant, allow Asia structure more weight, but still require product-specific context.
+6. Treat a thin placeholder Asia range as a stop-run and sweep candidate, not as a defended reference. Its extremes carry lower authority until London or NY confirms them.
+7. A meaningful Asia range can function as responsive structure until London proves otherwise. Its edge reactions matter, but acceptance beyond those edges with value migration invalidates the range-bound read.
 
 ### How Traders Identify It
 
@@ -182,6 +184,8 @@ London can extend the overnight range, reverse Asia, fail to initiate, build val
 3. Treat a London reversal or trap as NY context, not as automatic fade permission.
 4. If London failed to initiate, NY may open into a cleaner two-way auction or become the first real initiative session.
 5. Be especially cautious with late London momentum into NY if location is stretched and overnight inventory is crowded.
+6. True London initiative improves continuation quality when the first pullback holds the extension, with invalidation defined around NY reclaiming the origin.
+7. A confirmed London trap supports an opposing-session read once NY rejects the move, using trapped late London participants as the fuel. Trap suspicion alone is not enough; NY must refuse the structure.
 
 ### How Traders Identify It
 
@@ -256,6 +260,8 @@ NY inheritance means cash-session participation treats the overnight move as leg
 3. Distinguish rejection from ordinary pullback. Rejection requires failure of the overnight premise or reclaimed structure.
 4. Treat momentum into NY as vulnerable when it is late, crowded, outside value, or unsupported by tape quality.
 5. Watch whether NY confirms overnight direction, reverses overnight inventory, or repairs back toward prior value.
+6. When NY inherits the overnight auction by defending structure and building value in the overnight direction, continuation quality improves; pullbacks provide cleaner information than the open print.
+7. When NY rejects the overnight auction by reclaiming key references and repairing back toward value, an opposing read strengthens because overnight participants are trapped at the extremes. An ordinary pullback is not rejection; the supporting structure must actually fail.
 
 ### How Traders Identify It
 
@@ -330,6 +336,8 @@ Open location is context, not permission. It frames the question the first rotat
 3. Treat an open near Globex high/low as a decision point: accept beyond it, reject inside, or trap the overnight side.
 4. Be cautious with opens into poor late location, especially after extended London or momentum into NY.
 5. Do not let open location authorize action without confirmation from structure, auction, and tape.
+6. An open near a Globex extreme that fails to accept beyond it supports a back-inside or stop-run read, with the overnight range becoming the relevant repair area.
+7. An open outside prior value that accepts and builds there improves relocation quality. Before acceptance develops, the open remains vulnerable to repairing back toward value and trapping late participants.
 
 ### How Traders Identify It
 
@@ -404,6 +412,9 @@ An opening drive is not just opening volatility. It is sustained initiative from
 3. Do not mistake ordinary early chop for useless noise. Chop may be the auction sorting inventory before a cleaner move appears.
 4. Treat opening traps as higher-value when they occur at poor location, prior references, or failed overnight extensions.
 5. Keep the opening-type read provisional until it interacts with Initial Balance, value, and follow-through.
+6. An opening drive improves continuation quality while shallow pullbacks hold and the drive keeps control.
+7. Opening chop makes rotation and return-to-reference behavior more relevant than breakout certainty. That read is invalidated the moment one side accepts away.
+8. An opening trap supports an opposing read when the early move fails to accept and reclaims through the open or a key reference, forcing early participants out.
 
 ### How Traders Identify It
 
@@ -479,6 +490,8 @@ Time windows are session-context modifiers, not automatic trade triggers. They a
 3. Treat a liquidity vacuum as a condition that can exaggerate movement without proving sponsorship.
 4. Separate power-hour continuation from late short covering, long liquidation, and mechanical imbalance behavior.
 5. Treat settlement and close-related movement as potentially mechanical until tape, structure, and next-session behavior confirm broader meaning.
+6. In a midday liquidity vacuum, conviction should be downgraded or the posture may be stand aside because movement may be traveling through thin liquidity rather than expressing sponsorship.
+7. A power-hour move aligned with the day's accepted structure and value migration improves continuation quality. A power-hour move driven by late short covering, long liquidation, or close-imbalance flow weakens once that mechanical fuel is spent.
 
 ### How Traders Identify It
 
@@ -525,7 +538,7 @@ Time of day changes the quality of the evidence; it does not turn movement into 
 
 ### See Also
 
-Tape Quality Spectrum; Spread Behavior; Liquidity Pulls & Replenishment; Close Quality; Mechanical Flows; Event Volatility Regime; Day-Type Taxonomy; Execution Environment Quality
+Tape Quality Spectrum; Spread Behavior; Liquidity Pulls & Replenishment; Close Quality; Mechanical Flows; Event Volatility Regime; Day-Type Taxonomy; Execution Environment Quality & Veto
 
 ---
 

@@ -1,0 +1,210 @@
+spec_id: ch03_value_area_vah_val_poc
+concept_id: ch03_value_area_vah_val_poc
+concept_name: "Value Area: VAH / VAL / POC"
+
+chapter:
+  chapter_number: 3
+  chapter_title: "Auction & Market Profile"
+  glossary_path: "glossary/chapter_03_auction_market_profile.md"
+
+determinism_class: COMPUTABLE
+
+semantic_source:
+  glossary_path: "glossary/chapter_03_auction_market_profile.md"
+  concept_heading: "Value Area: VAH / VAL / POC"
+  doctrine_summary: >
+    The Value Area is the price range where roughly 70 percent of the session's volume or TPOs
+    traded — the zone the market agreed was fair. VAH and VAL are its boundaries; the POC is the
+    single price with the most volume or TPOs. POC migration is the day-over-day shift of the POC.
+    These references work because real volume transacted there. They are computable from profile
+    data; how price responds to them is a separate calibrated and judgment-assisted read.
+
+purpose: >
+  Compute and publish the session Value Area (VAH, VAL, POC) and, across sessions, the POC
+  migration relationship, as computable structural references. It reports the value-area geometry;
+  it does not classify acceptance, rejection, or rotation behavior at those references and does not
+  grant trade permission.
+
+non_executional_boundary: >
+  This spec emits semantic market-read context labels only. It never emits trade permission, entry,
+  exit, stop, target, position-sizing, add or reduce, broker, order, account, fill, or P&L
+  instructions, and never an autonomous trade call.
+
+required_inputs:
+  - name: session_clock
+    source: calendar/session_definition_module
+    granularity: session
+    session_dependency: "Defines the session boundaries over which the profile is built."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: profile_distribution
+    source: profile_module
+    granularity: per_price_volume_or_tpo
+    session_dependency: "Current session; a volume-at-price or TPO distribution across price."
+    absence_behavior: REFUSE_TO_CLASSIFY
+
+optional_inputs:
+  - name: prior_session_value_areas
+    source: profile_module
+    granularity: per_session_history
+    purpose: "Prior sessions' VAH/VAL/POC, used to report POC migration and value-area overlap direction."
+    absence_behavior: "Publish current value area only; omit POC migration and overlap reporting."
+  - name: value_area_method_config
+    source: configuration
+    granularity: configuration
+    purpose: "The value-area construction method (volume-based or TPO-based) and the value-area coverage fraction."
+    absence_behavior: "Apply the documented default method and coverage fraction; record which was used."
+
+unavailable_input_behavior:
+  missing_required_input: REFUSE_TO_CLASSIFY
+  missing_profile_distribution: "REFUSE_TO_CLASSIFY: the value area is undefined without a price distribution; it must not be approximated from OHLC bars."
+  missing_prior_session_value_areas: "CONTEXT_ONLY for migration only: publish current value area; omit POC migration and overlap labels."
+  missing_method_config: DEGRADED_CONFIDENCE
+  partial_or_low_quality_profile: DEGRADED_CONFIDENCE
+
+detection_scope:
+  allowed_to_classify:
+    - "Current-session VAH, VAL, POC, and value-area width."
+    - "POC migration direction across sessions (higher, lower, unchanged) when prior value areas are supplied."
+    - "Value-area overlap relationship (overlapping, inside, outside, higher, lower) versus the prior session."
+  not_allowed_to_classify:
+    - "Whether price is accepted or rejected at VAH/VAL — handled by ch03_auction_acceptance_vs_rejection and ch03_price_outside_value."
+    - "Whether the POC is currently acting as a magnet — a regime-dependent read, out of scope."
+    - "Trend or balance regime conclusions — out of scope."
+  instrument_scope: "Single instrument; value areas are not transferable across instruments."
+  session_scope: "Per session; the value area is rebuilt each session."
+  timeframe_scope: "Session profile; intraday developing value areas are out of scope unless explicitly configured."
+  regime_scope: "Computation is regime-independent."
+
+evidence_model:
+  evidence_categories:
+    - name: profile_inputs
+      observations: ["volume_at_price_distribution", "tpo_distribution"]
+      derivation: "Supplied profile distribution; one of volume-based or TPO-based depending on method config."
+    - name: value_area_geometry
+      observations: ["vah", "val", "poc", "value_area_width"]
+      derivation: "POC = price with maximum volume/TPO; VAH/VAL = boundaries of the value-area coverage fraction around the POC."
+    - name: poc_migration
+      observations: ["poc_higher", "poc_lower", "poc_unchanged"]
+      derivation: "Comparison of current POC to the prior session POC when prior value areas are supplied."
+    - name: value_area_overlap
+      observations: ["overlapping", "inside_prior", "outside_prior", "value_higher", "value_lower"]
+      derivation: "Comparison of current VAH/VAL band to the prior session's VAH/VAL band."
+  evidence_states:
+    supported:
+      - OBSERVED: "Value area computed from a complete session profile distribution."
+      - DEGRADED_CONFIDENCE: "Computed from a partial or low-quality profile."
+    unsupported:
+      - "Any value area inferred from OHLC bars without a price distribution."
+      - "Any acceptance, rejection, or magnet behavioral claim."
+
+rule_structure:
+  type: direct_computation_from_distribution
+  description: >
+    The value area is a deterministic construction over the supplied price distribution. The
+    coverage fraction and method are configuration conventions, not calibrated market thresholds;
+    they must be recorded so downstream consumers know how the value area was built.
+  rules:
+    - id: R1_poc
+      logic: "poc = price level with the maximum volume (volume method) or maximum TPO count (TPO method) in the distribution."
+    - id: R2_value_area
+      logic: >
+        Starting from the POC, accumulate price levels outward by the standard value-area procedure
+        until the value_area_coverage_fraction of total volume/TPOs is included; VAH and VAL are the
+        highest and lowest included prices.
+    - id: R3_value_area_width
+      logic: "value_area_width = vah - val."
+    - id: R4_poc_migration
+      logic: "If prior_session_value_areas supplied: compare current POC to prior POC -> poc_higher / poc_lower / poc_unchanged within a tick tolerance."
+    - id: R5_value_area_overlap
+      logic: "If prior_session_value_areas supplied: classify current [VAL,VAH] against prior [VAL,VAH] as overlapping / inside / outside / higher / lower."
+  output_assembly: "Publish VAH, VAL, POC, value-area width, the method and coverage fraction used, and (when prior data exists) POC migration and overlap labels."
+
+calibration_parameters:
+  - name: value_area_coverage_fraction
+    value: "0.70 (≈ one standard deviation), conventional default"
+    status: convention_default
+    calibration_scope: instrument_session
+    description: >
+      The fraction of session volume/TPOs the value area must contain. Recorded as the standard
+      Market Profile convention, not an empirical market threshold; it is a method definition. A
+      project that adopts a different convention must override it in configuration.
+  - name: value_area_method
+    value: null
+    status: configuration_required
+    calibration_scope: instrument
+    description: "Whether the value area is volume-based or TPO-based; a method choice, supplied as configuration."
+  - name: poc_migration_tick_tolerance
+    value: null
+    status: calibration_required
+    calibration_scope: instrument
+    description: "Price tolerance within which two sessions' POCs are treated as unchanged rather than migrated; a data-hygiene parameter."
+
+confidence_behavior:
+  full_confidence: "Complete session profile distribution; value area published as OBSERVED."
+  degraded_confidence_triggers:
+    - "Partial or low-quality profile distribution."
+    - "Method config absent so a default had to be assumed (the assumed method is recorded)."
+  no_binary_certainty_claim: "The spec reports value-area geometry and migration only; it never claims the value area will hold or be defended."
+
+refusal_conditions:
+  - "session_clock missing or unable to bound the session."
+  - "profile_distribution missing — the value area must not be derived from OHLC bars."
+  - "Profile distribution present but degenerate (for example, a single price level or no volume)."
+  - "Session boundary ambiguous so the profile window cannot be fixed."
+
+output_labels:
+  - OBSERVED
+  - CONTEXT_ONLY
+  - DEGRADED_CONFIDENCE
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+
+false_positive_risks:
+  - "Publishing a value area built from an incomplete profile as if it were the final session value area."
+  - "Reporting POC migration when the prior POC came from a different value-area method (volume vs TPO)."
+  - "Substituting an OHLC-derived midpoint when profile data is unavailable instead of refusing."
+
+false_negative_risks:
+  - "Refusing entirely on a brief profile gap when DEGRADED_CONFIDENCE would have been adequate."
+  - "Reporting poc_unchanged when the migration-tick-tolerance is too wide and a real migration occurred."
+  - "Omitting overlap reporting because prior value areas were not propagated."
+
+failure_modes:
+  - "Profile feed outage or gaps in the volume-at-price distribution."
+  - "Method inconsistency (volume-based current value area compared to a TPO-based prior value area)."
+  - "Contract roll blending two contracts' distributions."
+  - "Session boundary errors building the profile over the wrong window."
+  - "Low-liquidity sessions producing a thin, unrepresentative distribution."
+
+validation_requirements:
+  - "Replay sessions with complete profile data and confirm VAH/VAL/POC match an independent value-area computation under the same method and coverage fraction."
+  - "Confirm REFUSE_TO_CLASSIFY when profile data is absent and that no OHLC-derived proxy is emitted."
+  - "Confirm POC migration and overlap labels appear only when prior value areas of the same method are supplied."
+  - "Confirm the method and coverage fraction used are recorded in every output."
+  - "Confirm degenerate distributions trigger refusal."
+
+prohibited_outputs:
+  - trade_permission
+  - entry_instruction
+  - exit_instruction
+  - stop_instruction
+  - target_instruction
+  - position_sizing_instruction
+  - add_or_reduce_instruction
+  - broker_action
+  - order_action
+  - account_instruction
+  - fill_or_pnl_instruction
+  - autonomous_trade_call
+
+review_status: DRAFT
+
+notes: >
+  P14 first-wave draft spec. The value area is computable once a price distribution exists; the hard
+  data dependency is profile (volume-at-price or TPO) data, and the spec refuses rather than
+  approximating from OHLC bars. The 0.70 coverage fraction is recorded as a method convention, not a
+  calibrated market threshold; the volume-vs-TPO method choice and the POC-migration tick tolerance
+  are left for configuration/calibration. Acceptance and rejection behavior at VAH/VAL is out of
+  scope and belongs to ch03_auction_acceptance_vs_rejection and ch03_price_outside_value. The schema
+  review_status enum has no P14-specific value; DRAFT is used and this note records P14 first-wave
+  provenance.

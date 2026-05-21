@@ -1,0 +1,261 @@
+spec_id: ch02_acceptance_vs_rejection
+concept_id: ch02_acceptance_vs_rejection
+concept_name: "Acceptance vs. Rejection"
+
+chapter:
+  chapter_number: 2
+  chapter_title: "Level Interaction & Acceptance"
+  glossary_path: "glossary/chapter_02_level_interaction_acceptance.md"
+
+determinism_class: CALIBRATED
+
+semantic_source:
+  glossary_path: "glossary/chapter_02_level_interaction_acceptance.md"
+  concept_heading: "Acceptance vs. Rejection"
+  doctrine_summary: >
+    Acceptance vs. Rejection reads what price does after it reaches a structural reference, not the
+    touch itself. Acceptance beyond a level means price trades, holds, and builds time and activity
+    beyond it. Rejection means price reaches the reference, fails to make progress, and is pushed
+    back. Failed acceptance means price appeared to accept beyond a level, then could not sustain it
+    and fell back through — high-value trap evidence. The rule structure is deterministic but the
+    dwell time, activity threshold, and level buffer must be calibrated by instrument, session,
+    timeframe, and volatility regime.
+
+purpose: >
+  Classify the post-touch behavior of price at a supplied structural reference level as accepted,
+  rejected, failed acceptance, or pending, using a calibrated rule structure. It grades the
+  level-interaction read; it does not authorize a trade and does not assign setup or location
+  quality.
+
+non_executional_boundary: >
+  This spec emits semantic market-read and evidence labels only. It never emits trade permission,
+  entry, exit, stop, target, position-sizing, add or reduce, broker, order, account, fill, or P&L
+  instructions, and never an autonomous trade call. A level being "accepted" is an auction-behavior
+  read, not permission to act.
+
+required_inputs:
+  - name: structural_level
+    source: structural_reference_module
+    granularity: price
+    session_dependency: "A reference price from ch02_structural_reference_levels or an equivalent source."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: trade_price_sequence
+    source: market_data
+    granularity: tick_or_1m
+    session_dependency: "Current session; the price path before, at, and after the level interaction."
+    absence_behavior: REFUSE_TO_CLASSIFY
+  - name: session_clock
+    source: calendar/session_definition_module
+    granularity: session
+    session_dependency: "Provides session/timeframe/regime context needed to select the correct calibration scope."
+    absence_behavior: REFUSE_TO_CLASSIFY
+
+optional_inputs:
+  - name: volume_at_price
+    source: profile_module
+    granularity: per_price
+    purpose: "Activity beyond the level; strengthens the acceptance-versus-rejection read."
+    absence_behavior: "DEGRADED_CONFIDENCE: rely on dwell and price-structure evidence only."
+  - name: cumulative_delta
+    source: order_flow_module
+    granularity: tick_or_1m
+    purpose: "Aggressive-flow confirmation of holding or failing beyond the level."
+    absence_behavior: "DEGRADED_CONFIDENCE: omit delta confirmation."
+
+unavailable_input_behavior:
+  missing_required_input: REFUSE_TO_CLASSIFY
+  missing_volume_at_price: DEGRADED_CONFIDENCE
+  missing_cumulative_delta: DEGRADED_CONFIDENCE
+  missing_calibration_parameters: "INSUFFICIENT_EVIDENCE: without calibrated dwell, buffer, and activity parameters the rule structure cannot be evaluated; the spec must not substitute universal default values."
+  observation_window_incomplete: "PENDING: the post-touch window has not elapsed; classification is provisional."
+
+detection_scope:
+  allowed_to_classify:
+    - "Whether price has accepted above or below a supplied structural level."
+    - "Whether price has rejected from a supplied structural level."
+    - "Whether an apparent acceptance failed (failed acceptance)."
+    - "A pending state while the post-touch observation window is still open."
+  not_allowed_to_classify:
+    - "Whether to take a trade — out of scope and prohibited."
+    - "Setup quality, location quality, or asymmetry — Chapter 12 doctrine."
+    - "The cause or intent behind acceptance or rejection (who acted, why) — not observable."
+    - "Acceptance for a level supplied without a calibration scope to evaluate it against."
+  instrument_scope: "Single instrument; calibration is per instrument."
+  session_scope: "Per session; calibration scope includes the session."
+  timeframe_scope: "The timeframe of the supplied level and price sequence; calibration is timeframe-specific."
+  regime_scope: "Volatility regime is part of the calibration scope; an out-of-regime calibration must not be applied silently."
+
+evidence_model:
+  evidence_categories:
+    - name: dwell_beyond_level
+      observations: ["time_held_beyond_level", "time_held_inside_level"]
+      derivation: "Duration price spends beyond the level buffer versus back inside it after the touch."
+    - name: activity_beyond_level
+      observations: ["volume_built_beyond_level", "volume_dried_up_beyond_level"]
+      derivation: "Volume-at-price or trade activity accumulating beyond the level versus thinning; requires volume_at_price."
+    - name: price_structure
+      observations: ["held_beyond_level", "returned_through_level", "probe_then_close_back_through"]
+      derivation: "Whether the price sequence holds beyond the level, returns through it, or briefly accepts then fails back."
+    - name: polarity_retest
+      observations: ["level_flipped_role", "level_failed_to_flip"]
+      derivation: "Whether the broken level subsequently behaves in its new role on a retest; corroborating evidence."
+    - name: flow_confirmation
+      observations: ["delta_confirms_hold", "delta_contradicts_hold"]
+      derivation: "Cumulative-delta agreement with the holding or failing read; requires cumulative_delta."
+  evidence_hierarchy: >
+    Dwell and price structure beyond the calibrated buffer are primary. Activity beyond the level
+    and polarity retest are strong corroboration. Delta confirmation is supporting evidence and is
+    not sufficient on its own.
+  evidence_states:
+    supported:
+      - OBSERVED
+      - DEGRADED_CONFIDENCE
+    unsupported:
+      - "Any classification from the touch alone before the dwell window elapses."
+      - "Any claim of acceptance based on a single bar close."
+
+rule_structure:
+  type: calibrated_state_machine
+  description: >
+    A calibrated classification over the post-touch window. The rule shape is fixed; the dwell,
+    buffer, activity, and failure-window values are named parameters supplied by calibration. No
+    universal numeric thresholds appear in this spec.
+  states:
+    - PENDING: "Post-touch observation window still open."
+    - ACCEPTED_ABOVE: "Price held beyond the level buffer above it for the calibrated dwell, with activity building where volume data exists."
+    - ACCEPTED_BELOW: "Mirror of ACCEPTED_ABOVE below the level."
+    - REJECTED: "Price reached the level, failed to hold beyond the buffer, and returned through without building activity."
+    - FAILED_ACCEPTANCE: "Price held beyond the level long enough to appear accepted, then returned back through it within the calibrated failure window."
+  rules:
+    - id: R1_pending
+      logic: "While elapsed post-touch time < acceptance_dwell_time, emit PENDING."
+    - id: R2_acceptance
+      logic: >
+        Emit ACCEPTED_ABOVE/ACCEPTED_BELOW when price holds beyond the level by at least level_buffer
+        for at least acceptance_dwell_time and, where volume_at_price exists, activity beyond the
+        level meets acceptance_activity_threshold.
+    - id: R3_rejection
+      logic: >
+        Emit REJECTED when price tests the level, does not hold beyond level_buffer for
+        acceptance_dwell_time, and returns through the level without activity building beyond it.
+    - id: R4_failed_acceptance
+      logic: >
+        Emit FAILED_ACCEPTANCE when an ACCEPTED state is followed by price returning back through the
+        level within failed_acceptance_window.
+    - id: R5_conflict
+      logic: "If evidence categories conflict beyond the confidence tolerance, emit REVIEW_REQUIRED rather than forcing a state."
+  determinism_note: "Rule shape is deterministic; outcomes depend on calibrated parameters and are not universal truths."
+
+calibration_parameters:
+  - name: acceptance_dwell_time
+    value: null
+    status: calibration_required
+    unit: duration
+    calibration_scope: instrument_session_timeframe_regime
+    description: "Minimum time price must hold beyond the level buffer to be considered accepted."
+  - name: level_buffer
+    value: null
+    status: calibration_required
+    unit: price_distance_ticks_or_atr_fraction
+    calibration_scope: instrument_session_timeframe_regime
+    description: "Distance beyond the level price must clear before holding counts as beyond the level rather than at it."
+  - name: acceptance_activity_threshold
+    value: null
+    status: calibration_required
+    unit: relative_volume
+    calibration_scope: instrument_session_timeframe_regime
+    description: "Relative activity beyond the level required to corroborate acceptance when volume-at-price is available."
+  - name: failed_acceptance_window
+    value: null
+    status: calibration_required
+    unit: duration
+    calibration_scope: instrument_session_timeframe_regime
+    description: "Window after an apparent acceptance within which a return back through the level is classified as failed acceptance."
+  - name: rejection_return_speed
+    value: null
+    status: calibration_required
+    unit: duration_or_velocity
+    calibration_scope: instrument_session_timeframe_regime
+    description: "Speed of return through the level used to distinguish a clean rejection from slow drift."
+
+confidence_behavior:
+  full_confidence: "All required inputs present, calibration available for the in-scope instrument/session/timeframe/regime, and dwell, price-structure, and activity evidence agree."
+  degraded_confidence_triggers:
+    - "volume_at_price missing: acceptance read rests on dwell and price structure only."
+    - "cumulative_delta missing: flow confirmation omitted."
+    - "Calibration available only for an adjacent regime: classify with DEGRADED_CONFIDENCE and flag the regime mismatch."
+  review_required_trigger: "Primary and corroborating evidence conflict beyond the confidence tolerance."
+  no_binary_certainty_claim: "Calibrated evidence is not deterministic truth; outputs carry a confidence state and never imply certainty."
+
+refusal_conditions:
+  - "structural_level, trade_price_sequence, or session_clock missing."
+  - "No calibration parameters available for the instrument/session/timeframe/regime and none for an acceptable adjacent regime."
+  - "Observation window cannot be established because session timing is ambiguous."
+  - "Price sequence does not actually interact with the supplied level (no touch occurred)."
+  - "Event-window distortion makes dwell and activity evidence unreliable (see failure_modes)."
+
+output_labels:
+  - PENDING
+  - ACCEPTED_ABOVE
+  - ACCEPTED_BELOW
+  - REJECTED
+  - FAILED_ACCEPTANCE
+  - REVIEW_REQUIRED
+  - DEGRADED_CONFIDENCE
+  - INSUFFICIENT_EVIDENCE
+  - REFUSE_TO_CLASSIFY
+
+false_positive_risks:
+  - "A stop run misclassified as acceptance when price holds briefly beyond the level on a thin sweep."
+  - "A thin-liquidity probe misclassified as rejection when no genuine defense occurred."
+  - "Classifying acceptance from dwell alone in low volume when activity never built beyond the level."
+  - "Event-driven spikes producing apparent dwell beyond the level without genuine acceptance."
+
+false_negative_risks:
+  - "Missing a genuine acceptance because the calibrated dwell is too long for the current regime."
+  - "Missing a failed acceptance because the failure window is too short."
+  - "Withholding a classification as PENDING longer than necessary when acceptance is already evident."
+  - "Treating a slow, grinding rejection as inconclusive because rejection_return_speed is too strict."
+
+failure_modes:
+  - "Feed outage in the post-touch window."
+  - "Calibration stale or drawn from a different volatility regime."
+  - "Event distortion (data release, news shock) breaking normal dwell and activity behavior."
+  - "Bad session definition placing the interaction in the wrong calibration scope."
+  - "Level supplied at stale or low-quality price so the interaction is measured against a wrong reference."
+  - "Product/session mismatch applying one instrument's calibration to another."
+
+validation_requirements:
+  - "Replay labeled level interactions and confirm ACCEPTED/REJECTED/FAILED_ACCEPTANCE/PENDING transitions match an independent review under the same calibration."
+  - "Confirm INSUFFICIENT_EVIDENCE is emitted when calibration parameters are absent and that no universal default values are substituted."
+  - "Confirm stop-run and thin-probe fixtures are not misclassified as acceptance or rejection."
+  - "Confirm DEGRADED_CONFIDENCE when volume-at-price or delta is missing, and REVIEW_REQUIRED on conflicting evidence."
+  - "Confirm refusal when the price sequence does not interact with the supplied level and during event-window distortion."
+  - "Calibration validation: confirm parameter sets are scoped per instrument, session, timeframe, and regime and are never reused across scopes without revalidation."
+
+prohibited_outputs:
+  - trade_permission
+  - entry_instruction
+  - exit_instruction
+  - stop_instruction
+  - target_instruction
+  - position_sizing_instruction
+  - add_or_reduce_instruction
+  - broker_action
+  - order_action
+  - account_instruction
+  - fill_or_pnl_instruction
+  - autonomous_trade_call
+
+review_status: DRAFT
+
+notes: >
+  P14 first-wave draft spec and the only calibrated spec in the first wave. The rule structure
+  (PENDING / ACCEPTED / REJECTED / FAILED_ACCEPTANCE state machine) is fully specified, but every
+  numeric threshold is a named calibration parameter left null with status calibration_required;
+  the spec emits INSUFFICIENT_EVIDENCE rather than inventing universal dwell, buffer, or activity
+  values. Failed acceptance is preserved as a distinct, high-value state per the glossary. This spec
+  classifies auction behavior at a level only; setup quality, location quality, and any trade
+  decision are out of scope and belong to Chapter 12. The schema review_status enum has no
+  P14-specific value; DRAFT is used and this note records P14 first-wave provenance. Calibration
+  values are deferred to the calibration layer.
