@@ -1,0 +1,281 @@
+spec_id: ch05_close_quality
+concept_id: ch05_close_quality
+concept_name: Close Quality
+display_name: Close Quality
+glossary_ref: glossary/chapter_05_momentum_follow_through_day_types.md#close-quality
+chapter:
+  chapter_number: 5
+  chapter_title: Momentum, Follow-Through & Day Types
+  glossary_path: glossary/chapter_05_momentum_follow_through_day_types.md
+determinism_class: JUDGMENT_ASSISTED
+semantic_source:
+  glossary_path: glossary/chapter_05_momentum_follow_through_day_types.md
+  concept_heading: Close Quality
+  doctrine_summary: '**Close Quality** reads the meaning of where a session or bar closes in relation to its structure. A
+    strong close can mean buyers retained control into the end of the period. A weak close can mean sellers retained control.
+    A close near the high or near the low can matter, but only when it is interpreted against day structure, value, auction
+    acceptance, late-session flow, and the quality of participation. A close back inside range can invalidate an apparent
+    breakout. A close outside range can support the idea that the auction accepted a new area, but only if the surrounding
+    evidence agrees. The shallow mistake is treating close location as...'
+purpose: Emit bounded evidence and review labels for Close Quality while preserving human judgment and refusing unsupported
+  deterministic conclusions.
+description: P16 Wave 3 detection-spec contract for Close Quality. Evidence tagging and confidence/downgrade logic only; final
+  trader judgment remains outside the detector.
+non_executional_boundary: This spec emits semantic market-read, evidence, context, confidence, and refusal labels only. It
+  never emits trade permission, entry, exit, stop, target, position sizing, add/reduce, broker, order, account, fill, P&L,
+  or autonomous trading instructions.
+required_inputs:
+- name: session_close_price
+  source: market_data
+  granularity: session_close
+  session_dependency: Closing price and close window.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: session_range_and_references
+  source: structural_reference_module
+  granularity: session
+  session_dependency: Range, value, IB, and major references.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: price_sequence_into_close
+  source: market_data
+  granularity: intraday
+  session_dependency: Late-session acceptance, rejection, or repair path.
+  absence_behavior: REFUSE_TO_CLASSIFY
+optional_inputs:
+- name: value_migration
+  source: value_area_module
+  granularity: session_profile
+  purpose: Confirms whether close aligns with auction value.
+  absence_behavior: DEGRADED_CONFIDENCE
+- name: tape_or_delta_into_close
+  source: order_flow_module
+  granularity: intraday
+  purpose: Supports or downgrades close quality.
+  absence_behavior: DEGRADED_CONFIDENCE
+- name: close_imbalance_data
+  source: auction_or_imbalance_feed
+  granularity: close_window
+  purpose: Improves close-window interpretation where available.
+  absence_behavior: DEGRADED_CONFIDENCE
+unavailable_input_behavior:
+  missing_required_input: REFUSE_TO_CLASSIFY
+  missing_optional_input: DEGRADED_CONFIDENCE
+  missing_calibration_parameters: CONTEXT_ONLY
+  feed_blocked_condition: REFUSE_TO_CLASSIFY
+  data_quality_failure: INSUFFICIENT_EVIDENCE
+refusal_behavior:
+  missing_required_feed: REFUSE_TO_CLASSIFY
+  missing_calibration: CONTEXT_ONLY
+  conflicting_evidence: REVIEW_REQUIRED
+  missing_specialized_feed: DEGRADED_CONFIDENCE
+detection_scope:
+  allowed_to_classify:
+  - Bounded evidence states for Close Quality.
+  - Confidence, downgrade, context, and refusal states tied to declared feeds.
+  - Structural or evidence labels only, according to the determinism class.
+  not_allowed_to_classify:
+  - Trade permission or any execution instruction.
+  - Entry, exit, stop, target, sizing, add/reduce, broker, order, account, fill, or P&L behavior.
+  - Autonomous direction, setup approval, or guaranteed signal language.
+  - Close quality grades session information and thesis state; it does not issue end-of-day action instructions.
+  instrument_scope: Single instrument unless a future spec explicitly composes multiple registry concepts.
+  session_scope: Scoped by the session definitions declared in required_inputs.
+  timeframe_scope: Scoped by the supplied timeframe or profile/session period.
+  regime_scope: Calibration and confidence are regime-aware; no universal thresholds are permitted.
+evidence_model:
+  evidence_categories:
+  - name: primary_structure_or_feed
+    observations:
+    - STRONG_CLOSE_CONTEXT
+    - WEAK_CLOSE_CONTEXT
+    derivation: Primary feed evidence listed in required_inputs for Close Quality.
+  - name: confirmation_or_context
+    observations:
+    - CONFIRMATION_REQUIRED
+    - REVIEW_REQUIRED
+    - DEGRADED_CONFIDENCE
+    derivation: Optional feeds and context either strengthen, downgrade, or require manual review.
+  - name: refusal_and_feed_quality
+    observations:
+    - INSUFFICIENT_EVIDENCE
+    - REFUSE_TO_CLASSIFY
+    - BLOCKED_BY_FEEDS
+    derivation: Missing required feeds, missing calibration, stale data, or feed-blocked conditions.
+  evidence_hierarchy: Required inputs define the narrow Close Quality state. Optional inputs can improve confidence but cannot
+    create executional output or substitute for missing required feeds.
+  evidence_states:
+    supported:
+    - STRONG_CLOSE_CONTEXT
+    - WEAK_CLOSE_CONTEXT
+    - ACCEPTED_CLOSE
+    - FAILED_CLOSE
+    unsupported:
+    - Any autonomous trade call from this concept.
+    - Any deterministic claim beyond the registry determinism class.
+    - Any proxy classification when a required feed is missing.
+rule_structure:
+  type: judgment_assisted_close_quality_tagger
+  description: Evidence tagging and confidence/downgrade logic only; final trader judgment remains outside the detector.
+  states:
+  - STRONG_CLOSE_CONTEXT: Bounded Close Quality label emitted only when evidence supports this state.
+  - WEAK_CLOSE_CONTEXT: Bounded Close Quality label emitted only when evidence supports this state.
+  - ACCEPTED_CLOSE: Bounded Close Quality label emitted only when evidence supports this state.
+  - FAILED_CLOSE: Bounded Close Quality label emitted only when evidence supports this state.
+  - LATE_REPAIR_CLOSE: Bounded Close Quality label emitted only when evidence supports this state.
+  - CLOSE_QUALITY_REVIEW_REQUIRED: Bounded Close Quality label emitted only when evidence supports this state.
+  - DEGRADED_CONFIDENCE: Bounded Close Quality label emitted only when evidence supports this state.
+  - INSUFFICIENT_EVIDENCE: Bounded Close Quality label emitted only when evidence supports this state.
+  - REFUSE_TO_CLASSIFY: Bounded Close Quality label emitted only when evidence supports this state.
+  rules:
+  - id: R1_strong_close_context
+    logic: Emit STRONG_CLOSE_CONTEXT only when declared evidence for Close Quality supports that bounded state and required
+      feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R2_weak_close_context
+    logic: Emit WEAK_CLOSE_CONTEXT only when declared evidence for Close Quality supports that bounded state and required
+      feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R3_accepted_close
+    logic: Emit ACCEPTED_CLOSE only when declared evidence for Close Quality supports that bounded state and required feeds
+      are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R4_failed_close
+    logic: Emit FAILED_CLOSE only when declared evidence for Close Quality supports that bounded state and required feeds
+      are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R5_late_repair_close
+    logic: Emit LATE_REPAIR_CLOSE only when declared evidence for Close Quality supports that bounded state and required feeds
+      are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R_refusal
+    logic: Emit INSUFFICIENT_EVIDENCE or REFUSE_TO_CLASSIFY when required feeds, calibration, session scope, or data quality
+      are missing. Do not substitute proxy data for unavailable required evidence.
+  determinism_note: Close Quality is classified as JUDGMENT_ASSISTED; rule behavior must stay inside that class and avoid
+    false determinism.
+decision_logic:
+  summary: Evaluate required feeds for Close Quality, apply the class-appropriate rule structure, add optional evidence only
+    as confirmation or downgrade context, and refuse when the evidence is missing or outside scope.
+  boundary: Close quality grades session information and thesis state; it does not issue end-of-day action instructions.
+  missing_feed_priority: Refusal or downgrade is preferred over inferred classification.
+calibration_parameters:
+- name: close_window_definition
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: close_window_definition parameter; value must be supplied by later calibration or method configuration, not
+    P16.
+- name: close_location_reference_policy
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: close_location_reference_policy parameter; value must be supplied by later calibration or method configuration,
+    not P16.
+- name: close_acceptance_evidence_policy
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: close_acceptance_evidence_policy parameter; value must be supplied by later calibration or method configuration,
+    not P16.
+parameters:
+- name: close_window_definition
+  value: null
+  status: calibration_required
+- name: close_location_reference_policy
+  value: null
+  status: calibration_required
+- name: close_acceptance_evidence_policy
+  value: null
+  status: calibration_required
+confidence_behavior:
+  full_confidence: All required feeds present, data quality clean, calibration available where needed, and primary evidence
+    agrees with optional confirmation.
+  degraded_confidence_triggers:
+  - Optional confirmation feeds are missing.
+  - Data quality is usable but incomplete.
+  - Adjacent but not exact session/regime context is being used for review only.
+  review_required_trigger: Primary evidence and optional confirmation disagree, or the result would require discretionary
+    interpretation beyond the spec.
+  no_binary_certainty_claim: Outputs are bounded evidence states, not certainty claims or trading instructions.
+confidence_rules:
+  full_confidence_requires:
+  - Required inputs present
+  - Clean session/timeframe scope
+  - No material evidence conflict
+  downgrade_when:
+  - Optional feeds absent
+  - Specialized feeds absent
+  - Calibration absent where required
+  - Regime or session mismatch
+  refuse_when:
+  - Required feeds absent
+  - Data unreadable
+  - Scope cannot be established
+refusal_conditions:
+- Required feed missing or stale.
+- Session, profile, or timeframe boundary cannot be established.
+- Calibration is required but unavailable.
+- Evidence would require guessing participant intent, execution behavior, or unavailable feed state.
+- Data quality is insufficient for the declared determinism class.
+output_labels: &id001
+- STRONG_CLOSE_CONTEXT
+- WEAK_CLOSE_CONTEXT
+- ACCEPTED_CLOSE
+- FAILED_CLOSE
+- LATE_REPAIR_CLOSE
+- CLOSE_QUALITY_REVIEW_REQUIRED
+- DEGRADED_CONFIDENCE
+- INSUFFICIENT_EVIDENCE
+- REFUSE_TO_CLASSIFY
+- CONTEXT_ONLY
+- CONFIRMATION_REQUIRED
+- REVIEW_REQUIRED
+states_emitted: *id001
+allowed_action_labels: *id001
+false_positive_risks:
+- Overclassifying Close Quality from a single weak observation.
+- Treating optional confirmation as if it were required evidence.
+- Using stale or wrong-session references.
+- Applying calibration outside its instrument/session/timeframe/regime scope.
+false_negative_risks:
+- Withholding a valid Close Quality state because optional feeds are missing.
+- Missing the state because data arrives late or session boundaries are wrong.
+- Overly strict future calibration suppresses legitimate evidence.
+- Downgrading a structurally valid state because interpretation context is unavailable.
+failure_modes:
+- Feed outage or stale data.
+- Bad session calendar, profile period, or timeframe definition.
+- Contract roll or data stitching artifact.
+- Regime mismatch or missing calibration.
+- Event-window distortion or low-liquidity condition requiring downgrade or review.
+validation_requirements:
+- Replay labeled Close Quality examples and confirm only bounded states are emitted.
+- Confirm missing required feeds produce refusal or insufficient-evidence behavior.
+- Confirm missing optional feeds degrade confidence without proxy substitution.
+- Confirm no output label implies trade permission, entries, exits, stops, targets, sizing, or broker/order behavior.
+- Confirm calibrated parameters remain null until later calibration artifacts supply scoped values.
+test_cases:
+- name: required_feeds_present_supported_state
+  expected: STRONG_CLOSE_CONTEXT
+- name: missing_required_feed
+  expected: REFUSE_TO_CLASSIFY
+- name: missing_optional_confirmation
+  expected: DEGRADED_CONFIDENCE
+- name: conflicting_evidence
+  expected: REVIEW_REQUIRED
+- name: missing_calibration_when_required
+  expected: CONTEXT_ONLY
+prohibited_outputs: &id002
+- trade_permission
+- entry_instruction
+- exit_instruction
+- stop_instruction
+- target_instruction
+- position_sizing_instruction
+- add_or_reduce_instruction
+- broker_action
+- order_action
+- account_instruction
+- fill_or_pnl_instruction
+- autonomous_trade_call
+forbidden_outputs: *id002
+review_status: DRAFT
+notes: P16 Wave 3 draft spec for Close Quality. Resolved from registry concept_id ch05_close_quality. Determinism class is
+  JUDGMENT_ASSISTED. No thresholds, calibration values, execution outputs, individual detector code, or calibration artifacts
+  are created in this pass.

@@ -1,0 +1,281 @@
+spec_id: ch05_day_type_taxonomy
+concept_id: ch05_day_type_taxonomy
+concept_name: Day-Type Taxonomy
+display_name: Day-Type Taxonomy
+glossary_ref: glossary/chapter_05_momentum_follow_through_day_types.md#day-type-taxonomy
+chapter:
+  chapter_number: 5
+  chapter_title: Momentum, Follow-Through & Day Types
+  glossary_path: glossary/chapter_05_momentum_follow_through_day_types.md
+determinism_class: JUDGMENT_ASSISTED
+semantic_source:
+  glossary_path: glossary/chapter_05_momentum_follow_through_day_types.md
+  concept_heading: Day-Type Taxonomy
+  doctrine_summary: '**Day-Type Taxonomy** gives language to the session''s developing auction structure. A trend day is a
+    session where the market accepts directional imbalance and spends the day relocating value. A failed trend day begins
+    with directional promise but cannot sustain it, often trapping early participants. A range day or rotational day is dominated
+    by two-sided trade, responsive activity, and repeated returns toward fair value. A double-distribution day forms two distinct
+    areas of acceptance separated by a low-volume or single-print zone. A neutral day tests both sides of the Initial Balance
+    or opening range. A neutral extreme day tests both...'
+purpose: Emit bounded evidence and review labels for Day-Type Taxonomy while preserving human judgment and refusing unsupported
+  deterministic conclusions.
+description: P16 Wave 3 detection-spec contract for Day-Type Taxonomy. Evidence tagging and confidence/downgrade logic only;
+  final trader judgment remains outside the detector.
+non_executional_boundary: This spec emits semantic market-read, evidence, context, confidence, and refusal labels only. It
+  never emits trade permission, entry, exit, stop, target, position sizing, add/reduce, broker, order, account, fill, P&L,
+  or autonomous trading instructions.
+required_inputs:
+- name: session_price_structure
+  source: market_data
+  granularity: session
+  session_dependency: Full session range, rotations, extensions, and close.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: initial_balance_context
+  source: initial_balance_spec
+  granularity: session
+  session_dependency: IB range and extension context.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: session_clock
+  source: calendar/session_definition_module
+  granularity: session
+  session_dependency: Session boundary and phase.
+  absence_behavior: REFUSE_TO_CLASSIFY
+optional_inputs:
+- name: value_profile
+  source: value_area_module
+  granularity: profile
+  purpose: Value migration and profile shape.
+  absence_behavior: DEGRADED_CONFIDENCE
+- name: one_timeframing_state
+  source: one_timeframing_spec
+  granularity: session
+  purpose: Period-control context.
+  absence_behavior: DEGRADED_CONFIDENCE
+- name: tape_or_delta
+  source: order_flow_module
+  granularity: intraday
+  purpose: Sponsorship and failure evidence.
+  absence_behavior: DEGRADED_CONFIDENCE
+unavailable_input_behavior:
+  missing_required_input: REFUSE_TO_CLASSIFY
+  missing_optional_input: DEGRADED_CONFIDENCE
+  missing_calibration_parameters: CONTEXT_ONLY
+  feed_blocked_condition: REFUSE_TO_CLASSIFY
+  data_quality_failure: INSUFFICIENT_EVIDENCE
+refusal_behavior:
+  missing_required_feed: REFUSE_TO_CLASSIFY
+  missing_calibration: CONTEXT_ONLY
+  conflicting_evidence: REVIEW_REQUIRED
+  missing_specialized_feed: DEGRADED_CONFIDENCE
+detection_scope:
+  allowed_to_classify:
+  - Bounded evidence states for Day-Type Taxonomy.
+  - Confidence, downgrade, context, and refusal states tied to declared feeds.
+  - Structural or evidence labels only, according to the determinism class.
+  not_allowed_to_classify:
+  - Trade permission or any execution instruction.
+  - Entry, exit, stop, target, sizing, add/reduce, broker, order, account, fill, or P&L behavior.
+  - Autonomous direction, setup approval, or guaranteed signal language.
+  - Day type is a classification aid and remains provisional until enough session evidence exists.
+  instrument_scope: Single instrument unless a future spec explicitly composes multiple registry concepts.
+  session_scope: Scoped by the session definitions declared in required_inputs.
+  timeframe_scope: Scoped by the supplied timeframe or profile/session period.
+  regime_scope: Calibration and confidence are regime-aware; no universal thresholds are permitted.
+evidence_model:
+  evidence_categories:
+  - name: primary_structure_or_feed
+    observations:
+    - DAY_TYPE_CANDIDATE_TREND
+    - DAY_TYPE_CANDIDATE_ROTATIONAL
+    derivation: Primary feed evidence listed in required_inputs for Day-Type Taxonomy.
+  - name: confirmation_or_context
+    observations:
+    - CONFIRMATION_REQUIRED
+    - REVIEW_REQUIRED
+    - DEGRADED_CONFIDENCE
+    derivation: Optional feeds and context either strengthen, downgrade, or require manual review.
+  - name: refusal_and_feed_quality
+    observations:
+    - INSUFFICIENT_EVIDENCE
+    - REFUSE_TO_CLASSIFY
+    - BLOCKED_BY_FEEDS
+    derivation: Missing required feeds, missing calibration, stale data, or feed-blocked conditions.
+  evidence_hierarchy: Required inputs define the narrow Day-Type Taxonomy state. Optional inputs can improve confidence but
+    cannot create executional output or substitute for missing required feeds.
+  evidence_states:
+    supported:
+    - DAY_TYPE_CANDIDATE_TREND
+    - DAY_TYPE_CANDIDATE_ROTATIONAL
+    - DAY_TYPE_CANDIDATE_NEUTRAL
+    - DAY_TYPE_CANDIDATE_DOUBLE_DISTRIBUTION
+    unsupported:
+    - Any autonomous trade call from this concept.
+    - Any deterministic claim beyond the registry determinism class.
+    - Any proxy classification when a required feed is missing.
+rule_structure:
+  type: judgment_assisted_day_type_evidence_tagger
+  description: Evidence tagging and confidence/downgrade logic only; final trader judgment remains outside the detector.
+  states:
+  - DAY_TYPE_CANDIDATE_TREND: Bounded Day-Type Taxonomy label emitted only when evidence supports this state.
+  - DAY_TYPE_CANDIDATE_ROTATIONAL: Bounded Day-Type Taxonomy label emitted only when evidence supports this state.
+  - DAY_TYPE_CANDIDATE_NEUTRAL: Bounded Day-Type Taxonomy label emitted only when evidence supports this state.
+  - DAY_TYPE_CANDIDATE_DOUBLE_DISTRIBUTION: Bounded Day-Type Taxonomy label emitted only when evidence supports this state.
+  - DAY_TYPE_CANDIDATE_NORMAL: Bounded Day-Type Taxonomy label emitted only when evidence supports this state.
+  - DAY_TYPE_REVIEW_REQUIRED: Bounded Day-Type Taxonomy label emitted only when evidence supports this state.
+  - CONTEXT_ONLY: Bounded Day-Type Taxonomy label emitted only when evidence supports this state.
+  - DEGRADED_CONFIDENCE: Bounded Day-Type Taxonomy label emitted only when evidence supports this state.
+  - INSUFFICIENT_EVIDENCE: Bounded Day-Type Taxonomy label emitted only when evidence supports this state.
+  - REFUSE_TO_CLASSIFY: Bounded Day-Type Taxonomy label emitted only when evidence supports this state.
+  rules:
+  - id: R1_day_type_candidate_trend
+    logic: Emit DAY_TYPE_CANDIDATE_TREND only when declared evidence for Day-Type Taxonomy supports that bounded state and
+      required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R2_day_type_candidate_rotational
+    logic: Emit DAY_TYPE_CANDIDATE_ROTATIONAL only when declared evidence for Day-Type Taxonomy supports that bounded state
+      and required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R3_day_type_candidate_neutral
+    logic: Emit DAY_TYPE_CANDIDATE_NEUTRAL only when declared evidence for Day-Type Taxonomy supports that bounded state and
+      required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R4_day_type_candidate_double_distribution
+    logic: Emit DAY_TYPE_CANDIDATE_DOUBLE_DISTRIBUTION only when declared evidence for Day-Type Taxonomy supports that bounded
+      state and required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R5_day_type_candidate_normal
+    logic: Emit DAY_TYPE_CANDIDATE_NORMAL only when declared evidence for Day-Type Taxonomy supports that bounded state and
+      required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R_refusal
+    logic: Emit INSUFFICIENT_EVIDENCE or REFUSE_TO_CLASSIFY when required feeds, calibration, session scope, or data quality
+      are missing. Do not substitute proxy data for unavailable required evidence.
+  determinism_note: Day-Type Taxonomy is classified as JUDGMENT_ASSISTED; rule behavior must stay inside that class and avoid
+    false determinism.
+decision_logic:
+  summary: Evaluate required feeds for Day-Type Taxonomy, apply the class-appropriate rule structure, add optional evidence
+    only as confirmation or downgrade context, and refuse when the evidence is missing or outside scope.
+  boundary: Day type is a classification aid and remains provisional until enough session evidence exists.
+  missing_feed_priority: Refusal or downgrade is preferred over inferred classification.
+calibration_parameters:
+- name: day_type_evidence_window
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: day_type_evidence_window parameter; value must be supplied by later calibration or method configuration, not
+    P16.
+- name: rotation_quality_policy
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: rotation_quality_policy parameter; value must be supplied by later calibration or method configuration, not
+    P16.
+- name: profile_shape_policy
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: profile_shape_policy parameter; value must be supplied by later calibration or method configuration, not P16.
+parameters:
+- name: day_type_evidence_window
+  value: null
+  status: calibration_required
+- name: rotation_quality_policy
+  value: null
+  status: calibration_required
+- name: profile_shape_policy
+  value: null
+  status: calibration_required
+confidence_behavior:
+  full_confidence: All required feeds present, data quality clean, calibration available where needed, and primary evidence
+    agrees with optional confirmation.
+  degraded_confidence_triggers:
+  - Optional confirmation feeds are missing.
+  - Data quality is usable but incomplete.
+  - Adjacent but not exact session/regime context is being used for review only.
+  review_required_trigger: Primary evidence and optional confirmation disagree, or the result would require discretionary
+    interpretation beyond the spec.
+  no_binary_certainty_claim: Outputs are bounded evidence states, not certainty claims or trading instructions.
+confidence_rules:
+  full_confidence_requires:
+  - Required inputs present
+  - Clean session/timeframe scope
+  - No material evidence conflict
+  downgrade_when:
+  - Optional feeds absent
+  - Specialized feeds absent
+  - Calibration absent where required
+  - Regime or session mismatch
+  refuse_when:
+  - Required feeds absent
+  - Data unreadable
+  - Scope cannot be established
+refusal_conditions:
+- Required feed missing or stale.
+- Session, profile, or timeframe boundary cannot be established.
+- Calibration is required but unavailable.
+- Evidence would require guessing participant intent, execution behavior, or unavailable feed state.
+- Data quality is insufficient for the declared determinism class.
+output_labels: &id001
+- DAY_TYPE_CANDIDATE_TREND
+- DAY_TYPE_CANDIDATE_ROTATIONAL
+- DAY_TYPE_CANDIDATE_NEUTRAL
+- DAY_TYPE_CANDIDATE_DOUBLE_DISTRIBUTION
+- DAY_TYPE_CANDIDATE_NORMAL
+- DAY_TYPE_REVIEW_REQUIRED
+- CONTEXT_ONLY
+- DEGRADED_CONFIDENCE
+- INSUFFICIENT_EVIDENCE
+- REFUSE_TO_CLASSIFY
+- CONFIRMATION_REQUIRED
+- REVIEW_REQUIRED
+states_emitted: *id001
+allowed_action_labels: *id001
+false_positive_risks:
+- Overclassifying Day-Type Taxonomy from a single weak observation.
+- Treating optional confirmation as if it were required evidence.
+- Using stale or wrong-session references.
+- Applying calibration outside its instrument/session/timeframe/regime scope.
+false_negative_risks:
+- Withholding a valid Day-Type Taxonomy state because optional feeds are missing.
+- Missing the state because data arrives late or session boundaries are wrong.
+- Overly strict future calibration suppresses legitimate evidence.
+- Downgrading a structurally valid state because interpretation context is unavailable.
+failure_modes:
+- Feed outage or stale data.
+- Bad session calendar, profile period, or timeframe definition.
+- Contract roll or data stitching artifact.
+- Regime mismatch or missing calibration.
+- Event-window distortion or low-liquidity condition requiring downgrade or review.
+validation_requirements:
+- Replay labeled Day-Type Taxonomy examples and confirm only bounded states are emitted.
+- Confirm missing required feeds produce refusal or insufficient-evidence behavior.
+- Confirm missing optional feeds degrade confidence without proxy substitution.
+- Confirm no output label implies trade permission, entries, exits, stops, targets, sizing, or broker/order behavior.
+- Confirm calibrated parameters remain null until later calibration artifacts supply scoped values.
+test_cases:
+- name: required_feeds_present_supported_state
+  expected: DAY_TYPE_CANDIDATE_TREND
+- name: missing_required_feed
+  expected: REFUSE_TO_CLASSIFY
+- name: missing_optional_confirmation
+  expected: DEGRADED_CONFIDENCE
+- name: conflicting_evidence
+  expected: REVIEW_REQUIRED
+- name: missing_calibration_when_required
+  expected: CONTEXT_ONLY
+prohibited_outputs: &id002
+- trade_permission
+- entry_instruction
+- exit_instruction
+- stop_instruction
+- target_instruction
+- position_sizing_instruction
+- add_or_reduce_instruction
+- broker_action
+- order_action
+- account_instruction
+- fill_or_pnl_instruction
+- autonomous_trade_call
+forbidden_outputs: *id002
+review_status: DRAFT
+notes: P16 Wave 3 draft spec for Day-Type Taxonomy. Resolved from registry concept_id ch05_day_type_taxonomy. Determinism
+  class is JUDGMENT_ASSISTED. No thresholds, calibration values, execution outputs, individual detector code, or calibration
+  artifacts are created in this pass.

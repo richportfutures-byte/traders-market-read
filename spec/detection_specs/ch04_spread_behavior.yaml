@@ -1,0 +1,286 @@
+spec_id: ch04_spread_behavior
+concept_id: ch04_spread_behavior
+concept_name: Spread Behavior
+display_name: Spread Behavior
+glossary_ref: glossary/chapter_04_tape_reading_microstructure.md#spread-behavior
+chapter:
+  chapter_number: 4
+  chapter_title: Tape Reading & Microstructure
+  glossary_path: glossary/chapter_04_tape_reading_microstructure.md
+determinism_class: CALIBRATED
+semantic_source:
+  glossary_path: glossary/chapter_04_tape_reading_microstructure.md
+  concept_heading: Spread Behavior
+  doctrine_summary: "The **bid-ask spread** is a continuous, real-time liquidity gauge \u2014 and it should be read continuously,\
+    \ not only noticed when it costs you a fill. **Widening** means market makers are pricing in risk, pulling depth, and\
+    \ demanding more compensation to provide liquidity: a stress signal. **Normalizing** means liquidity is returning and\
+    \ that risk is being repriced lower. The spread is simultaneously a *cost* (your transaction tax on every round trip)\
+    \ and a *signal* (its width is what liquidity providers think about the next few seconds). Most traders treat it as the\
+    \ former and ignore the latter, which is a mistake."
+purpose: Classify bounded Spread Behavior states using a calibrated rule structure with all empirical values deferred to later
+  calibration artifacts.
+description: P16 Wave 3 detection-spec contract for Spread Behavior. Fixed rule structure with named parameters. Values remain
+  null until calibrated per instrument, session, timeframe, and regime.
+non_executional_boundary: This spec emits semantic market-read, evidence, context, confidence, and refusal labels only. It
+  never emits trade permission, entry, exit, stop, target, position sizing, add/reduce, broker, order, account, fill, P&L,
+  or autonomous trading instructions.
+required_inputs:
+- name: bid_ask_quotes
+  source: quote_feed
+  granularity: tick_or_intraday
+  session_dependency: Inside bid/ask quote series.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: session_clock
+  source: calendar/session_definition_module
+  granularity: session
+  session_dependency: Product/session baseline scope.
+  absence_behavior: REFUSE_TO_CLASSIFY
+optional_inputs:
+- name: depth_behind_inside
+  source: depth_feed
+  granularity: multi_level_depth
+  purpose: Improves stability and liquidity reading.
+  absence_behavior: DEGRADED_CONFIDENCE
+- name: event_calendar
+  source: calendar_or_catalyst_module
+  granularity: event_window
+  purpose: Identifies event-related widening context.
+  absence_behavior: DEGRADED_CONFIDENCE
+- name: realized_volatility
+  source: volatility_statistics_module
+  granularity: intraday
+  purpose: Separates spread stress from normal volatility regime.
+  absence_behavior: DEGRADED_CONFIDENCE
+unavailable_input_behavior:
+  missing_required_input: REFUSE_TO_CLASSIFY
+  missing_optional_input: DEGRADED_CONFIDENCE
+  missing_calibration_parameters: INSUFFICIENT_EVIDENCE
+  feed_blocked_condition: REFUSE_TO_CLASSIFY
+  data_quality_failure: INSUFFICIENT_EVIDENCE
+refusal_behavior:
+  missing_required_feed: REFUSE_TO_CLASSIFY
+  missing_calibration: INSUFFICIENT_EVIDENCE
+  conflicting_evidence: REVIEW_REQUIRED
+  missing_specialized_feed: DEGRADED_CONFIDENCE
+detection_scope:
+  allowed_to_classify:
+  - Bounded evidence states for Spread Behavior.
+  - Confidence, downgrade, context, and refusal states tied to declared feeds.
+  - Structural or evidence labels only, according to the determinism class.
+  not_allowed_to_classify:
+  - Trade permission or any execution instruction.
+  - Entry, exit, stop, target, sizing, add/reduce, broker, order, account, fill, or P&L behavior.
+  - Autonomous direction, setup approval, or guaranteed signal language.
+  - Spread state is execution-environment evidence and never a direction or order instruction.
+  instrument_scope: Single instrument unless a future spec explicitly composes multiple registry concepts.
+  session_scope: Scoped by the session definitions declared in required_inputs.
+  timeframe_scope: Scoped by the supplied timeframe or profile/session period.
+  regime_scope: Calibration and confidence are regime-aware; no universal thresholds are permitted.
+evidence_model:
+  evidence_categories:
+  - name: primary_structure_or_feed
+    observations:
+    - SPREAD_STABLE
+    - SPREAD_WIDENING
+    derivation: Primary feed evidence listed in required_inputs for Spread Behavior.
+  - name: confirmation_or_context
+    observations:
+    - CONFIRMATION_REQUIRED
+    - REVIEW_REQUIRED
+    - DEGRADED_CONFIDENCE
+    derivation: Optional feeds and context either strengthen, downgrade, or require manual review.
+  - name: refusal_and_feed_quality
+    observations:
+    - INSUFFICIENT_EVIDENCE
+    - REFUSE_TO_CLASSIFY
+    - BLOCKED_BY_FEEDS
+    derivation: Missing required feeds, missing calibration, stale data, or feed-blocked conditions.
+  evidence_hierarchy: Required inputs define the narrow Spread Behavior state. Optional inputs can improve confidence but
+    cannot create executional output or substitute for missing required feeds.
+  evidence_states:
+    supported:
+    - SPREAD_STABLE
+    - SPREAD_WIDENING
+    - SPREAD_NORMALIZING
+    - SPREAD_UNSTABLE
+    unsupported:
+    - Any autonomous trade call from this concept.
+    - Any deterministic claim beyond the registry determinism class.
+    - Any proxy classification when a required feed is missing.
+rule_structure:
+  type: calibrated_spread_state_classifier
+  description: Fixed rule structure with named parameters. Values remain null until calibrated per instrument, session, timeframe,
+    and regime.
+  states:
+  - SPREAD_STABLE: Bounded Spread Behavior label emitted only when evidence supports this state.
+  - SPREAD_WIDENING: Bounded Spread Behavior label emitted only when evidence supports this state.
+  - SPREAD_NORMALIZING: Bounded Spread Behavior label emitted only when evidence supports this state.
+  - SPREAD_UNSTABLE: Bounded Spread Behavior label emitted only when evidence supports this state.
+  - SPREAD_BLOCKED: Bounded Spread Behavior label emitted only when evidence supports this state.
+  - EXECUTION_ENVIRONMENT_DEGRADED: Bounded Spread Behavior label emitted only when evidence supports this state.
+  - DEGRADED_CONFIDENCE: Bounded Spread Behavior label emitted only when evidence supports this state.
+  - INSUFFICIENT_EVIDENCE: Bounded Spread Behavior label emitted only when evidence supports this state.
+  - REFUSE_TO_CLASSIFY: Bounded Spread Behavior label emitted only when evidence supports this state.
+  rules:
+  - id: R1_spread_stable
+    logic: Emit SPREAD_STABLE only when declared evidence for Spread Behavior supports that bounded state and required feeds
+      are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R2_spread_widening
+    logic: Emit SPREAD_WIDENING only when declared evidence for Spread Behavior supports that bounded state and required feeds
+      are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R3_spread_normalizing
+    logic: Emit SPREAD_NORMALIZING only when declared evidence for Spread Behavior supports that bounded state and required
+      feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R4_spread_unstable
+    logic: Emit SPREAD_UNSTABLE only when declared evidence for Spread Behavior supports that bounded state and required feeds
+      are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R5_spread_blocked
+    logic: Emit SPREAD_BLOCKED only when declared evidence for Spread Behavior supports that bounded state and required feeds
+      are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R_refusal
+    logic: Emit INSUFFICIENT_EVIDENCE or REFUSE_TO_CLASSIFY when required feeds, calibration, session scope, or data quality
+      are missing. Do not substitute proxy data for unavailable required evidence.
+  determinism_note: Spread Behavior is classified as CALIBRATED; rule behavior must stay inside that class and avoid false
+    determinism.
+decision_logic:
+  summary: Evaluate required feeds for Spread Behavior, apply the class-appropriate rule structure, add optional evidence
+    only as confirmation or downgrade context, and refuse when the evidence is missing or outside scope.
+  boundary: Spread state is execution-environment evidence and never a direction or order instruction.
+  missing_feed_priority: Refusal or downgrade is preferred over inferred classification.
+calibration_parameters:
+- name: spread_width_baseline
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: spread_width_baseline parameter; value must be supplied by later calibration or method configuration, not P16.
+- name: spread_widening_requirement
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: spread_widening_requirement parameter; value must be supplied by later calibration or method configuration,
+    not P16.
+- name: spread_normalization_requirement
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: spread_normalization_requirement parameter; value must be supplied by later calibration or method configuration,
+    not P16.
+- name: spread_stability_requirement
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: spread_stability_requirement parameter; value must be supplied by later calibration or method configuration,
+    not P16.
+parameters:
+- name: spread_width_baseline
+  value: null
+  status: calibration_required
+- name: spread_widening_requirement
+  value: null
+  status: calibration_required
+- name: spread_normalization_requirement
+  value: null
+  status: calibration_required
+- name: spread_stability_requirement
+  value: null
+  status: calibration_required
+confidence_behavior:
+  full_confidence: All required feeds present, data quality clean, calibration available where needed, and primary evidence
+    agrees with optional confirmation.
+  degraded_confidence_triggers:
+  - Optional confirmation feeds are missing.
+  - Data quality is usable but incomplete.
+  - Adjacent but not exact session/regime context is being used for review only.
+  review_required_trigger: Primary evidence and optional confirmation disagree, or the result would require discretionary
+    interpretation beyond the spec.
+  no_binary_certainty_claim: Outputs are bounded evidence states, not certainty claims or trading instructions.
+confidence_rules:
+  full_confidence_requires:
+  - Required inputs present
+  - Clean session/timeframe scope
+  - No material evidence conflict
+  downgrade_when:
+  - Optional feeds absent
+  - Specialized feeds absent
+  - Calibration absent where required
+  - Regime or session mismatch
+  refuse_when:
+  - Required feeds absent
+  - Data unreadable
+  - Scope cannot be established
+refusal_conditions:
+- Required feed missing or stale.
+- Session, profile, or timeframe boundary cannot be established.
+- Calibration is required but unavailable.
+- Evidence would require guessing participant intent, execution behavior, or unavailable feed state.
+- Data quality is insufficient for the declared determinism class.
+output_labels: &id001
+- SPREAD_STABLE
+- SPREAD_WIDENING
+- SPREAD_NORMALIZING
+- SPREAD_UNSTABLE
+- SPREAD_BLOCKED
+- EXECUTION_ENVIRONMENT_DEGRADED
+- DEGRADED_CONFIDENCE
+- INSUFFICIENT_EVIDENCE
+- REFUSE_TO_CLASSIFY
+- CONTEXT_ONLY
+- CONFIRMATION_REQUIRED
+- REVIEW_REQUIRED
+states_emitted: *id001
+allowed_action_labels: *id001
+false_positive_risks:
+- Overclassifying Spread Behavior from a single weak observation.
+- Treating optional confirmation as if it were required evidence.
+- Using stale or wrong-session references.
+- Applying calibration outside its instrument/session/timeframe/regime scope.
+false_negative_risks:
+- Withholding a valid Spread Behavior state because optional feeds are missing.
+- Missing the state because data arrives late or session boundaries are wrong.
+- Overly strict future calibration suppresses legitimate evidence.
+- Downgrading a structurally valid state because interpretation context is unavailable.
+failure_modes:
+- Feed outage or stale data.
+- Bad session calendar, profile period, or timeframe definition.
+- Contract roll or data stitching artifact.
+- Regime mismatch or missing calibration.
+- Event-window distortion or low-liquidity condition requiring downgrade or review.
+validation_requirements:
+- Replay labeled Spread Behavior examples and confirm only bounded states are emitted.
+- Confirm missing required feeds produce refusal or insufficient-evidence behavior.
+- Confirm missing optional feeds degrade confidence without proxy substitution.
+- Confirm no output label implies trade permission, entries, exits, stops, targets, sizing, or broker/order behavior.
+- Confirm calibrated parameters remain null until later calibration artifacts supply scoped values.
+test_cases:
+- name: required_feeds_present_supported_state
+  expected: SPREAD_STABLE
+- name: missing_required_feed
+  expected: REFUSE_TO_CLASSIFY
+- name: missing_optional_confirmation
+  expected: DEGRADED_CONFIDENCE
+- name: conflicting_evidence
+  expected: REVIEW_REQUIRED
+- name: missing_calibration_when_required
+  expected: INSUFFICIENT_EVIDENCE
+prohibited_outputs: &id002
+- trade_permission
+- entry_instruction
+- exit_instruction
+- stop_instruction
+- target_instruction
+- position_sizing_instruction
+- add_or_reduce_instruction
+- broker_action
+- order_action
+- account_instruction
+- fill_or_pnl_instruction
+- autonomous_trade_call
+forbidden_outputs: *id002
+review_status: DRAFT
+notes: P16 Wave 3 draft spec for Spread Behavior. Resolved from registry concept_id ch04_spread_behavior. Determinism class
+  is CALIBRATED. No thresholds, calibration values, execution outputs, individual detector code, or calibration artifacts
+  are created in this pass.

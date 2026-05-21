@@ -1,0 +1,249 @@
+spec_id: ch04_liquidity_pulls_and_replenishment
+concept_id: ch04_liquidity_pulls_and_replenishment
+concept_name: Liquidity Pulls & Replenishment
+display_name: Liquidity Pulls & Replenishment
+glossary_ref: glossary/chapter_04_tape_reading_microstructure.md#liquidity-pulls-and-replenishment
+chapter:
+  chapter_number: 4
+  chapter_title: Tape Reading & Microstructure
+  glossary_path: glossary/chapter_04_tape_reading_microstructure.md
+determinism_class: NOT_DETECTABLE_WITH_CURRENT_FEEDS
+semantic_source:
+  glossary_path: glossary/chapter_04_tape_reading_microstructure.md
+  concept_heading: Liquidity Pulls & Replenishment
+  doctrine_summary: "Liquidity is not static \u2014 resting orders are withdrawn and restored constantly. **Liquidity pulled**\
+    \ means passive orders disappear from the book, leaving price vulnerable to fast, outsized moves. **Liquidity replenished**\
+    \ means orders return and depth is restored. **Book thinning before an event** and **book thickening after** describe\
+    \ the predictable cycle around scheduled catalysts. Pulled liquidity is the actual cause of \"air pockets\": when the\
+    \ book empties, a small order moves price a long way. The crucial reframe \u2014 price does not gap because of enormous\
+    \ selling; it gaps because the *bids left*."
+purpose: Define non-detection and feed-blocked behavior for Liquidity Pulls & Replenishment; name required external feeds
+  and refuse to classify without them.
+description: P16 Wave 3 detection-spec contract for Liquidity Pulls & Replenishment. This is a refusal contract, not an active
+  detector. Current non-depth or non-specialized feeds must not proxy the missing phenomenon.
+non_executional_boundary: This spec emits semantic market-read, evidence, context, confidence, and refusal labels only. It
+  never emits trade permission, entry, exit, stop, target, position sizing, add/reduce, broker, order, account, fill, P&L,
+  or autonomous trading instructions.
+required_inputs:
+- name: live_depth_updates
+  source: depth_feed
+  granularity: multi_level_depth
+  session_dependency: Resting depth changes across multiple levels.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: session_clock
+  source: calendar/session_definition_module
+  granularity: session
+  session_dependency: Event and session context.
+  absence_behavior: REFUSE_TO_CLASSIFY
+optional_inputs:
+- name: event_calendar
+  source: calendar_or_catalyst_module
+  granularity: event_window
+  purpose: Maps thinning/replenishment around known catalysts.
+  absence_behavior: DEGRADED_CONFIDENCE
+- name: price_volume_air_pocket_context
+  source: market_data
+  granularity: intraday
+  purpose: Related symptom only; not proof of pull/replenishment.
+  absence_behavior: DEGRADED_CONFIDENCE
+unavailable_input_behavior:
+  missing_required_input: REFUSE_TO_CLASSIFY
+  missing_optional_input: DEGRADED_CONFIDENCE
+  missing_calibration_parameters: CONTEXT_ONLY
+  feed_blocked_condition: BLOCKED_BY_FEEDS
+  data_quality_failure: INSUFFICIENT_EVIDENCE
+refusal_behavior:
+  missing_required_feed: REFUSE_TO_CLASSIFY
+  missing_calibration: CONTEXT_ONLY
+  conflicting_evidence: REVIEW_REQUIRED
+  missing_specialized_feed: BLOCKED_BY_FEEDS
+detection_scope:
+  allowed_to_classify:
+  - Bounded evidence states for Liquidity Pulls & Replenishment.
+  - Confidence, downgrade, context, and refusal states tied to declared feeds.
+  - Structural or evidence labels only, according to the determinism class.
+  not_allowed_to_classify:
+  - Trade permission or any execution instruction.
+  - Entry, exit, stop, target, sizing, add/reduce, broker, order, account, fill, or P&L behavior.
+  - Autonomous direction, setup approval, or guaranteed signal language.
+  - Without depth data, the spec refuses pull/replenishment detection and may only emit related context.
+  instrument_scope: Single instrument unless a future spec explicitly composes multiple registry concepts.
+  session_scope: Scoped by the session definitions declared in required_inputs.
+  timeframe_scope: Scoped by the supplied timeframe or profile/session period.
+  regime_scope: Calibration and confidence are regime-aware; no universal thresholds are permitted.
+evidence_model:
+  evidence_categories:
+  - name: primary_structure_or_feed
+    observations:
+    - BLOCKED_BY_FEEDS
+    - DEPTH_PULL_EVIDENCE_REQUIRED
+    derivation: Primary feed evidence listed in required_inputs for Liquidity Pulls & Replenishment.
+  - name: confirmation_or_context
+    observations:
+    - CONFIRMATION_REQUIRED
+    - REVIEW_REQUIRED
+    - DEGRADED_CONFIDENCE
+    derivation: Optional feeds and context either strengthen, downgrade, or require manual review.
+  - name: refusal_and_feed_quality
+    observations:
+    - INSUFFICIENT_EVIDENCE
+    - REFUSE_TO_CLASSIFY
+    - BLOCKED_BY_FEEDS
+    derivation: Missing required feeds, missing calibration, stale data, or feed-blocked conditions.
+  evidence_hierarchy: Required inputs define the narrow Liquidity Pulls & Replenishment state. Optional inputs can improve
+    confidence but cannot create executional output or substitute for missing required feeds.
+  evidence_states:
+    supported:
+    - BLOCKED_BY_FEEDS
+    - DEPTH_PULL_EVIDENCE_REQUIRED
+    - DEPTH_REPLENISHMENT_EVIDENCE_REQUIRED
+    - AIR_POCKET_CONTEXT_ONLY
+    unsupported:
+    - Any autonomous trade call from this concept.
+    - Any deterministic claim beyond the registry determinism class.
+    - Any proxy classification when a required feed is missing.
+rule_structure:
+  type: feed_blocked_depth_refusal_spec
+  description: This is a refusal contract, not an active detector. Current non-depth or non-specialized feeds must not proxy
+    the missing phenomenon.
+  states:
+  - BLOCKED_BY_FEEDS: Bounded Liquidity Pulls & Replenishment label emitted only when evidence supports this state.
+  - DEPTH_PULL_EVIDENCE_REQUIRED: Bounded Liquidity Pulls & Replenishment label emitted only when evidence supports this state.
+  - DEPTH_REPLENISHMENT_EVIDENCE_REQUIRED: Bounded Liquidity Pulls & Replenishment label emitted only when evidence supports
+      this state.
+  - AIR_POCKET_CONTEXT_ONLY: Bounded Liquidity Pulls & Replenishment label emitted only when evidence supports this state.
+  - INSUFFICIENT_EVIDENCE: Bounded Liquidity Pulls & Replenishment label emitted only when evidence supports this state.
+  - REFUSE_TO_CLASSIFY: Bounded Liquidity Pulls & Replenishment label emitted only when evidence supports this state.
+  rules:
+  - id: R1_blocked_by_feeds
+    logic: Emit BLOCKED_BY_FEEDS only when declared evidence for Liquidity Pulls & Replenishment supports that bounded state
+      and required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R2_depth_pull_evidence_required
+    logic: Emit DEPTH_PULL_EVIDENCE_REQUIRED only when declared evidence for Liquidity Pulls & Replenishment supports that
+      bounded state and required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R3_depth_replenishment_evidence_required
+    logic: Emit DEPTH_REPLENISHMENT_EVIDENCE_REQUIRED only when declared evidence for Liquidity Pulls & Replenishment supports
+      that bounded state and required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R4_air_pocket_context_only
+    logic: Emit AIR_POCKET_CONTEXT_ONLY only when declared evidence for Liquidity Pulls & Replenishment supports that bounded
+      state and required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R5_insufficient_evidence
+    logic: Emit INSUFFICIENT_EVIDENCE only when declared evidence for Liquidity Pulls & Replenishment supports that bounded
+      state and required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R_refusal
+    logic: Emit INSUFFICIENT_EVIDENCE or REFUSE_TO_CLASSIFY when required feeds, calibration, session scope, or data quality
+      are missing. Do not substitute proxy data for unavailable required evidence.
+  determinism_note: Liquidity Pulls & Replenishment is classified as NOT_DETECTABLE_WITH_CURRENT_FEEDS; rule behavior must
+    stay inside that class and avoid false determinism.
+decision_logic:
+  summary: Evaluate required feeds for Liquidity Pulls & Replenishment, apply the class-appropriate rule structure, add optional
+    evidence only as confirmation or downgrade context, and refuse when the evidence is missing or outside scope.
+  boundary: Without depth data, the spec refuses pull/replenishment detection and may only emit related context.
+  missing_feed_priority: Refusal or downgrade is preferred over inferred classification.
+calibration_parameters:
+- name: external_feed_enablement_requirement
+  value: null
+  status: blocked_by_feeds
+  unit: feed_contract
+  calibration_scope: feed_availability
+  description: Detection remains blocked until the missing external feed described by the spec is available.
+parameters:
+- name: external_feed_enablement_requirement
+  value: null
+  status: blocked_by_feeds
+confidence_behavior:
+  full_confidence: All required feeds present, data quality clean, calibration available where needed, and primary evidence
+    agrees with optional confirmation.
+  degraded_confidence_triggers:
+  - Optional confirmation feeds are missing.
+  - Data quality is usable but incomplete.
+  - Adjacent but not exact session/regime context is being used for review only.
+  review_required_trigger: Primary evidence and optional confirmation disagree, or the result would require discretionary
+    interpretation beyond the spec.
+  no_binary_certainty_claim: Outputs are bounded evidence states, not certainty claims or trading instructions.
+confidence_rules:
+  full_confidence_requires:
+  - Required inputs present
+  - Clean session/timeframe scope
+  - No material evidence conflict
+  downgrade_when:
+  - Optional feeds absent
+  - Specialized feeds absent
+  - Calibration absent where required
+  - Regime or session mismatch
+  refuse_when:
+  - Required feeds absent
+  - Data unreadable
+  - Scope cannot be established
+refusal_conditions:
+- Required live depth/order-book evidence is unavailable.
+- Required feed missing or stale.
+- Session, profile, or timeframe boundary cannot be established.
+- Calibration is required but unavailable.
+- Evidence would require guessing participant intent, execution behavior, or unavailable feed state.
+- Data quality is insufficient for the declared determinism class.
+output_labels: &id001
+- BLOCKED_BY_FEEDS
+- DEPTH_PULL_EVIDENCE_REQUIRED
+- DEPTH_REPLENISHMENT_EVIDENCE_REQUIRED
+- AIR_POCKET_CONTEXT_ONLY
+- INSUFFICIENT_EVIDENCE
+- REFUSE_TO_CLASSIFY
+- CONTEXT_ONLY
+- CONFIRMATION_REQUIRED
+- REVIEW_REQUIRED
+- DEGRADED_CONFIDENCE
+states_emitted: *id001
+allowed_action_labels: *id001
+false_positive_risks:
+- Overclassifying Liquidity Pulls & Replenishment from a single weak observation.
+- Treating optional confirmation as if it were required evidence.
+- Using stale or wrong-session references.
+- Applying calibration outside its instrument/session/timeframe/regime scope.
+false_negative_risks:
+- Withholding a valid Liquidity Pulls & Replenishment state because optional feeds are missing.
+- Missing the state because data arrives late or session boundaries are wrong.
+- Overly strict future calibration suppresses legitimate evidence.
+- Downgrading a structurally valid state because interpretation context is unavailable.
+failure_modes:
+- Feed outage or stale data.
+- Bad session calendar, profile period, or timeframe definition.
+- Contract roll or data stitching artifact.
+- Regime mismatch or missing calibration.
+- Event-window distortion or low-liquidity condition requiring downgrade or review.
+validation_requirements:
+- Replay labeled Liquidity Pulls & Replenishment examples and confirm only bounded states are emitted.
+- Confirm missing required feeds produce refusal or insufficient-evidence behavior.
+- Confirm missing optional feeds degrade confidence without proxy substitution.
+- Confirm no output label implies trade permission, entries, exits, stops, targets, sizing, or broker/order behavior.
+- Confirm calibrated parameters remain null until later calibration artifacts supply scoped values.
+- Confirm price-only or bar-only data cannot emit a positive detection state.
+test_cases:
+- name: required_feeds_present_supported_state
+  expected: BLOCKED_BY_FEEDS
+- name: missing_required_feed
+  expected: REFUSE_TO_CLASSIFY
+- name: missing_optional_confirmation
+  expected: DEGRADED_CONFIDENCE
+- name: conflicting_evidence
+  expected: REVIEW_REQUIRED
+- name: missing_calibration_when_required
+  expected: CONTEXT_ONLY
+prohibited_outputs: &id002
+- trade_permission
+- entry_instruction
+- exit_instruction
+- stop_instruction
+- target_instruction
+- position_sizing_instruction
+- add_or_reduce_instruction
+- broker_action
+- order_action
+- account_instruction
+- fill_or_pnl_instruction
+- autonomous_trade_call
+forbidden_outputs: *id002
+review_status: BLOCKED_BY_FEEDS
+notes: P16 Wave 3 draft spec for Liquidity Pulls & Replenishment. Resolved from registry concept_id ch04_liquidity_pulls_and_replenishment.
+  Determinism class is NOT_DETECTABLE_WITH_CURRENT_FEEDS. No thresholds, calibration values, execution outputs, individual
+  detector code, or calibration artifacts are created in this pass.

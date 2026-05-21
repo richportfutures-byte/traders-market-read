@@ -1,0 +1,272 @@
+spec_id: ch03_value_migration_and_overlap
+concept_id: ch03_value_migration_and_overlap
+concept_name: Value Migration & Overlap
+display_name: Value Migration & Overlap
+glossary_ref: glossary/chapter_03_auction_market_profile.md#value-migration-and-overlap
+chapter:
+  chapter_number: 3
+  chapter_title: Auction & Market Profile
+  glossary_path: glossary/chapter_03_auction_market_profile.md
+determinism_class: COMPUTABLE
+semantic_source:
+  glossary_path: glossary/chapter_03_auction_market_profile.md
+  concept_heading: Value Migration & Overlap
+  doctrine_summary: "**Value migration** is the day-over-day movement of the value area \u2014 it tells you whether the market\
+    \ is trending or balancing at the *value* level rather than the price level. Value migrating higher or lower is a trending\
+    \ structure: a genuine relocation of fair price. **Value overlap** \u2014 today's value overlapping yesterday's \u2014\
+    \ is balance; the market agrees with prior fair value. **Value inside prior value** is strong balance or contraction;\
+    \ **value outside prior value** is breakout or trend. The critical warning concept the source document flags: **value\
+    \ not migrating despite price extension**. Price made a new high but value did not..."
+purpose: Compute bounded structural states for Value Migration & Overlap from explicit feeds while keeping interpretation
+  separate.
+description: P16 Wave 3 detection-spec contract for Value Migration & Overlap. Direct structural computation from declared
+  feeds; interpretation and trade expression remain out of scope.
+non_executional_boundary: This spec emits semantic market-read, evidence, context, confidence, and refusal labels only. It
+  never emits trade permission, entry, exit, stop, target, position sizing, add/reduce, broker, order, account, fill, P&L,
+  or autonomous trading instructions.
+required_inputs:
+- name: current_value_area
+  source: value_area_module
+  granularity: vah_val_poc
+  session_dependency: Current session value area.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: prior_value_area
+  source: value_area_module
+  granularity: vah_val_poc
+  session_dependency: Comparable prior session value area.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: session_clock
+  source: calendar/session_definition_module
+  granularity: session
+  session_dependency: Comparable session boundaries.
+  absence_behavior: REFUSE_TO_CLASSIFY
+optional_inputs:
+- name: developing_value_area
+  source: value_area_module
+  granularity: intraday_profile
+  purpose: Supports intraday developing-value context.
+  absence_behavior: DEGRADED_CONFIDENCE
+- name: price_sequence
+  source: market_data
+  granularity: intraday
+  purpose: Shows whether price agrees with value migration.
+  absence_behavior: DEGRADED_CONFIDENCE
+unavailable_input_behavior:
+  missing_required_input: REFUSE_TO_CLASSIFY
+  missing_optional_input: DEGRADED_CONFIDENCE
+  missing_calibration_parameters: CONTEXT_ONLY
+  feed_blocked_condition: REFUSE_TO_CLASSIFY
+  data_quality_failure: INSUFFICIENT_EVIDENCE
+refusal_behavior:
+  missing_required_feed: REFUSE_TO_CLASSIFY
+  missing_calibration: CONTEXT_ONLY
+  conflicting_evidence: REVIEW_REQUIRED
+  missing_specialized_feed: DEGRADED_CONFIDENCE
+detection_scope:
+  allowed_to_classify:
+  - Bounded evidence states for Value Migration & Overlap.
+  - Confidence, downgrade, context, and refusal states tied to declared feeds.
+  - Structural or evidence labels only, according to the determinism class.
+  not_allowed_to_classify:
+  - Trade permission or any execution instruction.
+  - Entry, exit, stop, target, sizing, add/reduce, broker, order, account, fill, or P&L behavior.
+  - Autonomous direction, setup approval, or guaranteed signal language.
+  - Computed value movement is structural context; directional meaning belongs to auction interpretation.
+  instrument_scope: Single instrument unless a future spec explicitly composes multiple registry concepts.
+  session_scope: Scoped by the session definitions declared in required_inputs.
+  timeframe_scope: Scoped by the supplied timeframe or profile/session period.
+  regime_scope: Calibration and confidence are regime-aware; no universal thresholds are permitted.
+evidence_model:
+  evidence_categories:
+  - name: primary_structure_or_feed
+    observations:
+    - VALUE_MIGRATING_HIGHER
+    - VALUE_MIGRATING_LOWER
+    derivation: Primary feed evidence listed in required_inputs for Value Migration & Overlap.
+  - name: confirmation_or_context
+    observations:
+    - CONFIRMATION_REQUIRED
+    - REVIEW_REQUIRED
+    - DEGRADED_CONFIDENCE
+    derivation: Optional feeds and context either strengthen, downgrade, or require manual review.
+  - name: refusal_and_feed_quality
+    observations:
+    - INSUFFICIENT_EVIDENCE
+    - REFUSE_TO_CLASSIFY
+    - BLOCKED_BY_FEEDS
+    derivation: Missing required feeds, missing calibration, stale data, or feed-blocked conditions.
+  evidence_hierarchy: Required inputs define the narrow Value Migration & Overlap state. Optional inputs can improve confidence
+    but cannot create executional output or substitute for missing required feeds.
+  evidence_states:
+    supported:
+    - VALUE_MIGRATING_HIGHER
+    - VALUE_MIGRATING_LOWER
+    - VALUE_OVERLAPPING
+    - VALUE_NON_MIGRATION
+    unsupported:
+    - Any autonomous trade call from this concept.
+    - Any deterministic claim beyond the registry determinism class.
+    - Any proxy classification when a required feed is missing.
+rule_structure:
+  type: direct_value_area_comparison
+  description: Direct structural computation from declared feeds; interpretation and trade expression remain out of scope.
+  states:
+  - VALUE_MIGRATING_HIGHER: Bounded Value Migration & Overlap label emitted only when evidence supports this state.
+  - VALUE_MIGRATING_LOWER: Bounded Value Migration & Overlap label emitted only when evidence supports this state.
+  - VALUE_OVERLAPPING: Bounded Value Migration & Overlap label emitted only when evidence supports this state.
+  - VALUE_NON_MIGRATION: Bounded Value Migration & Overlap label emitted only when evidence supports this state.
+  - VALUE_REFERENCE_MISSING: Bounded Value Migration & Overlap label emitted only when evidence supports this state.
+  - CONTEXT_ONLY: Bounded Value Migration & Overlap label emitted only when evidence supports this state.
+  - INSUFFICIENT_EVIDENCE: Bounded Value Migration & Overlap label emitted only when evidence supports this state.
+  - REFUSE_TO_CLASSIFY: Bounded Value Migration & Overlap label emitted only when evidence supports this state.
+  rules:
+  - id: R1_value_migrating_higher
+    logic: Emit VALUE_MIGRATING_HIGHER only when declared evidence for Value Migration & Overlap supports that bounded state
+      and required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R2_value_migrating_lower
+    logic: Emit VALUE_MIGRATING_LOWER only when declared evidence for Value Migration & Overlap supports that bounded state
+      and required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R3_value_overlapping
+    logic: Emit VALUE_OVERLAPPING only when declared evidence for Value Migration & Overlap supports that bounded state and
+      required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R4_value_non_migration
+    logic: Emit VALUE_NON_MIGRATION only when declared evidence for Value Migration & Overlap supports that bounded state
+      and required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R5_value_reference_missing
+    logic: Emit VALUE_REFERENCE_MISSING only when declared evidence for Value Migration & Overlap supports that bounded state
+      and required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R_refusal
+    logic: Emit INSUFFICIENT_EVIDENCE or REFUSE_TO_CLASSIFY when required feeds, calibration, session scope, or data quality
+      are missing. Do not substitute proxy data for unavailable required evidence.
+  determinism_note: Value Migration & Overlap is classified as COMPUTABLE; rule behavior must stay inside that class and avoid
+    false determinism.
+decision_logic:
+  summary: Evaluate required feeds for Value Migration & Overlap, apply the class-appropriate rule structure, add optional
+    evidence only as confirmation or downgrade context, and refuse when the evidence is missing or outside scope.
+  boundary: Computed value movement is structural context; directional meaning belongs to auction interpretation.
+  missing_feed_priority: Refusal or downgrade is preferred over inferred classification.
+calibration_parameters:
+- name: value_area_method
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: value_area_method parameter; value must be supplied by later calibration or method configuration, not P16.
+- name: overlap_policy
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: overlap_policy parameter; value must be supplied by later calibration or method configuration, not P16.
+- name: developing_value_update_policy
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: developing_value_update_policy parameter; value must be supplied by later calibration or method configuration,
+    not P16.
+parameters:
+- name: value_area_method
+  value: null
+  status: calibration_required
+- name: overlap_policy
+  value: null
+  status: calibration_required
+- name: developing_value_update_policy
+  value: null
+  status: calibration_required
+confidence_behavior:
+  full_confidence: All required feeds present, data quality clean, calibration available where needed, and primary evidence
+    agrees with optional confirmation.
+  degraded_confidence_triggers:
+  - Optional confirmation feeds are missing.
+  - Data quality is usable but incomplete.
+  - Adjacent but not exact session/regime context is being used for review only.
+  review_required_trigger: Primary evidence and optional confirmation disagree, or the result would require discretionary
+    interpretation beyond the spec.
+  no_binary_certainty_claim: Outputs are bounded evidence states, not certainty claims or trading instructions.
+confidence_rules:
+  full_confidence_requires:
+  - Required inputs present
+  - Clean session/timeframe scope
+  - No material evidence conflict
+  downgrade_when:
+  - Optional feeds absent
+  - Specialized feeds absent
+  - Calibration absent where required
+  - Regime or session mismatch
+  refuse_when:
+  - Required feeds absent
+  - Data unreadable
+  - Scope cannot be established
+refusal_conditions:
+- Required feed missing or stale.
+- Session, profile, or timeframe boundary cannot be established.
+- Calibration is required but unavailable.
+- Evidence would require guessing participant intent, execution behavior, or unavailable feed state.
+- Data quality is insufficient for the declared determinism class.
+output_labels: &id001
+- VALUE_MIGRATING_HIGHER
+- VALUE_MIGRATING_LOWER
+- VALUE_OVERLAPPING
+- VALUE_NON_MIGRATION
+- VALUE_REFERENCE_MISSING
+- CONTEXT_ONLY
+- INSUFFICIENT_EVIDENCE
+- REFUSE_TO_CLASSIFY
+- CONFIRMATION_REQUIRED
+- REVIEW_REQUIRED
+- DEGRADED_CONFIDENCE
+states_emitted: *id001
+allowed_action_labels: *id001
+false_positive_risks:
+- Overclassifying Value Migration & Overlap from a single weak observation.
+- Treating optional confirmation as if it were required evidence.
+- Using stale or wrong-session references.
+- Applying calibration outside its instrument/session/timeframe/regime scope.
+false_negative_risks:
+- Withholding a valid Value Migration & Overlap state because optional feeds are missing.
+- Missing the state because data arrives late or session boundaries are wrong.
+- Overly strict future calibration suppresses legitimate evidence.
+- Downgrading a structurally valid state because interpretation context is unavailable.
+failure_modes:
+- Feed outage or stale data.
+- Bad session calendar, profile period, or timeframe definition.
+- Contract roll or data stitching artifact.
+- Regime mismatch or missing calibration.
+- Event-window distortion or low-liquidity condition requiring downgrade or review.
+validation_requirements:
+- Replay labeled Value Migration & Overlap examples and confirm only bounded states are emitted.
+- Confirm missing required feeds produce refusal or insufficient-evidence behavior.
+- Confirm missing optional feeds degrade confidence without proxy substitution.
+- Confirm no output label implies trade permission, entries, exits, stops, targets, sizing, or broker/order behavior.
+- Confirm calibrated parameters remain null until later calibration artifacts supply scoped values.
+test_cases:
+- name: required_feeds_present_supported_state
+  expected: VALUE_MIGRATING_HIGHER
+- name: missing_required_feed
+  expected: REFUSE_TO_CLASSIFY
+- name: missing_optional_confirmation
+  expected: DEGRADED_CONFIDENCE
+- name: conflicting_evidence
+  expected: REVIEW_REQUIRED
+- name: missing_calibration_when_required
+  expected: CONTEXT_ONLY
+prohibited_outputs: &id002
+- trade_permission
+- entry_instruction
+- exit_instruction
+- stop_instruction
+- target_instruction
+- position_sizing_instruction
+- add_or_reduce_instruction
+- broker_action
+- order_action
+- account_instruction
+- fill_or_pnl_instruction
+- autonomous_trade_call
+forbidden_outputs: *id002
+review_status: DRAFT
+notes: P16 Wave 3 draft spec for Value Migration & Overlap. Resolved from registry concept_id ch03_value_migration_and_overlap.
+  Determinism class is COMPUTABLE. No thresholds, calibration values, execution outputs, individual detector code, or calibration
+  artifacts are created in this pass.

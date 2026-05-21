@@ -1,0 +1,295 @@
+spec_id: ch02_polarity_flip
+concept_id: ch02_polarity_flip
+concept_name: Polarity Flip
+display_name: Polarity Flip
+glossary_ref: glossary/chapter_02_level_interaction_acceptance.md#polarity-flip
+chapter:
+  chapter_number: 2
+  chapter_title: Level Interaction & Acceptance
+  glossary_path: glossary/chapter_02_level_interaction_acceptance.md
+determinism_class: CALIBRATED
+semantic_source:
+  glossary_path: glossary/chapter_02_level_interaction_acceptance.md
+  concept_heading: Polarity Flip
+  doctrine_summary: "When a level is genuinely broken and accepted, its role inverts \u2014 **prior resistance becomes support**,\
+    \ **prior support becomes resistance**. This is the **polarity flip** (S/R flip), one of the most reliable structural\
+    \ behaviors in markets. A support level breaks, price falls, and on the way back up that old support now caps price as\
+    \ resistance \u2014 and the mirror for resistance becoming support. A **reclaim of a prior breakdown level** is price\
+    \ recovering back above a level it had broken down through, invalidating the breakdown and trapping the shorts. A **loss\
+    \ of a prior breakout level** is price falling back below a level it had broken..."
+purpose: Classify bounded Polarity Flip states using a calibrated rule structure with all empirical values deferred to later
+  calibration artifacts.
+description: P16 Wave 3 detection-spec contract for Polarity Flip. Fixed rule structure with named parameters. Values remain
+  null until calibrated per instrument, session, timeframe, and regime.
+non_executional_boundary: This spec emits semantic market-read, evidence, context, confidence, and refusal labels only. It
+  never emits trade permission, entry, exit, stop, target, position sizing, add/reduce, broker, order, account, fill, P&L,
+  or autonomous trading instructions.
+required_inputs:
+- name: broken_structural_level
+  source: structural_reference_module
+  granularity: price
+  session_dependency: Prior support or resistance that was broken.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: post_break_price_sequence
+  source: market_data
+  granularity: tick_or_intraday
+  session_dependency: Return to level and retest behavior.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: session_clock
+  source: calendar/session_definition_module
+  granularity: session
+  session_dependency: Retest-window calibration scope.
+  absence_behavior: REFUSE_TO_CLASSIFY
+optional_inputs:
+- name: volume_at_retest
+  source: volume_or_profile_module
+  granularity: per_price
+  purpose: Supports quality of the retest response.
+  absence_behavior: DEGRADED_CONFIDENCE
+- name: tape_or_delta
+  source: order_flow_module
+  granularity: tick_or_intraday
+  purpose: Confirms or contradicts retest behavior.
+  absence_behavior: DEGRADED_CONFIDENCE
+unavailable_input_behavior:
+  missing_required_input: REFUSE_TO_CLASSIFY
+  missing_optional_input: DEGRADED_CONFIDENCE
+  missing_calibration_parameters: INSUFFICIENT_EVIDENCE
+  feed_blocked_condition: REFUSE_TO_CLASSIFY
+  data_quality_failure: INSUFFICIENT_EVIDENCE
+refusal_behavior:
+  missing_required_feed: REFUSE_TO_CLASSIFY
+  missing_calibration: INSUFFICIENT_EVIDENCE
+  conflicting_evidence: REVIEW_REQUIRED
+  missing_specialized_feed: DEGRADED_CONFIDENCE
+detection_scope:
+  allowed_to_classify:
+  - Bounded evidence states for Polarity Flip.
+  - Confidence, downgrade, context, and refusal states tied to declared feeds.
+  - Structural or evidence labels only, according to the determinism class.
+  not_allowed_to_classify:
+  - Trade permission or any execution instruction.
+  - Entry, exit, stop, target, sizing, add/reduce, broker, order, account, fill, or P&L behavior.
+  - Autonomous direction, setup approval, or guaranteed signal language.
+  - Flip labels describe changed level behavior; trapped-positioning consequences belong to Chapter 6.
+  instrument_scope: Single instrument unless a future spec explicitly composes multiple registry concepts.
+  session_scope: Scoped by the session definitions declared in required_inputs.
+  timeframe_scope: Scoped by the supplied timeframe or profile/session period.
+  regime_scope: Calibration and confidence are regime-aware; no universal thresholds are permitted.
+evidence_model:
+  evidence_categories:
+  - name: primary_structure_or_feed
+    observations:
+    - RETEST_PENDING
+    - POLARITY_FLIP_CONFIRMED
+    derivation: Primary feed evidence listed in required_inputs for Polarity Flip.
+  - name: confirmation_or_context
+    observations:
+    - CONFIRMATION_REQUIRED
+    - REVIEW_REQUIRED
+    - DEGRADED_CONFIDENCE
+    derivation: Optional feeds and context either strengthen, downgrade, or require manual review.
+  - name: refusal_and_feed_quality
+    observations:
+    - INSUFFICIENT_EVIDENCE
+    - REFUSE_TO_CLASSIFY
+    - BLOCKED_BY_FEEDS
+    derivation: Missing required feeds, missing calibration, stale data, or feed-blocked conditions.
+  evidence_hierarchy: Required inputs define the narrow Polarity Flip state. Optional inputs can improve confidence but cannot
+    create executional output or substitute for missing required feeds.
+  evidence_states:
+    supported:
+    - RETEST_PENDING
+    - POLARITY_FLIP_CONFIRMED
+    - POLARITY_FLIP_FAILED
+    - RECLAIM_CONFIRMED
+    unsupported:
+    - Any autonomous trade call from this concept.
+    - Any deterministic claim beyond the registry determinism class.
+    - Any proxy classification when a required feed is missing.
+rule_structure:
+  type: calibrated_polarity_retest_state_machine
+  description: Fixed rule structure with named parameters. Values remain null until calibrated per instrument, session, timeframe,
+    and regime.
+  states:
+  - RETEST_PENDING: Bounded Polarity Flip label emitted only when evidence supports this state.
+  - POLARITY_FLIP_CONFIRMED: Bounded Polarity Flip label emitted only when evidence supports this state.
+  - POLARITY_FLIP_FAILED: Bounded Polarity Flip label emitted only when evidence supports this state.
+  - RECLAIM_CONFIRMED: Bounded Polarity Flip label emitted only when evidence supports this state.
+  - LOSS_CONFIRMED: Bounded Polarity Flip label emitted only when evidence supports this state.
+  - STRUCTURAL_RETEST_ONLY: Bounded Polarity Flip label emitted only when evidence supports this state.
+  - REVIEW_REQUIRED: Bounded Polarity Flip label emitted only when evidence supports this state.
+  - DEGRADED_CONFIDENCE: Bounded Polarity Flip label emitted only when evidence supports this state.
+  - INSUFFICIENT_EVIDENCE: Bounded Polarity Flip label emitted only when evidence supports this state.
+  - REFUSE_TO_CLASSIFY: Bounded Polarity Flip label emitted only when evidence supports this state.
+  rules:
+  - id: R1_retest_pending
+    logic: Emit RETEST_PENDING only when declared evidence for Polarity Flip supports that bounded state and required feeds
+      are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R2_polarity_flip_confirmed
+    logic: Emit POLARITY_FLIP_CONFIRMED only when declared evidence for Polarity Flip supports that bounded state and required
+      feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R3_polarity_flip_failed
+    logic: Emit POLARITY_FLIP_FAILED only when declared evidence for Polarity Flip supports that bounded state and required
+      feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R4_reclaim_confirmed
+    logic: Emit RECLAIM_CONFIRMED only when declared evidence for Polarity Flip supports that bounded state and required feeds
+      are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R5_loss_confirmed
+    logic: Emit LOSS_CONFIRMED only when declared evidence for Polarity Flip supports that bounded state and required feeds
+      are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R_refusal
+    logic: Emit INSUFFICIENT_EVIDENCE or REFUSE_TO_CLASSIFY when required feeds, calibration, session scope, or data quality
+      are missing. Do not substitute proxy data for unavailable required evidence.
+  determinism_note: Polarity Flip is classified as CALIBRATED; rule behavior must stay inside that class and avoid false determinism.
+decision_logic:
+  summary: Evaluate required feeds for Polarity Flip, apply the class-appropriate rule structure, add optional evidence only
+    as confirmation or downgrade context, and refuse when the evidence is missing or outside scope.
+  boundary: Flip labels describe changed level behavior; trapped-positioning consequences belong to Chapter 6.
+  missing_feed_priority: Refusal or downgrade is preferred over inferred classification.
+calibration_parameters:
+- name: accepted_break_requirement
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: accepted_break_requirement parameter; value must be supplied by later calibration or method configuration,
+    not P16.
+- name: retest_window
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: retest_window parameter; value must be supplied by later calibration or method configuration, not P16.
+- name: hold_or_reject_requirement
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: hold_or_reject_requirement parameter; value must be supplied by later calibration or method configuration,
+    not P16.
+- name: flip_failure_return_window
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: flip_failure_return_window parameter; value must be supplied by later calibration or method configuration,
+    not P16.
+- name: level_buffer
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: level_buffer parameter; value must be supplied by later calibration or method configuration, not P16.
+parameters:
+- name: accepted_break_requirement
+  value: null
+  status: calibration_required
+- name: retest_window
+  value: null
+  status: calibration_required
+- name: hold_or_reject_requirement
+  value: null
+  status: calibration_required
+- name: flip_failure_return_window
+  value: null
+  status: calibration_required
+- name: level_buffer
+  value: null
+  status: calibration_required
+confidence_behavior:
+  full_confidence: All required feeds present, data quality clean, calibration available where needed, and primary evidence
+    agrees with optional confirmation.
+  degraded_confidence_triggers:
+  - Optional confirmation feeds are missing.
+  - Data quality is usable but incomplete.
+  - Adjacent but not exact session/regime context is being used for review only.
+  review_required_trigger: Primary evidence and optional confirmation disagree, or the result would require discretionary
+    interpretation beyond the spec.
+  no_binary_certainty_claim: Outputs are bounded evidence states, not certainty claims or trading instructions.
+confidence_rules:
+  full_confidence_requires:
+  - Required inputs present
+  - Clean session/timeframe scope
+  - No material evidence conflict
+  downgrade_when:
+  - Optional feeds absent
+  - Specialized feeds absent
+  - Calibration absent where required
+  - Regime or session mismatch
+  refuse_when:
+  - Required feeds absent
+  - Data unreadable
+  - Scope cannot be established
+refusal_conditions:
+- Required feed missing or stale.
+- Session, profile, or timeframe boundary cannot be established.
+- Calibration is required but unavailable.
+- Evidence would require guessing participant intent, execution behavior, or unavailable feed state.
+- Data quality is insufficient for the declared determinism class.
+output_labels: &id001
+- RETEST_PENDING
+- POLARITY_FLIP_CONFIRMED
+- POLARITY_FLIP_FAILED
+- RECLAIM_CONFIRMED
+- LOSS_CONFIRMED
+- STRUCTURAL_RETEST_ONLY
+- REVIEW_REQUIRED
+- DEGRADED_CONFIDENCE
+- INSUFFICIENT_EVIDENCE
+- REFUSE_TO_CLASSIFY
+- CONTEXT_ONLY
+- CONFIRMATION_REQUIRED
+states_emitted: *id001
+allowed_action_labels: *id001
+false_positive_risks:
+- Overclassifying Polarity Flip from a single weak observation.
+- Treating optional confirmation as if it were required evidence.
+- Using stale or wrong-session references.
+- Applying calibration outside its instrument/session/timeframe/regime scope.
+false_negative_risks:
+- Withholding a valid Polarity Flip state because optional feeds are missing.
+- Missing the state because data arrives late or session boundaries are wrong.
+- Overly strict future calibration suppresses legitimate evidence.
+- Downgrading a structurally valid state because interpretation context is unavailable.
+failure_modes:
+- Feed outage or stale data.
+- Bad session calendar, profile period, or timeframe definition.
+- Contract roll or data stitching artifact.
+- Regime mismatch or missing calibration.
+- Event-window distortion or low-liquidity condition requiring downgrade or review.
+validation_requirements:
+- Replay labeled Polarity Flip examples and confirm only bounded states are emitted.
+- Confirm missing required feeds produce refusal or insufficient-evidence behavior.
+- Confirm missing optional feeds degrade confidence without proxy substitution.
+- Confirm no output label implies trade permission, entries, exits, stops, targets, sizing, or broker/order behavior.
+- Confirm calibrated parameters remain null until later calibration artifacts supply scoped values.
+test_cases:
+- name: required_feeds_present_supported_state
+  expected: RETEST_PENDING
+- name: missing_required_feed
+  expected: REFUSE_TO_CLASSIFY
+- name: missing_optional_confirmation
+  expected: DEGRADED_CONFIDENCE
+- name: conflicting_evidence
+  expected: REVIEW_REQUIRED
+- name: missing_calibration_when_required
+  expected: INSUFFICIENT_EVIDENCE
+prohibited_outputs: &id002
+- trade_permission
+- entry_instruction
+- exit_instruction
+- stop_instruction
+- target_instruction
+- position_sizing_instruction
+- add_or_reduce_instruction
+- broker_action
+- order_action
+- account_instruction
+- fill_or_pnl_instruction
+- autonomous_trade_call
+forbidden_outputs: *id002
+review_status: DRAFT
+notes: P16 Wave 3 draft spec for Polarity Flip. Resolved from registry concept_id ch02_polarity_flip. Determinism class is
+  CALIBRATED. No thresholds, calibration values, execution outputs, individual detector code, or calibration artifacts are
+  created in this pass.

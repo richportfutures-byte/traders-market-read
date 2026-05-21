@@ -1,0 +1,290 @@
+spec_id: ch04_sweeps_through_liquidity
+concept_id: ch04_sweeps_through_liquidity
+concept_name: Sweeps Through Liquidity
+display_name: Sweeps Through Liquidity
+glossary_ref: glossary/chapter_04_tape_reading_microstructure.md#sweeps-through-liquidity
+chapter:
+  chapter_number: 4
+  chapter_title: Tape Reading & Microstructure
+  glossary_path: glossary/chapter_04_tape_reading_microstructure.md
+determinism_class: CALIBRATED
+semantic_source:
+  glossary_path: glossary/chapter_04_tape_reading_microstructure.md
+  concept_heading: Sweeps Through Liquidity
+  doctrine_summary: 'A **sweep** is an aggressive order that takes out multiple price levels of resting liquidity in one motion,
+    often deliberately targeting clustered stops. The sweep itself is direction-neutral and tells you almost nothing; the
+    entire read lives in what happens immediately after. **Absorption after a sweep**, where the sweep is met by passive size
+    and reverses, marks stop-run or failed-break evidence. **No absorption after a sweep**, where the sweep keeps traveling
+    and begins to accept, marks stronger initiative or real-break evidence. This is the source document''s central demand
+    made concrete: a stop run and a real breakout can look...'
+purpose: Classify bounded Sweeps Through Liquidity states using a calibrated rule structure with all empirical values deferred
+  to later calibration artifacts.
+description: P16 Wave 3 detection-spec contract for Sweeps Through Liquidity. Fixed rule structure with named parameters.
+  Values remain null until calibrated per instrument, session, timeframe, and regime.
+non_executional_boundary: This spec emits semantic market-read, evidence, context, confidence, and refusal labels only. It
+  never emits trade permission, entry, exit, stop, target, position sizing, add/reduce, broker, order, account, fill, P&L,
+  or autonomous trading instructions.
+required_inputs:
+- name: price_sequence
+  source: market_data
+  granularity: tick_or_intraday
+  session_dependency: Sweep and post-sweep path.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: structural_levels
+  source: structural_reference_module
+  granularity: price_references
+  session_dependency: Known liquidity references being swept.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: session_clock
+  source: calendar/session_definition_module
+  granularity: session
+  session_dependency: Calibration and observation scope.
+  absence_behavior: REFUSE_TO_CLASSIFY
+optional_inputs:
+- name: tick_data
+  source: time_and_sales
+  granularity: tick
+  purpose: Improves multi-level take identification.
+  absence_behavior: DEGRADED_CONFIDENCE
+- name: cumulative_delta
+  source: order_flow_module
+  granularity: tick_or_intraday
+  purpose: Supports post-sweep resolution.
+  absence_behavior: DEGRADED_CONFIDENCE
+- name: depth_feed
+  source: depth_feed
+  granularity: multi_level_depth
+  purpose: Best evidence of swept resting liquidity.
+  absence_behavior: DEGRADED_CONFIDENCE
+unavailable_input_behavior:
+  missing_required_input: REFUSE_TO_CLASSIFY
+  missing_optional_input: DEGRADED_CONFIDENCE
+  missing_calibration_parameters: INSUFFICIENT_EVIDENCE
+  feed_blocked_condition: REFUSE_TO_CLASSIFY
+  data_quality_failure: INSUFFICIENT_EVIDENCE
+refusal_behavior:
+  missing_required_feed: REFUSE_TO_CLASSIFY
+  missing_calibration: INSUFFICIENT_EVIDENCE
+  conflicting_evidence: REVIEW_REQUIRED
+  missing_specialized_feed: DEGRADED_CONFIDENCE
+detection_scope:
+  allowed_to_classify:
+  - Bounded evidence states for Sweeps Through Liquidity.
+  - Confidence, downgrade, context, and refusal states tied to declared feeds.
+  - Structural or evidence labels only, according to the determinism class.
+  not_allowed_to_classify:
+  - Trade permission or any execution instruction.
+  - Entry, exit, stop, target, sizing, add/reduce, broker, order, account, fill, or P&L behavior.
+  - Autonomous direction, setup approval, or guaranteed signal language.
+  - The sweep is direction-neutral; only post-sweep resolution is labeled.
+  instrument_scope: Single instrument unless a future spec explicitly composes multiple registry concepts.
+  session_scope: Scoped by the session definitions declared in required_inputs.
+  timeframe_scope: Scoped by the supplied timeframe or profile/session period.
+  regime_scope: Calibration and confidence are regime-aware; no universal thresholds are permitted.
+evidence_model:
+  evidence_categories:
+  - name: primary_structure_or_feed
+    observations:
+    - SWEEP_DETECTED
+    - POST_SWEEP_ABSORPTION
+    derivation: Primary feed evidence listed in required_inputs for Sweeps Through Liquidity.
+  - name: confirmation_or_context
+    observations:
+    - CONFIRMATION_REQUIRED
+    - REVIEW_REQUIRED
+    - DEGRADED_CONFIDENCE
+    derivation: Optional feeds and context either strengthen, downgrade, or require manual review.
+  - name: refusal_and_feed_quality
+    observations:
+    - INSUFFICIENT_EVIDENCE
+    - REFUSE_TO_CLASSIFY
+    - BLOCKED_BY_FEEDS
+    derivation: Missing required feeds, missing calibration, stale data, or feed-blocked conditions.
+  evidence_hierarchy: Required inputs define the narrow Sweeps Through Liquidity state. Optional inputs can improve confidence
+    but cannot create executional output or substitute for missing required feeds.
+  evidence_states:
+    supported:
+    - SWEEP_DETECTED
+    - POST_SWEEP_ABSORPTION
+    - POST_SWEEP_CONTINUATION
+    - SWEEP_RESOLUTION_PENDING
+    unsupported:
+    - Any autonomous trade call from this concept.
+    - Any deterministic claim beyond the registry determinism class.
+    - Any proxy classification when a required feed is missing.
+rule_structure:
+  type: calibrated_sweep_resolution_classifier
+  description: Fixed rule structure with named parameters. Values remain null until calibrated per instrument, session, timeframe,
+    and regime.
+  states:
+  - SWEEP_DETECTED: Bounded Sweeps Through Liquidity label emitted only when evidence supports this state.
+  - POST_SWEEP_ABSORPTION: Bounded Sweeps Through Liquidity label emitted only when evidence supports this state.
+  - POST_SWEEP_CONTINUATION: Bounded Sweeps Through Liquidity label emitted only when evidence supports this state.
+  - SWEEP_RESOLUTION_PENDING: Bounded Sweeps Through Liquidity label emitted only when evidence supports this state.
+  - COARSE_PRICE_SPIKE_CONTEXT: Bounded Sweeps Through Liquidity label emitted only when evidence supports this state.
+  - DEGRADED_CONFIDENCE: Bounded Sweeps Through Liquidity label emitted only when evidence supports this state.
+  - INSUFFICIENT_EVIDENCE: Bounded Sweeps Through Liquidity label emitted only when evidence supports this state.
+  - REFUSE_TO_CLASSIFY: Bounded Sweeps Through Liquidity label emitted only when evidence supports this state.
+  rules:
+  - id: R1_sweep_detected
+    logic: Emit SWEEP_DETECTED only when declared evidence for Sweeps Through Liquidity supports that bounded state and required
+      feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R2_post_sweep_absorption
+    logic: Emit POST_SWEEP_ABSORPTION only when declared evidence for Sweeps Through Liquidity supports that bounded state
+      and required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R3_post_sweep_continuation
+    logic: Emit POST_SWEEP_CONTINUATION only when declared evidence for Sweeps Through Liquidity supports that bounded state
+      and required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R4_sweep_resolution_pending
+    logic: Emit SWEEP_RESOLUTION_PENDING only when declared evidence for Sweeps Through Liquidity supports that bounded state
+      and required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R5_coarse_price_spike_context
+    logic: Emit COARSE_PRICE_SPIKE_CONTEXT only when declared evidence for Sweeps Through Liquidity supports that bounded
+      state and required feeds are present; otherwise prefer confirmation, review, downgrade, or refusal labels.
+  - id: R_refusal
+    logic: Emit INSUFFICIENT_EVIDENCE or REFUSE_TO_CLASSIFY when required feeds, calibration, session scope, or data quality
+      are missing. Do not substitute proxy data for unavailable required evidence.
+  determinism_note: Sweeps Through Liquidity is classified as CALIBRATED; rule behavior must stay inside that class and avoid
+    false determinism.
+decision_logic:
+  summary: Evaluate required feeds for Sweeps Through Liquidity, apply the class-appropriate rule structure, add optional
+    evidence only as confirmation or downgrade context, and refuse when the evidence is missing or outside scope.
+  boundary: The sweep is direction-neutral; only post-sweep resolution is labeled.
+  missing_feed_priority: Refusal or downgrade is preferred over inferred classification.
+calibration_parameters:
+- name: multi_level_take_requirement
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: multi_level_take_requirement parameter; value must be supplied by later calibration or method configuration,
+    not P16.
+- name: sweep_velocity_requirement
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: sweep_velocity_requirement parameter; value must be supplied by later calibration or method configuration,
+    not P16.
+- name: post_sweep_reclaim_window
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: post_sweep_reclaim_window parameter; value must be supplied by later calibration or method configuration, not
+    P16.
+- name: post_sweep_hold_window
+  value: null
+  status: calibration_required
+  unit: configured
+  calibration_scope: instrument_session_timeframe_regime
+  description: post_sweep_hold_window parameter; value must be supplied by later calibration or method configuration, not
+    P16.
+parameters:
+- name: multi_level_take_requirement
+  value: null
+  status: calibration_required
+- name: sweep_velocity_requirement
+  value: null
+  status: calibration_required
+- name: post_sweep_reclaim_window
+  value: null
+  status: calibration_required
+- name: post_sweep_hold_window
+  value: null
+  status: calibration_required
+confidence_behavior:
+  full_confidence: All required feeds present, data quality clean, calibration available where needed, and primary evidence
+    agrees with optional confirmation.
+  degraded_confidence_triggers:
+  - Optional confirmation feeds are missing.
+  - Data quality is usable but incomplete.
+  - Adjacent but not exact session/regime context is being used for review only.
+  review_required_trigger: Primary evidence and optional confirmation disagree, or the result would require discretionary
+    interpretation beyond the spec.
+  no_binary_certainty_claim: Outputs are bounded evidence states, not certainty claims or trading instructions.
+confidence_rules:
+  full_confidence_requires:
+  - Required inputs present
+  - Clean session/timeframe scope
+  - No material evidence conflict
+  downgrade_when:
+  - Optional feeds absent
+  - Specialized feeds absent
+  - Calibration absent where required
+  - Regime or session mismatch
+  refuse_when:
+  - Required feeds absent
+  - Data unreadable
+  - Scope cannot be established
+refusal_conditions:
+- Required feed missing or stale.
+- Session, profile, or timeframe boundary cannot be established.
+- Calibration is required but unavailable.
+- Evidence would require guessing participant intent, execution behavior, or unavailable feed state.
+- Data quality is insufficient for the declared determinism class.
+output_labels: &id001
+- SWEEP_DETECTED
+- POST_SWEEP_ABSORPTION
+- POST_SWEEP_CONTINUATION
+- SWEEP_RESOLUTION_PENDING
+- COARSE_PRICE_SPIKE_CONTEXT
+- DEGRADED_CONFIDENCE
+- INSUFFICIENT_EVIDENCE
+- REFUSE_TO_CLASSIFY
+- CONTEXT_ONLY
+- CONFIRMATION_REQUIRED
+- REVIEW_REQUIRED
+states_emitted: *id001
+allowed_action_labels: *id001
+false_positive_risks:
+- Overclassifying Sweeps Through Liquidity from a single weak observation.
+- Treating optional confirmation as if it were required evidence.
+- Using stale or wrong-session references.
+- Applying calibration outside its instrument/session/timeframe/regime scope.
+false_negative_risks:
+- Withholding a valid Sweeps Through Liquidity state because optional feeds are missing.
+- Missing the state because data arrives late or session boundaries are wrong.
+- Overly strict future calibration suppresses legitimate evidence.
+- Downgrading a structurally valid state because interpretation context is unavailable.
+failure_modes:
+- Feed outage or stale data.
+- Bad session calendar, profile period, or timeframe definition.
+- Contract roll or data stitching artifact.
+- Regime mismatch or missing calibration.
+- Event-window distortion or low-liquidity condition requiring downgrade or review.
+validation_requirements:
+- Replay labeled Sweeps Through Liquidity examples and confirm only bounded states are emitted.
+- Confirm missing required feeds produce refusal or insufficient-evidence behavior.
+- Confirm missing optional feeds degrade confidence without proxy substitution.
+- Confirm no output label implies trade permission, entries, exits, stops, targets, sizing, or broker/order behavior.
+- Confirm calibrated parameters remain null until later calibration artifacts supply scoped values.
+test_cases:
+- name: required_feeds_present_supported_state
+  expected: SWEEP_DETECTED
+- name: missing_required_feed
+  expected: REFUSE_TO_CLASSIFY
+- name: missing_optional_confirmation
+  expected: DEGRADED_CONFIDENCE
+- name: conflicting_evidence
+  expected: REVIEW_REQUIRED
+- name: missing_calibration_when_required
+  expected: INSUFFICIENT_EVIDENCE
+prohibited_outputs: &id002
+- trade_permission
+- entry_instruction
+- exit_instruction
+- stop_instruction
+- target_instruction
+- position_sizing_instruction
+- add_or_reduce_instruction
+- broker_action
+- order_action
+- account_instruction
+- fill_or_pnl_instruction
+- autonomous_trade_call
+forbidden_outputs: *id002
+review_status: DRAFT
+notes: P16 Wave 3 draft spec for Sweeps Through Liquidity. Resolved from registry concept_id ch04_sweeps_through_liquidity.
+  Determinism class is CALIBRATED. No thresholds, calibration values, execution outputs, individual detector code, or calibration
+  artifacts are created in this pass.
