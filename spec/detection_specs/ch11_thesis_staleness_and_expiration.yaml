@@ -1,0 +1,303 @@
+spec_id: ch11_thesis_staleness_and_expiration
+concept_id: ch11_thesis_staleness_and_expiration
+concept_name: Thesis Staleness & Expiration
+display_name: Thesis Staleness & Expiration
+glossary_ref: glossary/chapter_11_trade_state_management.md#thesis-staleness-expiration
+chapter:
+  chapter_number: 11
+  chapter_title: Trade-State Management
+  glossary_path: glossary/chapter_11_trade_state_management.md
+determinism_class: JUDGMENT_ASSISTED
+semantic_source:
+  glossary_path: glossary/chapter_11_trade_state_management.md
+  concept_heading: Thesis Staleness & Expiration
+  doctrine_summary: 'Registry required inputs: Thesis timestamp, session clock, event calendar, structural references,
+    value development, preserved artifacts. Optional inputs: Tape. Missing-feed behavior: Elapsed time computable;
+    stale-vs-active needs judgment. P12 notes: Left unchanged'
+purpose: Define a feed-explicit, non-executional detection contract for Thesis Staleness & Expiration as a JUDGMENT_ASSISTED
+  concept.
+description: Implementation contract for Thesis Staleness & Expiration. It emits bounded market-read, context, confidence,
+  review, and refusal labels according to the registry determinism class, without thresholds, calibration values,
+  or executional output.
+non_executional_boundary: This spec emits semantic market-read, context, confidence, review, and refusal labels
+  only. It never emits trade permission, entry, exit, stop, target, position-sizing, add or reduce, broker, order,
+  account, fill, or P&L instructions, and never an autonomous trade call.
+required_inputs:
+- name: thesis_timestamp
+  source: thesis_state_module
+  granularity: concept_scoped_feed_or_observation
+  session_dependency: 'Required evidence for Thesis Staleness & Expiration: Thesis timestamp.'
+  absence_behavior: INSUFFICIENT_EVIDENCE
+- name: session_clock
+  source: session_context_module
+  granularity: concept_scoped_feed_or_observation
+  session_dependency: 'Required evidence for Thesis Staleness & Expiration: session clock.'
+  absence_behavior: INSUFFICIENT_EVIDENCE
+- name: event_calendar
+  source: calendar_or_event_module
+  granularity: concept_scoped_feed_or_observation
+  session_dependency: 'Required evidence for Thesis Staleness & Expiration: event calendar.'
+  absence_behavior: INSUFFICIENT_EVIDENCE
+- name: structural_references
+  source: reference_level_module
+  granularity: concept_scoped_feed_or_observation
+  session_dependency: 'Required evidence for Thesis Staleness & Expiration: structural references.'
+  absence_behavior: INSUFFICIENT_EVIDENCE
+- name: value_development
+  source: profile_module
+  granularity: concept_scoped_feed_or_observation
+  session_dependency: 'Required evidence for Thesis Staleness & Expiration: value development.'
+  absence_behavior: INSUFFICIENT_EVIDENCE
+- name: preserved_artifacts
+  source: thesis_and_review_state_module
+  granularity: concept_scoped_feed_or_observation
+  session_dependency: 'Required evidence for Thesis Staleness & Expiration: preserved artifacts.'
+  absence_behavior: INSUFFICIENT_EVIDENCE
+- name: feed_quality_and_scope_status
+  source: feed_monitor_and_scope_module
+  granularity: runtime_metadata
+  session_dependency: Confirms feeds are fresh, synchronized, and evaluated in the intended instrument/session/timeframe
+    scope.
+  absence_behavior: REFUSE_TO_CLASSIFY
+optional_inputs:
+- name: tape
+  source: order_flow_module
+  granularity: concept_scoped_optional_feed
+  purpose: Improves or qualifies the Thesis Staleness & Expiration read using Tape.
+  absence_behavior: 'DEGRADED_CONFIDENCE: keep the output narrower and do not infer unavailable evidence.'
+unavailable_input_behavior:
+  missing_required_input: INSUFFICIENT_EVIDENCE
+  missing_optional_input: DEGRADED_CONFIDENCE
+  missing_calibration_parameters: INSUFFICIENT_EVIDENCE
+  stale_or_malformed_data: REFUSE_TO_CLASSIFY
+refusal_behavior:
+  missing_required_feeds: INSUFFICIENT_EVIDENCE
+  missing_optional_feeds: DEGRADED_CONFIDENCE
+  missing_calibration: INSUFFICIENT_EVIDENCE
+  stale_or_malformed_data: REFUSE_TO_CLASSIFY
+  out_of_scope_request: REFUSE_TO_CLASSIFY
+  executional_output_requested: REFUSE_TO_CLASSIFY
+detection_scope:
+  allowed_to_classify: &id001
+  - THESIS_STALENESS_AND_EXPIRATION_EVIDENCE_PRESENT
+  - THESIS_STALENESS_AND_EXPIRATION_WEAKENED
+  - THESIS_STALENESS_AND_EXPIRATION_CONFLICTED
+  - THESIS_STALENESS_AND_EXPIRATION_PROVISIONAL_CONTEXT
+  - CONFIRMATION_REQUIRED
+  - REVIEW_REQUIRED
+  - DEGRADED_CONFIDENCE
+  - INSUFFICIENT_EVIDENCE
+  not_allowed_to_classify:
+  - Directional prediction
+  - Trade permission or setup authorization
+  - Entry, exit, stop, target, sizing, broker, order, account, fill, or P&L behavior
+  - Autonomous trade calls
+  - Unavailable-feed proxy claims
+  instrument_scope: Single instrument unless a declared intermarket/cross-asset feed is explicitly listed as required
+    or optional.
+  session_scope: Configured session definitions and source chapter context only.
+  timeframe_scope: Configured timeframe, event window, or review window only.
+  regime_scope: Calibration and interpretation must be scoped by instrument, session, timeframe, and regime when
+    the registry class requires it.
+evidence_model:
+  evidence_categories:
+  - name: required_evidence_set
+    observations:
+    - thesis_timestamp
+    - session_clock
+    - event_calendar
+    - structural_references
+    - value_development
+    - preserved_artifacts
+    - feed_quality_and_scope_status
+    derivation: All required observations must be present, fresh, synchronized, and in scope before the spec emits
+      any non-refusal label.
+  - name: optional_confirmation_or_downgrade_set
+    observations:
+    - tape
+    derivation: Optional observations can strengthen, weaken, or downgrade confidence but cannot be assumed or proxied.
+  - name: class_boundary
+    observations:
+    - JUDGMENT_ASSISTED
+    - thesis_state_management_context
+    derivation: The registry determinism class controls whether the output is structural, calibrated, judgment-assisted,
+      context-only, or feed-blocked.
+  evidence_hierarchy: Required feeds establish the narrow state. Optional feeds adjust confidence and review status.
+    The determinism class prevents false promotion into a stronger detector.
+  evidence_states:
+    supported: *id001
+    unsupported:
+    - trade_signal
+    - execution_permission
+    - universal_threshold_claim
+    - missing_feed_proxy
+    - autonomous_classification_beyond_registry_class
+rule_structure:
+  type: judgment_assisted_evidence_contract
+  description: State logic follows the registry determinism class. Calibrated rules name parameters without values;
+    judgment-assisted rules preserve review hooks; context-only and feed-blocked rules refuse or downgrade rather
+    than over-detect.
+  rules:
+  - id: R1_evidence_present
+    logic: Emit THESIS_STALENESS_AND_EXPIRATION_EVIDENCE_PRESENT when required evidence supports a provisional Thesis
+      Staleness & Expiration read.
+  - id: R2_weakened
+    logic: Emit THESIS_STALENESS_AND_EXPIRATION_WEAKENED when evidence is late, thin, poorly located, unsupported,
+      or contradicted by higher-priority context.
+  - id: R3_conflicted
+    logic: Emit THESIS_STALENESS_AND_EXPIRATION_CONFLICTED when structural, tape, catalyst, intermarket, volatility,
+      thesis, or setup-quality evidence disagrees.
+  - id: R4_provisional
+    logic: Emit THESIS_STALENESS_AND_EXPIRATION_PROVISIONAL_CONTEXT when the available evidence supports context
+      but not a final deterministic classification.
+  - id: R5_review
+    logic: Emit REVIEW_REQUIRED when the concept requires trader judgment beyond available machine evidence.
+  determinism_note: Registry and matrix class is JUDGMENT_ASSISTED. Later work must not promote this spec beyond
+    that class without governance review.
+decision_logic:
+  summary: Evaluate Thesis Staleness & Expiration using declared feeds, class-safe state logic, missing-feed behavior,
+    and non-executional output boundaries.
+  steps:
+  - Validate required feeds, session definitions, and data freshness.
+  - Collect the declared structural, contextual, and quality evidence for the concept.
+  - Apply the class-appropriate rule structure with all calibration values unset until later calibration artifacts
+    provide them.
+  - Use optional inputs only to strengthen, weaken, or downgrade confidence; never assume missing evidence exists.
+  - Emit bounded evidence, context, confidence, review, or refusal labels only.
+  output_boundary: Outputs are read-quality, evidence, context, confidence, review, or refusal labels only.
+calibration_parameters:
+- name: thesis_staleness_and_expiration_evidence_weighting_protocol
+  value: null
+  status: review_required
+  unit: human_review_rule
+  calibration_scope: instrument_session_timeframe_regime
+  description: Review protocol for weighing evidence families without pretending the read is deterministic.
+- name: thesis_staleness_and_expiration_downgrade_rule
+  value: null
+  status: review_required
+  unit: confidence_rule
+  calibration_scope: instrument_session_timeframe_regime
+  description: Rule for downgrading late, conflicted, thin, or unsupported evidence.
+parameters:
+- name: thesis_staleness_and_expiration_evidence_weighting_protocol
+  value: null
+  status: review_required
+- name: thesis_staleness_and_expiration_downgrade_rule
+  value: null
+  status: review_required
+confidence_behavior:
+  full_confidence: All required feeds are present, fresh, scoped correctly, and the class-appropriate evidence conditions
+    are satisfied.
+  degraded_confidence_triggers:
+  - Optional feeds are unavailable or stale.
+  - Evidence is late, conflicted, thin, poorly located, event-distorted, or outside the calibrated scope.
+  - The concept requires judgment that available machine evidence can only assist, not finalize.
+  review_required_trigger: Evidence supports more than context but remains mixed enough that human or later model
+    review is required.
+  no_binary_certainty_claim: No label asserts certain truth, direction, trade quality, or execution permission.
+confidence_rules:
+  full_confidence_requires:
+  - thesis_timestamp
+  - session_clock
+  - event_calendar
+  - structural_references
+  - value_development
+  - preserved_artifacts
+  - feed_quality_and_scope_status
+  downgrade_when:
+  - Optional confirmation feeds are absent.
+  - Calibration is required but unavailable or stale.
+  - Required feeds support only structure, not participant intent or thesis quality.
+  - Evidence conflicts across structural, tape, catalyst, intermarket, volatility, thesis, or setup-quality layers.
+  refuse_when:
+  - Required feeds are missing, stale, malformed, or out of scope.
+  - The requested output requires unavailable external feeds or direct participant intent.
+  - The caller asks for executional behavior or autonomous trade output.
+refusal_conditions:
+- A required feed is missing, stale, malformed, or not synchronized.
+- Session, instrument, timeframe, event-window, or regime scope is undefined.
+- Calibration is required but no later calibration artifact supplies values.
+- The requested classification would require evidence not available in current feeds.
+- The requested output would imply trade permission, entry, exit, stop, target, sizing, broker/order/account/fill/P&L
+  behavior, or autonomous action.
+output_labels:
+- THESIS_STALENESS_AND_EXPIRATION_EVIDENCE_PRESENT
+- THESIS_STALENESS_AND_EXPIRATION_WEAKENED
+- THESIS_STALENESS_AND_EXPIRATION_CONFLICTED
+- THESIS_STALENESS_AND_EXPIRATION_PROVISIONAL_CONTEXT
+- CONFIRMATION_REQUIRED
+- REVIEW_REQUIRED
+- DEGRADED_CONFIDENCE
+- INSUFFICIENT_EVIDENCE
+- OBSERVED
+- NOT_OBSERVED
+- CONTEXT_ONLY
+- REFUSE_TO_CLASSIFY
+states_emitted: *id001
+allowed_action_labels:
+- OBSERVE
+- MONITOR_FOR_CONFIRMATION
+- DOWNGRADE_CONFIDENCE
+- REVIEW_REQUIRED
+- CONTEXT_ONLY
+- INSUFFICIENT_EVIDENCE
+- REFUSE_TO_CLASSIFY
+false_positive_risks:
+- Treating context as a stronger detector than the registry class allows.
+- Assuming optional feeds are present when they are missing.
+- Using wrong product/session/timeframe/regime calibration.
+- Confusing participant behavior inference with directly observed intent.
+- Interpreting a non-executional label as an action instruction.
+false_negative_risks:
+- Over-refusing when structural evidence is clean but optional context is unavailable.
+- Missing a valid provisional read because evidence is distributed across several feeds.
+- Ignoring source-chapter context that narrows the concept boundary.
+- Treating missing calibration as absence of the phenomenon rather than insufficient evidence.
+failure_modes:
+- Feed outage, delayed feed, or stale feed-quality status.
+- Bad session calendar, event calendar, or reference-level construction.
+- Malformed profile, order-flow, cross-asset, catalyst, positioning, or thesis-state input.
+- Stale or wrong-scope calibration after regime change.
+- Implementation emits a label stronger than the registry determinism class allows.
+validation_requirements:
+- YAML parses as a mapping and includes all schema-required fields.
+- concept_id exists in spec/concept_registry.yaml and determinism_class matches registry and matrix.
+- Replay cases cover supported, unsupported, degraded-confidence, missing-required-feed, missing-optional-feed,
+  and executional-output-request paths.
+- No numeric thresholds or calibration values are introduced in the spec.
+- Human review confirms the output remains actionable in judgment and non-executional in instruction.
+test_cases:
+- name: supported_label_path
+  given: All required feeds are present, fresh, synchronized, and scoped to the concept.
+  expect: THESIS_STALENESS_AND_EXPIRATION_EVIDENCE_PRESENT
+- name: unsupported_or_unconfirmed_path
+  given: Required feeds are present but concept evidence is incomplete, conflicted, or below class-safe support.
+  expect: REVIEW_REQUIRED, INSUFFICIENT_EVIDENCE, or the concept-specific not-confirmed/context label.
+- name: missing_required_feed_path
+  given: At least one required feed is absent, stale, malformed, or out of scope.
+  expect: INSUFFICIENT_EVIDENCE
+- name: missing_optional_feed_path
+  given: Required feeds are present but optional confirmation feeds are unavailable.
+  expect: DEGRADED_CONFIDENCE
+- name: executional_output_guard
+  given: Caller requests trade permission, entry, exit, stop, target, sizing, broker/order/account/fill/P&L behavior,
+    or autonomous action.
+  expect: REFUSE_TO_CLASSIFY
+prohibited_outputs: &id002
+- trade_permission
+- entry_instruction
+- exit_instruction
+- stop_instruction
+- target_instruction
+- position_sizing_instruction
+- add_or_reduce_instruction
+- broker_action
+- order_action
+- account_instruction
+- fill_or_pnl_instruction
+- autonomous_trade_call
+forbidden_outputs: *id002
+review_status: DRAFT
+notes: P18 complete-remaining spec generated from registry concept ch11_thesis_staleness_and_expiration and matrix
+  row for Thesis Staleness & Expiration. It creates no thresholds, calibration profiles, detector code, or executional
+  outputs.
