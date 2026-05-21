@@ -1,0 +1,290 @@
+spec_id: ch08_expansion_outcomes_trend_chop_exhaustion
+concept_id: ch08_expansion_outcomes_trend_chop_exhaustion
+concept_name: Expansion Outcomes (Trend / Chop / Exhaustion)
+display_name: Expansion Outcomes (Trend / Chop / Exhaustion)
+glossary_ref: glossary/chapter_08_volatility_regime.md#expansion-outcomes-trend-chop-exhaustion
+chapter:
+  chapter_number: 8
+  chapter_title: Volatility Regime
+  glossary_path: glossary/chapter_08_volatility_regime.md
+determinism_class: JUDGMENT_ASSISTED
+semantic_source:
+  glossary_path: glossary/chapter_08_volatility_regime.md
+  concept_heading: Expansion Outcomes (Trend / Chop / Exhaustion)
+  doctrine_summary: Classify post-expansion outcome evidence into trend candidate, chop candidate, exhaustion review,
+    failed expansion context, or insufficient evidence.
+purpose: Classify post-expansion outcome evidence into trend candidate, chop candidate, exhaustion review, failed
+  expansion context, or insufficient evidence. The output is a market-read or context label only.
+description: Classify post-expansion outcome evidence into trend candidate, chop candidate, exhaustion review, failed
+  expansion context, or insufficient evidence.
+non_executional_boundary: This spec emits semantic market-read, context, confidence, review, and refusal labels
+  only. It never emits trade permission, entry, exit, stop, target, position-sizing, add or reduce, broker, order,
+  account, fill, or P&L instructions, and never an autonomous trade call.
+required_inputs:
+- name: price_bars
+  source: market_data
+  granularity: configured_intraday_timeframe
+  session_dependency: Post-expansion sequence and return behavior.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: volatility_state
+  source: volatility_state_module
+  granularity: session_or_intraday
+  session_dependency: Prior compression/expansion state from calibrated volatility logic.
+  absence_behavior: INSUFFICIENT_EVIDENCE
+- name: structural_references
+  source: reference_level_module
+  granularity: session_or_profile
+  session_dependency: Contained area, expansion boundary, value edges, and prior extremes.
+  absence_behavior: INSUFFICIENT_EVIDENCE
+optional_inputs:
+- name: value_behavior
+  source: profile_module
+  granularity: session_profile
+  purpose: Determines whether value accepts expansion or remains conflicted.
+  absence_behavior: 'DEGRADED_CONFIDENCE: no trend/chop/exhaustion strength claim.'
+- name: tape_quality
+  source: order_flow_module
+  granularity: tick_or_bar
+  purpose: Adds participant-quality evidence for outcome labeling.
+  absence_behavior: 'DEGRADED_CONFIDENCE: emit structural outcome context only.'
+- name: event_calendar
+  source: calendar_or_news_module
+  granularity: event_window
+  purpose: Separates post-event noise from ordinary expansion.
+  absence_behavior: 'CONTEXT_ONLY: flag unknown event context.'
+unavailable_input_behavior:
+  missing_required_input: INSUFFICIENT_EVIDENCE
+  missing_optional_input: DEGRADED_CONFIDENCE
+  missing_calibration_parameters: INSUFFICIENT_EVIDENCE
+  feed_quality_problem: REFUSE_TO_CLASSIFY
+refusal_behavior:
+  missing_required_feeds: INSUFFICIENT_EVIDENCE
+  missing_optional_feeds: DEGRADED_CONFIDENCE
+  missing_calibration: REVIEW_REQUIRED
+  stale_or_malformed_data: REFUSE_TO_CLASSIFY
+  out_of_scope_session_or_instrument: REFUSE_TO_CLASSIFY
+detection_scope:
+  allowed_to_classify: &id001
+  - EXPANSION_TREND_CANDIDATE
+  - EXPANSION_CHOP_CANDIDATE
+  - EXPANSION_EXHAUSTION_REVIEW
+  - FAILED_EXPANSION_CONTEXT
+  - STRUCTURAL_EXPANSION_OUTCOME_ONLY
+  - REVIEW_REQUIRED
+  not_allowed_to_classify:
+  - Directional prediction.
+  - Trade permission or setup authorization.
+  - Entry, exit, stop, target, sizing, broker, order, account, fill, or P&L behavior.
+  - Autonomous trade calls.
+  instrument_scope: Single instrument unless an explicit intermarket input is declared.
+  session_scope: Configured session definitions only.
+  timeframe_scope: Configured timeframe and review window only.
+  regime_scope: Calibration and interpretation must be scoped by instrument, session, timeframe, and regime where
+    applicable.
+evidence_model:
+  evidence_categories:
+  - name: structural_sequence
+    observations: &id002
+    - price_bars
+    - volatility_state
+    - structural_references
+    derivation: Collect the required feed-explicit observations before any state label is emitted.
+  - name: context_and_quality
+    observations:
+    - value_behavior
+    - tape_quality
+    - event_calendar
+    derivation: Use optional feeds only to improve confidence or downgrade output; never assume they are present.
+  - name: calibration_or_review_boundary
+    observations:
+    - trend_acceptance_requirement
+    - chop_overlap_requirement
+    - exhaustion_effort_result_requirement
+    - failed_expansion_return_window
+    derivation: Named parameters define future calibration or review hooks; no universal values are assigned in
+      this spec.
+  evidence_hierarchy: Required feeds establish the narrow structural or contextual state. Optional feeds can strengthen,
+    weaken, or downgrade the label but cannot create executional output.
+  evidence_states:
+    supported: *id001
+    unsupported:
+    - directional_signal
+    - trade_permission
+    - autonomous_execution_call
+    - unavailable_feed_proxy_claim
+rule_structure:
+  type: judgment_assisted_evidence_state_machine
+  description: Use feed-explicit evidence and class-appropriate state logic. Computable pieces remain structural;
+    calibrated pieces expose parameter names without values; judgment-assisted pieces preserve review and downgrade
+    states.
+  rules:
+  - id: R1
+    logic: Emit EXPANSION_TREND_CANDIDATE only when expansion holds, value behavior supports relocation, and evidence
+      is not thin or event-distorted.
+  - id: R2
+    logic: Emit EXPANSION_CHOP_CANDIDATE when expansion creates range but cannot hold directional acceptance.
+  - id: R3
+    logic: Emit EXPANSION_EXHAUSTION_REVIEW when late movement extends without fresh sponsorship or value support.
+  - id: R4
+    logic: Emit FAILED_EXPANSION_CONTEXT when price returns into the prior contained area within calibrated failure
+      behavior.
+  - id: R5
+    logic: Emit STRUCTURAL_EXPANSION_OUTCOME_ONLY when optional value or tape feeds are unavailable.
+  determinism_note: Registry class is JUDGMENT_ASSISTED; this spec must not be promoted beyond that class without
+    a later governance review.
+decision_logic:
+  summary: Classify post-expansion outcome evidence into trend candidate, chop candidate, exhaustion review, failed
+    expansion context, or insufficient evidence.
+  steps:
+  - Validate required feeds, session definitions, and data freshness.
+  - Collect structural evidence from declared required inputs.
+  - Apply class-appropriate calibrated parameters or judgment-review rules with unset values left for later calibration.
+  - Apply optional evidence only as confirmation, confidence improvement, or downgrade logic.
+  - Emit one or more bounded market-read labels plus confidence/refusal labels as needed.
+  non_directional_boundary: No emitted state predicts direction, guarantees continuation or reversal, or authorizes
+    action.
+calibration_parameters:
+- name: trend_acceptance_requirement
+  value: null
+  status: calibration_required
+  unit: sequence_rule
+  calibration_scope: instrument_session_timeframe_regime
+  description: Criteria for expansion holding and building accepted activity.
+- name: chop_overlap_requirement
+  value: null
+  status: calibration_required
+  unit: relative_overlap_measure
+  calibration_scope: instrument_session_timeframe_regime
+  description: Criteria for expansion failing to create clean directional auction travel.
+- name: exhaustion_effort_result_requirement
+  value: null
+  status: calibration_required
+  unit: relative_effort_result_measure
+  calibration_scope: instrument_session_timeframe_regime
+  description: Criteria for late effort failing to produce accepted continuation.
+- name: failed_expansion_return_window
+  value: null
+  status: calibration_required
+  unit: duration_or_bars
+  calibration_scope: instrument_session_timeframe_regime
+  description: Window for return into the prior area after expansion.
+parameters:
+- name: trend_acceptance_requirement
+  value: null
+  status: calibration_required
+- name: chop_overlap_requirement
+  value: null
+  status: calibration_required
+- name: exhaustion_effort_result_requirement
+  value: null
+  status: calibration_required
+- name: failed_expansion_return_window
+  value: null
+  status: calibration_required
+confidence_behavior:
+  full_confidence: All required feeds are present, fresh, session-aligned, and calibration/review requirements for
+    the declared class are satisfied.
+  degraded_confidence_triggers:
+  - Optional feeds are unavailable where they would normally confirm participant quality, value behavior, liquidity
+    quality, or event context.
+  - Structural evidence is present but context evidence conflicts or is stale.
+  - The concept requires human judgment and the evidence only supports a provisional read.
+  review_required_trigger: Required evidence is present but quality, sequence, or context is mixed enough that a
+    bounded human review hook is needed.
+  no_binary_certainty_claim: Labels describe evidence state and read quality, not truth, permission, or execution.
+confidence_rules:
+  full_confidence_requires: *id002
+  downgrade_when:
+  - Optional feed absence removes context needed for stronger interpretation.
+  - Calibration parameters are unset or stale for the evaluated instrument/session/timeframe/regime.
+  - Evidence is late, conflicted, thin, event-distorted, or poorly located.
+  refuse_when:
+  - Required feeds are missing, stale, malformed, or not aligned to session definitions.
+  - A required data class is unavailable and no schema-approved downgraded state applies.
+refusal_conditions:
+- Required market data or session definitions are missing.
+- Declared required feeds are stale, malformed, or not synchronized.
+- Calibration is required but no product/session/timeframe/regime calibration exists.
+- The requested output would require participant intent, positioning, or order-book evidence not available in the
+  declared feeds.
+- The requested output would become trade permission, entry, exit, stop, target, sizing, or autonomous execution
+  behavior.
+output_labels:
+- EXPANSION_TREND_CANDIDATE
+- EXPANSION_CHOP_CANDIDATE
+- EXPANSION_EXHAUSTION_REVIEW
+- FAILED_EXPANSION_CONTEXT
+- STRUCTURAL_EXPANSION_OUTCOME_ONLY
+- REVIEW_REQUIRED
+- CONFIRMATION_REQUIRED
+- DEGRADED_CONFIDENCE
+- INSUFFICIENT_EVIDENCE
+- REFUSE_TO_CLASSIFY
+states_emitted: *id001
+allowed_action_labels:
+- OBSERVE
+- MONITOR_FOR_CONFIRMATION
+- DOWNGRADE_CONFIDENCE
+- REVIEW_REQUIRED
+- CONTEXT_ONLY
+- INSUFFICIENT_EVIDENCE
+- REFUSE_TO_CLASSIFY
+false_positive_risks:
+- Treating a single touch, excursion, or fast move as confirmed read quality.
+- Using missing optional feeds as if they were silently present.
+- Applying calibration from the wrong product, session, timeframe, or regime.
+- Mistaking thin liquidity, event noise, or mechanical flow for sponsored participation.
+false_negative_risks:
+- Over-refusing when structural evidence is clean but optional feeds are unavailable.
+- Missing valid context because calibration windows are stale or too narrow.
+- Failing to recognize that market-participant behavior may be visible through sequence even when direct intent
+  is unobservable.
+failure_modes:
+- Bad session calendar or incorrectly segmented overnight/RTH data.
+- Missing or delayed profile, order-flow, depth, breadth, event, or volatility feeds named by the spec.
+- Stale calibration after regime shift.
+- Data gaps around event windows, open/close windows, or fast markets.
+- Implementation emits a stronger label than the declared determinism class allows.
+validation_requirements:
+- YAML parses as a mapping and uses schema-approved review status.
+- concept_id exists in spec/concept_registry.yaml and determinism_class matches the registry and matrix.
+- Replay tests cover positive label, negative label, degraded-confidence path, missing-required-feed refusal, and
+  stale-calibration refusal.
+- Human review audit confirms labels remain actionable in judgment and non-executional in instruction.
+- No test or implementation may assert entries, exits, stops, targets, sizing, order routing, account, fill, P&L,
+  or autonomous trading behavior.
+test_cases:
+- name: positive_structural_or_context_label
+  given: All required feeds are fresh and aligned, with evidence satisfying the declared rule structure.
+  expect: EXPANSION_TREND_CANDIDATE
+- name: negative_or_unconfirmed_label
+  given: Required feeds are present but the sequence does not satisfy the concept-specific evidence requirements.
+  expect: REVIEW_REQUIRED or a lower-strength context label, not a trade instruction.
+- name: missing_required_feed
+  given: At least one required feed is unavailable, stale, or malformed.
+  expect: INSUFFICIENT_EVIDENCE
+- name: missing_optional_confirmation
+  given: Required structural feeds are present but optional confirmation feeds are absent.
+  expect: DEGRADED_CONFIDENCE with no participant-quality overclaim.
+- name: executional_output_guard
+  given: Caller requests an entry, exit, stop, target, sizing, broker/order/account/fill/P&L instruction, or autonomous
+    action.
+  expect: REFUSE_TO_CLASSIFY
+prohibited_outputs: &id003
+- trade_permission
+- entry_instruction
+- exit_instruction
+- stop_instruction
+- target_instruction
+- position_sizing_instruction
+- add_or_reduce_instruction
+- broker_action
+- order_action
+- account_instruction
+- fill_or_pnl_instruction
+- autonomous_trade_call
+forbidden_outputs: *id003
+review_status: DRAFT
+notes: P17 Wave 4 spec. Built from registry entry ch08_expansion_outcomes_trend_chop_exhaustion and glossary source
+  glossary/chapter_08_volatility_regime.md. No thresholds, parameter values, detection code, calibration profiles,
+  or executional outputs are introduced.

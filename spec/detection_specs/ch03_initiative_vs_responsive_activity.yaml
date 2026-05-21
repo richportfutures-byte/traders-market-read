@@ -1,0 +1,277 @@
+spec_id: ch03_initiative_vs_responsive_activity
+concept_id: ch03_initiative_vs_responsive_activity
+concept_name: Initiative vs. Responsive Activity
+display_name: Initiative vs. Responsive Activity
+glossary_ref: glossary/chapter_03_auction_market_profile.md#initiative-vs-responsive-activity
+chapter:
+  chapter_number: 3
+  chapter_title: Auction & Market Profile
+  glossary_path: glossary/chapter_03_auction_market_profile.md
+determinism_class: JUDGMENT_ASSISTED
+semantic_source:
+  glossary_path: glossary/chapter_03_auction_market_profile.md
+  concept_heading: Initiative vs. Responsive Activity
+  doctrine_summary: Tag activity location relative to value as initiative, responsive, mixed, confirmation-required,
+    or context-only.
+purpose: Tag activity location relative to value as initiative, responsive, mixed, confirmation-required, or context-only.
+  The output is a market-read or context label only.
+description: Tag activity location relative to value as initiative, responsive, mixed, confirmation-required, or
+  context-only.
+non_executional_boundary: This spec emits semantic market-read, context, confidence, review, and refusal labels
+  only. It never emits trade permission, entry, exit, stop, target, position-sizing, add or reduce, broker, order,
+  account, fill, or P&L instructions, and never an autonomous trade call.
+required_inputs:
+- name: value_area_reference
+  source: profile_module
+  granularity: session_profile
+  session_dependency: Current or prior value area, POC, VAH, and VAL.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: price_sequence
+  source: market_data
+  granularity: tick_or_bar_sequence
+  session_dependency: Movement and holding behavior relative to value.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: session_clock
+  source: calendar/session_definition_module
+  granularity: session
+  session_dependency: Determines whether activity is overnight, RTH, open, or close.
+  absence_behavior: REFUSE_TO_CLASSIFY
+optional_inputs:
+- name: delta_or_aggression
+  source: order_flow_module
+  granularity: tick_or_bar
+  purpose: Separates aggressive initiative from responsive defense.
+  absence_behavior: 'DEGRADED_CONFIDENCE: location-only label.'
+- name: volume_at_price
+  source: profile_module
+  granularity: volume_at_price
+  purpose: Shows acceptance or rejection near value edges.
+  absence_behavior: 'DEGRADED_CONFIDENCE: no value-quality claim.'
+- name: structural_references
+  source: reference_level_module
+  granularity: session_or_multi_session
+  purpose: Adds context for whether activity occurs at meaningful references.
+  absence_behavior: 'CONTEXT_ONLY: omit reference-quality claim.'
+unavailable_input_behavior:
+  missing_required_input: INSUFFICIENT_EVIDENCE
+  missing_optional_input: DEGRADED_CONFIDENCE
+  missing_calibration_parameters: INSUFFICIENT_EVIDENCE
+  feed_quality_problem: REFUSE_TO_CLASSIFY
+refusal_behavior:
+  missing_required_feeds: INSUFFICIENT_EVIDENCE
+  missing_optional_feeds: DEGRADED_CONFIDENCE
+  missing_calibration: REVIEW_REQUIRED
+  stale_or_malformed_data: REFUSE_TO_CLASSIFY
+  out_of_scope_session_or_instrument: REFUSE_TO_CLASSIFY
+detection_scope:
+  allowed_to_classify: &id001
+  - INITIATIVE_ACTIVITY_LOCATION
+  - RESPONSIVE_ACTIVITY_LOCATION
+  - MIXED_ACTIVITY_CONTEXT
+  - VALUE_EDGE_CONFIRMATION_REQUIRED
+  - LOCATION_ONLY_CONTEXT
+  - REVIEW_REQUIRED
+  not_allowed_to_classify:
+  - Directional prediction.
+  - Trade permission or setup authorization.
+  - Entry, exit, stop, target, sizing, broker, order, account, fill, or P&L behavior.
+  - Autonomous trade calls.
+  instrument_scope: Single instrument unless an explicit intermarket input is declared.
+  session_scope: Configured session definitions only.
+  timeframe_scope: Configured timeframe and review window only.
+  regime_scope: Calibration and interpretation must be scoped by instrument, session, timeframe, and regime where
+    applicable.
+evidence_model:
+  evidence_categories:
+  - name: structural_sequence
+    observations: &id002
+    - value_area_reference
+    - price_sequence
+    - session_clock
+    derivation: Collect the required feed-explicit observations before any state label is emitted.
+  - name: context_and_quality
+    observations:
+    - delta_or_aggression
+    - volume_at_price
+    - structural_references
+    derivation: Use optional feeds only to improve confidence or downgrade output; never assume they are present.
+  - name: calibration_or_review_boundary
+    observations:
+    - value_acceptance_requirement
+    - responsive_defense_requirement
+    - mixed_activity_conflict_rule
+    derivation: Named parameters define future calibration or review hooks; no universal values are assigned in
+      this spec.
+  evidence_hierarchy: Required feeds establish the narrow structural or contextual state. Optional feeds can strengthen,
+    weaken, or downgrade the label but cannot create executional output.
+  evidence_states:
+    supported: *id001
+    unsupported:
+    - directional_signal
+    - trade_permission
+    - autonomous_execution_call
+    - unavailable_feed_proxy_claim
+rule_structure:
+  type: judgment_assisted_evidence_state_machine
+  description: Use feed-explicit evidence and class-appropriate state logic. Computable pieces remain structural;
+    calibrated pieces expose parameter names without values; judgment-assisted pieces preserve review and downgrade
+    states.
+  rules:
+  - id: R1
+    logic: Emit INITIATIVE_ACTIVITY_LOCATION when activity occurs beyond value and acceptance evidence supports
+      relocation.
+  - id: R2
+    logic: Emit RESPONSIVE_ACTIVITY_LOCATION when activity rejects outside value and repairs back toward value.
+  - id: R3
+    logic: Emit MIXED_ACTIVITY_CONTEXT when location and order-flow evidence disagree.
+  - id: R4
+    logic: Emit VALUE_EDGE_CONFIRMATION_REQUIRED around value edges before classifying activity quality.
+  - id: R5
+    logic: Emit LOCATION_ONLY_CONTEXT when delta, aggression, or volume-at-price evidence is missing.
+  determinism_note: Registry class is JUDGMENT_ASSISTED; this spec must not be promoted beyond that class without
+    a later governance review.
+decision_logic:
+  summary: Tag activity location relative to value as initiative, responsive, mixed, confirmation-required, or context-only.
+  steps:
+  - Validate required feeds, session definitions, and data freshness.
+  - Collect structural evidence from declared required inputs.
+  - Apply class-appropriate calibrated parameters or judgment-review rules with unset values left for later calibration.
+  - Apply optional evidence only as confirmation, confidence improvement, or downgrade logic.
+  - Emit one or more bounded market-read labels plus confidence/refusal labels as needed.
+  non_directional_boundary: No emitted state predicts direction, guarantees continuation or reversal, or authorizes
+    action.
+calibration_parameters:
+- name: value_acceptance_requirement
+  value: null
+  status: calibration_required
+  unit: sequence_rule
+  calibration_scope: instrument_session_timeframe_regime
+  description: Behavior required to treat activity outside value as accepted initiative.
+- name: responsive_defense_requirement
+  value: null
+  status: calibration_required
+  unit: sequence_rule
+  calibration_scope: instrument_session_timeframe_regime
+  description: Behavior required to treat activity outside value as responsive defense.
+- name: mixed_activity_conflict_rule
+  value: null
+  status: calibration_required
+  unit: evidence_conflict_rule
+  calibration_scope: instrument_session_timeframe_regime
+  description: Conflict rule for initiative/responsive evidence disagreement.
+parameters:
+- name: value_acceptance_requirement
+  value: null
+  status: calibration_required
+- name: responsive_defense_requirement
+  value: null
+  status: calibration_required
+- name: mixed_activity_conflict_rule
+  value: null
+  status: calibration_required
+confidence_behavior:
+  full_confidence: All required feeds are present, fresh, session-aligned, and calibration/review requirements for
+    the declared class are satisfied.
+  degraded_confidence_triggers:
+  - Optional feeds are unavailable where they would normally confirm participant quality, value behavior, liquidity
+    quality, or event context.
+  - Structural evidence is present but context evidence conflicts or is stale.
+  - The concept requires human judgment and the evidence only supports a provisional read.
+  review_required_trigger: Required evidence is present but quality, sequence, or context is mixed enough that a
+    bounded human review hook is needed.
+  no_binary_certainty_claim: Labels describe evidence state and read quality, not truth, permission, or execution.
+confidence_rules:
+  full_confidence_requires: *id002
+  downgrade_when:
+  - Optional feed absence removes context needed for stronger interpretation.
+  - Calibration parameters are unset or stale for the evaluated instrument/session/timeframe/regime.
+  - Evidence is late, conflicted, thin, event-distorted, or poorly located.
+  refuse_when:
+  - Required feeds are missing, stale, malformed, or not aligned to session definitions.
+  - A required data class is unavailable and no schema-approved downgraded state applies.
+refusal_conditions:
+- Required market data or session definitions are missing.
+- Declared required feeds are stale, malformed, or not synchronized.
+- Calibration is required but no product/session/timeframe/regime calibration exists.
+- The requested output would require participant intent, positioning, or order-book evidence not available in the
+  declared feeds.
+- The requested output would become trade permission, entry, exit, stop, target, sizing, or autonomous execution
+  behavior.
+output_labels:
+- INITIATIVE_ACTIVITY_LOCATION
+- RESPONSIVE_ACTIVITY_LOCATION
+- MIXED_ACTIVITY_CONTEXT
+- VALUE_EDGE_CONFIRMATION_REQUIRED
+- LOCATION_ONLY_CONTEXT
+- REVIEW_REQUIRED
+- CONFIRMATION_REQUIRED
+- DEGRADED_CONFIDENCE
+- INSUFFICIENT_EVIDENCE
+- REFUSE_TO_CLASSIFY
+states_emitted: *id001
+allowed_action_labels:
+- OBSERVE
+- MONITOR_FOR_CONFIRMATION
+- DOWNGRADE_CONFIDENCE
+- REVIEW_REQUIRED
+- CONTEXT_ONLY
+- INSUFFICIENT_EVIDENCE
+- REFUSE_TO_CLASSIFY
+false_positive_risks:
+- Treating a single touch, excursion, or fast move as confirmed read quality.
+- Using missing optional feeds as if they were silently present.
+- Applying calibration from the wrong product, session, timeframe, or regime.
+- Mistaking thin liquidity, event noise, or mechanical flow for sponsored participation.
+false_negative_risks:
+- Over-refusing when structural evidence is clean but optional feeds are unavailable.
+- Missing valid context because calibration windows are stale or too narrow.
+- Failing to recognize that market-participant behavior may be visible through sequence even when direct intent
+  is unobservable.
+failure_modes:
+- Bad session calendar or incorrectly segmented overnight/RTH data.
+- Missing or delayed profile, order-flow, depth, breadth, event, or volatility feeds named by the spec.
+- Stale calibration after regime shift.
+- Data gaps around event windows, open/close windows, or fast markets.
+- Implementation emits a stronger label than the declared determinism class allows.
+validation_requirements:
+- YAML parses as a mapping and uses schema-approved review status.
+- concept_id exists in spec/concept_registry.yaml and determinism_class matches the registry and matrix.
+- Replay tests cover positive label, negative label, degraded-confidence path, missing-required-feed refusal, and
+  stale-calibration refusal.
+- Human review audit confirms labels remain actionable in judgment and non-executional in instruction.
+- No test or implementation may assert entries, exits, stops, targets, sizing, order routing, account, fill, P&L,
+  or autonomous trading behavior.
+test_cases:
+- name: positive_structural_or_context_label
+  given: All required feeds are fresh and aligned, with evidence satisfying the declared rule structure.
+  expect: INITIATIVE_ACTIVITY_LOCATION
+- name: negative_or_unconfirmed_label
+  given: Required feeds are present but the sequence does not satisfy the concept-specific evidence requirements.
+  expect: REVIEW_REQUIRED or a lower-strength context label, not a trade instruction.
+- name: missing_required_feed
+  given: At least one required feed is unavailable, stale, or malformed.
+  expect: INSUFFICIENT_EVIDENCE
+- name: missing_optional_confirmation
+  given: Required structural feeds are present but optional confirmation feeds are absent.
+  expect: DEGRADED_CONFIDENCE with no participant-quality overclaim.
+- name: executional_output_guard
+  given: Caller requests an entry, exit, stop, target, sizing, broker/order/account/fill/P&L instruction, or autonomous
+    action.
+  expect: REFUSE_TO_CLASSIFY
+prohibited_outputs: &id003
+- trade_permission
+- entry_instruction
+- exit_instruction
+- stop_instruction
+- target_instruction
+- position_sizing_instruction
+- add_or_reduce_instruction
+- broker_action
+- order_action
+- account_instruction
+- fill_or_pnl_instruction
+- autonomous_trade_call
+forbidden_outputs: *id003
+review_status: DRAFT
+notes: P17 Wave 4 spec. Built from registry entry ch03_initiative_vs_responsive_activity and glossary source glossary/chapter_03_auction_market_profile.md.
+  No thresholds, parameter values, detection code, calibration profiles, or executional outputs are introduced.

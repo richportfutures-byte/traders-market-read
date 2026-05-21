@@ -1,0 +1,288 @@
+spec_id: ch05_follow_through_and_failure
+concept_id: ch05_follow_through_and_failure
+concept_name: Follow-Through and Failure
+display_name: Follow-Through and Failure
+glossary_ref: glossary/chapter_05_momentum_follow_through_day_types.md#follow-through-and-failure
+chapter:
+  chapter_number: 5
+  chapter_title: Momentum, Follow-Through & Day Types
+  glossary_path: glossary/chapter_05_momentum_follow_through_day_types.md
+determinism_class: CALIBRATED
+semantic_source:
+  glossary_path: glossary/chapter_05_momentum_follow_through_day_types.md
+  concept_heading: Follow-Through and Failure
+  doctrine_summary: Emit calibrated structural labels for whether an initial move receives follow-through, stalls,
+    or fails back through the reference.
+purpose: Emit calibrated structural labels for whether an initial move receives follow-through, stalls, or fails
+  back through the reference. The output is a market-read or context label only.
+description: Emit calibrated structural labels for whether an initial move receives follow-through, stalls, or fails
+  back through the reference.
+non_executional_boundary: This spec emits semantic market-read, context, confidence, review, and refusal labels
+  only. It never emits trade permission, entry, exit, stop, target, position-sizing, add or reduce, broker, order,
+  account, fill, or P&L instructions, and never an autonomous trade call.
+required_inputs:
+- name: price_bars
+  source: market_data
+  granularity: configured_intraday_timeframe
+  session_dependency: Sequence around the initiating move and follow-through window.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: structural_reference
+  source: reference_level_module
+  granularity: level_or_area
+  session_dependency: Break, value edge, prior extreme, or auction reference being tested.
+  absence_behavior: REFUSE_TO_CLASSIFY
+- name: session_clock
+  source: calendar/session_definition_module
+  granularity: session
+  session_dependency: Scopes follow-through behavior to session window and liquidity period.
+  absence_behavior: REFUSE_TO_CLASSIFY
+optional_inputs:
+- name: volume_series
+  source: market_data
+  granularity: bar_or_tick_aggregate
+  purpose: Improves sponsorship read for the follow-through attempt.
+  absence_behavior: 'DEGRADED_CONFIDENCE: structural follow-through only.'
+- name: value_behavior
+  source: profile_module
+  granularity: session_profile
+  purpose: Checks whether value migrates or rejects the move.
+  absence_behavior: 'DEGRADED_CONFIDENCE: omit value-quality claims.'
+- name: cumulative_delta
+  source: order_flow_module
+  granularity: tick_or_bar
+  purpose: Separates accepted aggression from unsupported drift.
+  absence_behavior: 'DEGRADED_CONFIDENCE: omit order-flow interpretation.'
+unavailable_input_behavior:
+  missing_required_input: REFUSE_TO_CLASSIFY
+  missing_optional_input: DEGRADED_CONFIDENCE
+  missing_calibration_parameters: INSUFFICIENT_EVIDENCE
+  feed_quality_problem: REFUSE_TO_CLASSIFY
+refusal_behavior:
+  missing_required_feeds: REFUSE_TO_CLASSIFY
+  missing_optional_feeds: DEGRADED_CONFIDENCE
+  missing_calibration: INSUFFICIENT_EVIDENCE
+  stale_or_malformed_data: REFUSE_TO_CLASSIFY
+  out_of_scope_session_or_instrument: REFUSE_TO_CLASSIFY
+detection_scope:
+  allowed_to_classify: &id001
+  - FOLLOW_THROUGH_PENDING
+  - FOLLOW_THROUGH_CONFIRMED
+  - FOLLOW_THROUGH_FAILED
+  - RETEST_HOLD_CONFIRMED
+  - STRUCTURAL_FOLLOW_THROUGH_ONLY
+  - INSUFFICIENT_EVIDENCE
+  not_allowed_to_classify:
+  - Directional prediction.
+  - Trade permission or setup authorization.
+  - Entry, exit, stop, target, sizing, broker, order, account, fill, or P&L behavior.
+  - Autonomous trade calls.
+  instrument_scope: Single instrument unless an explicit intermarket input is declared.
+  session_scope: Configured session definitions only.
+  timeframe_scope: Configured timeframe and review window only.
+  regime_scope: Calibration and interpretation must be scoped by instrument, session, timeframe, and regime where
+    applicable.
+evidence_model:
+  evidence_categories:
+  - name: structural_sequence
+    observations: &id002
+    - price_bars
+    - structural_reference
+    - session_clock
+    derivation: Collect the required feed-explicit observations before any state label is emitted.
+  - name: context_and_quality
+    observations:
+    - volume_series
+    - value_behavior
+    - cumulative_delta
+    derivation: Use optional feeds only to improve confidence or downgrade output; never assume they are present.
+  - name: calibration_or_review_boundary
+    observations:
+    - post_move_extension_requirement
+    - hold_beyond_reference_requirement
+    - failure_reclaim_window
+    - retest_hold_requirement
+    derivation: Named parameters define future calibration or review hooks; no universal values are assigned in
+      this spec.
+  evidence_hierarchy: Required feeds establish the narrow structural or contextual state. Optional feeds can strengthen,
+    weaken, or downgrade the label but cannot create executional output.
+  evidence_states:
+    supported: *id001
+    unsupported:
+    - directional_signal
+    - trade_permission
+    - autonomous_execution_call
+    - unavailable_feed_proxy_claim
+rule_structure:
+  type: calibrated_evidence_state_machine
+  description: Use feed-explicit evidence and class-appropriate state logic. Computable pieces remain structural;
+    calibrated pieces expose parameter names without values; judgment-assisted pieces preserve review and downgrade
+    states.
+  rules:
+  - id: R1
+    logic: Emit FOLLOW_THROUGH_PENDING after an initial move when the follow-through window has not produced enough
+      evidence.
+  - id: R2
+    logic: Emit FOLLOW_THROUGH_CONFIRMED when calibrated extension and hold behavior persist beyond the reference.
+  - id: R3
+    logic: Emit RETEST_HOLD_CONFIRMED when the first meaningful retest defends the relocated area.
+  - id: R4
+    logic: Emit FOLLOW_THROUGH_FAILED when price returns through the reference inside the calibrated failure window.
+  - id: R5
+    logic: Emit STRUCTURAL_FOLLOW_THROUGH_ONLY when profile, volume, or tape evidence is missing.
+  determinism_note: Registry class is CALIBRATED; this spec must not be promoted beyond that class without a later
+    governance review.
+decision_logic:
+  summary: Emit calibrated structural labels for whether an initial move receives follow-through, stalls, or fails
+    back through the reference.
+  steps:
+  - Validate required feeds, session definitions, and data freshness.
+  - Collect structural evidence from declared required inputs.
+  - Apply class-appropriate calibrated parameters or judgment-review rules with unset values left for later calibration.
+  - Apply optional evidence only as confirmation, confidence improvement, or downgrade logic.
+  - Emit one or more bounded market-read labels plus confidence/refusal labels as needed.
+  non_directional_boundary: No emitted state predicts direction, guarantees continuation or reversal, or authorizes
+    action.
+calibration_parameters:
+- name: post_move_extension_requirement
+  value: null
+  status: calibration_required
+  unit: relative_extension
+  calibration_scope: instrument_session_timeframe_regime
+  description: Minimum calibrated extension after the initiating move.
+- name: hold_beyond_reference_requirement
+  value: null
+  status: calibration_required
+  unit: duration_or_bars
+  calibration_scope: instrument_session_timeframe_regime
+  description: Required hold or dwell behavior beyond the reference.
+- name: failure_reclaim_window
+  value: null
+  status: calibration_required
+  unit: duration_or_bars
+  calibration_scope: instrument_session_timeframe_regime
+  description: Window in which return through the reference qualifies as failure.
+- name: retest_hold_requirement
+  value: null
+  status: calibration_required
+  unit: sequence_rule
+  calibration_scope: instrument_session_timeframe_regime
+  description: Retest behavior needed to mark the reference as defended.
+parameters:
+- name: post_move_extension_requirement
+  value: null
+  status: calibration_required
+- name: hold_beyond_reference_requirement
+  value: null
+  status: calibration_required
+- name: failure_reclaim_window
+  value: null
+  status: calibration_required
+- name: retest_hold_requirement
+  value: null
+  status: calibration_required
+confidence_behavior:
+  full_confidence: All required feeds are present, fresh, session-aligned, and calibration/review requirements for
+    the declared class are satisfied.
+  degraded_confidence_triggers:
+  - Optional feeds are unavailable where they would normally confirm participant quality, value behavior, liquidity
+    quality, or event context.
+  - Structural evidence is present but context evidence conflicts or is stale.
+  - The concept requires human judgment and the evidence only supports a provisional read.
+  review_required_trigger: Required evidence is present but quality, sequence, or context is mixed enough that a
+    bounded human review hook is needed.
+  no_binary_certainty_claim: Labels describe evidence state and read quality, not truth, permission, or execution.
+confidence_rules:
+  full_confidence_requires: *id002
+  downgrade_when:
+  - Optional feed absence removes context needed for stronger interpretation.
+  - Calibration parameters are unset or stale for the evaluated instrument/session/timeframe/regime.
+  - Evidence is late, conflicted, thin, event-distorted, or poorly located.
+  refuse_when:
+  - Required feeds are missing, stale, malformed, or not aligned to session definitions.
+  - A required data class is unavailable and no schema-approved downgraded state applies.
+refusal_conditions:
+- Required market data or session definitions are missing.
+- Declared required feeds are stale, malformed, or not synchronized.
+- Calibration is required but no product/session/timeframe/regime calibration exists.
+- The requested output would require participant intent, positioning, or order-book evidence not available in the
+  declared feeds.
+- The requested output would become trade permission, entry, exit, stop, target, sizing, or autonomous execution
+  behavior.
+output_labels:
+- FOLLOW_THROUGH_PENDING
+- FOLLOW_THROUGH_CONFIRMED
+- FOLLOW_THROUGH_FAILED
+- RETEST_HOLD_CONFIRMED
+- STRUCTURAL_FOLLOW_THROUGH_ONLY
+- INSUFFICIENT_EVIDENCE
+- CONFIRMATION_REQUIRED
+- REVIEW_REQUIRED
+- DEGRADED_CONFIDENCE
+- REFUSE_TO_CLASSIFY
+states_emitted: *id001
+allowed_action_labels:
+- OBSERVE
+- MONITOR_FOR_CONFIRMATION
+- DOWNGRADE_CONFIDENCE
+- REVIEW_REQUIRED
+- CONTEXT_ONLY
+- INSUFFICIENT_EVIDENCE
+- REFUSE_TO_CLASSIFY
+false_positive_risks:
+- Treating a single touch, excursion, or fast move as confirmed read quality.
+- Using missing optional feeds as if they were silently present.
+- Applying calibration from the wrong product, session, timeframe, or regime.
+- Mistaking thin liquidity, event noise, or mechanical flow for sponsored participation.
+false_negative_risks:
+- Over-refusing when structural evidence is clean but optional feeds are unavailable.
+- Missing valid context because calibration windows are stale or too narrow.
+- Failing to recognize that market-participant behavior may be visible through sequence even when direct intent
+  is unobservable.
+failure_modes:
+- Bad session calendar or incorrectly segmented overnight/RTH data.
+- Missing or delayed profile, order-flow, depth, breadth, event, or volatility feeds named by the spec.
+- Stale calibration after regime shift.
+- Data gaps around event windows, open/close windows, or fast markets.
+- Implementation emits a stronger label than the declared determinism class allows.
+validation_requirements:
+- YAML parses as a mapping and uses schema-approved review status.
+- concept_id exists in spec/concept_registry.yaml and determinism_class matches the registry and matrix.
+- Replay tests cover positive label, negative label, degraded-confidence path, missing-required-feed refusal, and
+  stale-calibration refusal.
+- Human review audit confirms labels remain actionable in judgment and non-executional in instruction.
+- No test or implementation may assert entries, exits, stops, targets, sizing, order routing, account, fill, P&L,
+  or autonomous trading behavior.
+test_cases:
+- name: positive_structural_or_context_label
+  given: All required feeds are fresh and aligned, with evidence satisfying the declared rule structure.
+  expect: FOLLOW_THROUGH_PENDING
+- name: negative_or_unconfirmed_label
+  given: Required feeds are present but the sequence does not satisfy the concept-specific evidence requirements.
+  expect: REVIEW_REQUIRED or a lower-strength context label, not a trade instruction.
+- name: missing_required_feed
+  given: At least one required feed is unavailable, stale, or malformed.
+  expect: REFUSE_TO_CLASSIFY
+- name: missing_optional_confirmation
+  given: Required structural feeds are present but optional confirmation feeds are absent.
+  expect: DEGRADED_CONFIDENCE with no participant-quality overclaim.
+- name: executional_output_guard
+  given: Caller requests an entry, exit, stop, target, sizing, broker/order/account/fill/P&L instruction, or autonomous
+    action.
+  expect: REFUSE_TO_CLASSIFY
+prohibited_outputs: &id003
+- trade_permission
+- entry_instruction
+- exit_instruction
+- stop_instruction
+- target_instruction
+- position_sizing_instruction
+- add_or_reduce_instruction
+- broker_action
+- order_action
+- account_instruction
+- fill_or_pnl_instruction
+- autonomous_trade_call
+forbidden_outputs: *id003
+review_status: DRAFT
+notes: P17 Wave 4 spec. Built from registry entry ch05_follow_through_and_failure and glossary source glossary/chapter_05_momentum_follow_through_day_types.md.
+  No thresholds, parameter values, detection code, calibration profiles, or executional outputs are introduced.
