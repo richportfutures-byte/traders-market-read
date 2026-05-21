@@ -1,0 +1,97 @@
+schema_id: detector_output_schema
+schema_version: 1
+project: traders-market-read
+schema_status: ACTIVE_FOUNDATION
+purpose: "Minimal non-executional output contract for future detector implementations. This schema defines the shape of detector output only; it does not define detector logic, calibration values, trade permission, broker behavior, or order behavior."
+catalog_source: "spec/detector_contract_catalog.json"
+
+required_top_level_fields:
+  - schema_version
+  - concept_id
+  - state
+  - action_label
+  - guardrails
+
+field_definitions:
+  schema_version:
+    expected_type: integer
+    required: true
+    allowed_values:
+      - 1
+    purpose: "Identifies the detector output contract version."
+  concept_id:
+    expected_type: string
+    required: true
+    validation_rule: "Must exist in spec/detector_contract_catalog.json."
+    purpose: "Links the output to exactly one detector contract."
+  state:
+    expected_type: string
+    required: true
+    validation_rule: "Must be one of the detector contract's states_emitted labels."
+    purpose: "Bounded market-read, evidence, context, confidence, or refusal state."
+  action_label:
+    expected_type: string
+    required: true
+    validation_rule: "Must be one of the detector contract's allowed_action_labels."
+    purpose: "Non-executional operator/read-management label only."
+  evidence:
+    expected_type: object
+    required: false
+    purpose: "Optional structured evidence summary. Must not contain execution fields."
+  confidence:
+    expected_type: string
+    required: false
+    purpose: "Optional confidence label or confidence note. Must not imply trade permission."
+  notes:
+    expected_type: string_or_list
+    required: false
+    purpose: "Optional non-executional implementation notes."
+  guardrails:
+    expected_type: object
+    required: true
+    required_true_booleans:
+      - no_trade_permission
+      - no_execution_fields
+      - no_broker_order_account_fields
+      - catalog_state_action_checked
+    purpose: "Machine-checkable confirmation that the output remains inside the non-executional detector contract."
+
+forbidden_fields_anywhere:
+  - entry_price
+  - stop_price
+  - target_price
+  - order_type
+  - quantity
+  - position_size
+  - account_id
+  - broker
+  - fill_price
+  - pnl
+  - buy_now
+  - sell_now
+  - execute
+  - place_order
+  - reduce_position
+  - add_position
+
+forbidden_behavior:
+  no_trade_permission: true
+  no_entries_stops_targets_sizing: true
+  no_broker_order_account_fill_pnl_fields: true
+  no_autonomous_execution: true
+  no_detector_logic_in_schema: true
+  no_calibration_values_in_schema: true
+
+minimum_output_template:
+  schema_version: 1
+  concept_id: null
+  state: null
+  action_label: null
+  evidence: {}
+  confidence: null
+  notes: null
+  guardrails:
+    no_trade_permission: true
+    no_execution_fields: true
+    no_broker_order_account_fields: true
+    catalog_state_action_checked: true

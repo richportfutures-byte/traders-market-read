@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "concept_id": "ch01_confirmation_and_invalidation_discipline",
+  "state": "CONFIRMATION_AND_INVALIDATION_DISCIPLINE_EVIDENCE_PRESENT",
+  "action_label": "OBSERVE",
+  "evidence": {
+    "summary": "Required non-executional evidence fields are present for catalog validation."
+  },
+  "confidence": "REVIEW_REQUIRED",
+  "notes": "Example only; no detector logic or calibration values are supplied.",
+  "guardrails": {
+    "no_trade_permission": true,
+    "no_execution_fields": true,
+    "no_broker_order_account_fields": true,
+    "catalog_state_action_checked": true
+  }
+}
