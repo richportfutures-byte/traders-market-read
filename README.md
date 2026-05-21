@@ -1228,6 +1228,7 @@ The exact commands depend on the local tooling selected for the repository. At m
 python3 scripts/validate_detection_specs.py
 python3 scripts/validate_detection_specs.py --traceability-csv qa/glossary_to_spec_traceability.csv
 python3 scripts/extract_calibration_inventory.py
+python3 scripts/build_detector_contract_catalog.py
 ```
 
 ```bash
