@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "market_context": {
+    "instrument": "ES",
+    "session": "synthetic_rth",
+    "timeframe": "intraday_fixture",
+    "data_window": "synthetic_example_window",
+    "source": "P29 invalid fixture"
+  },
+  "detector_inputs": {
+    "session_clock": {
+      "session_label": "synthetic_rth",
+      "ib_window_complete": true
+    },
+    "ch02_acceptance_vs_rejection": {
+      "structural_level": 5000,
+      "trade_price_sequence": [4998, 5001, 5003],
+      "entry_price": 5001
+    }
+  }
+}

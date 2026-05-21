@@ -28,6 +28,10 @@ from traders_market_read.detectors.calibration import (
 )
 from traders_market_read.detectors.catalog import CatalogError, load_catalog
 from traders_market_read.detectors.runtime import run
+from traders_market_read.input.market_snapshot import (
+    MarketSnapshotInputError,
+    runtime_market_context_from_file,
+)
 
 
 def _fail(message: str, code: int = 2) -> int:
@@ -43,22 +47,9 @@ def load_input(path: Path) -> dict[str, Any]:
     market-context object. Raises ValueError on malformed input.
     """
     try:
-        raw = json.loads(path.read_text(encoding="utf-8"))
-    except FileNotFoundError as exc:
-        raise ValueError(f"input file not found: {path}") from exc
-    except json.JSONDecodeError as exc:
-        raise ValueError(f"input file is not valid JSON: {exc}") from exc
-    except OSError as exc:
-        raise ValueError(f"could not read input file {path}: {exc}") from exc
-
-    if not isinstance(raw, dict):
-        raise ValueError("input fixture must be a JSON object")
-    if "market_context" in raw:
-        market_context = raw["market_context"]
-        if not isinstance(market_context, dict):
-            raise ValueError("input fixture 'market_context' must be a JSON object")
-        return market_context
-    return raw
+        return runtime_market_context_from_file(path)
+    except MarketSnapshotInputError as exc:
+        raise ValueError(str(exc)) from exc
 
 
 def write_outputs(path: Path, outputs: list[dict[str, Any]]) -> None:

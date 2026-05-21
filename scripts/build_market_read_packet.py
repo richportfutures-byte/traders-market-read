@@ -16,6 +16,10 @@ from traders_market_read.pipeline.market_read_packet import (
     MarketReadPacketError,
     build_market_read_packet,
 )
+from traders_market_read.input.market_snapshot import (
+    MarketSnapshotInputError,
+    load_market_snapshot,
+)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -33,6 +37,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     try:
+        load_market_snapshot(args.input_json)
         result = build_market_read_packet(
             args.input_json,
             calibration_profile_path=args.calibration_profile,
@@ -40,7 +45,7 @@ def main(argv: list[str] | None = None) -> int:
             summary_json_path=args.summary_json,
             review_markdown_path=args.review_md,
         )
-    except MarketReadPacketError as exc:
+    except (MarketReadPacketError, MarketSnapshotInputError) as exc:
         print("market-read packet pipeline FAILED")
         print(str(exc))
         return 1

@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "detector_inputs": {
+    "session_clock": {
+      "session_label": "synthetic_rth",
+      "ib_window_complete": true
+    }
+  }
+}

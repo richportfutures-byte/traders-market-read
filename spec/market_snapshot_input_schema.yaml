@@ -1,0 +1,69 @@
+schema_id: market_snapshot_input_schema
+schema_version: 1
+project: traders-market-read
+schema_status: ACTIVE_FOUNDATION
+purpose: "Non-executional input envelope for detector runtime market snapshots."
+
+required_top_level_fields:
+  - schema_version
+  - market_context
+  - detector_inputs
+
+field_definitions:
+  schema_version:
+    expected_type: integer
+    required: true
+    allowed_values:
+      - 1
+    purpose: "Identifies the market snapshot input contract version."
+  market_context:
+    expected_type: object
+    required: true
+    required_fields:
+      - instrument
+      - session
+      - timeframe
+      - data_window
+    optional_fields:
+      - as_of
+      - source
+      - notes
+    purpose: "Snapshot metadata for the instrument/session/timeframe/window being evaluated."
+  detector_inputs:
+    expected_type: object
+    required: true
+    behavior:
+      keyed_by: "concept_id, with explicitly allowed shared structural blocks for current runtime fixtures"
+      missing_concept_blocks_allowed: true
+      malformed_concept_blocks_fail_validation: true
+    purpose: "Explicit structural input blocks consumed by the non-executional detector runtime."
+
+legacy_fixture_support:
+  accepted: true
+  behavior: "Existing P25/P26 fixtures with metadata plus market_context are normalized internally; their market_context object is treated as detector_inputs and snapshot metadata is synthesized where needed."
+
+forbidden_fields_anywhere:
+  - entry_price
+  - stop_price
+  - target_price
+  - order_type
+  - quantity
+  - position_size
+  - account_id
+  - broker
+  - fill_price
+  - pnl
+  - buy_now
+  - sell_now
+  - execute
+  - place_order
+  - reduce_position
+  - add_position
+
+forbidden_behavior:
+  no_trade_permission: true
+  no_entries_stops_targets_sizing: true
+  no_broker_order_account_fill_pnl_fields: true
+  no_autonomous_execution: true
+  no_detector_logic_in_schema: true
+  no_calibration_values_in_schema: true

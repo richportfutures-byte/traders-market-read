@@ -22,6 +22,10 @@ from traders_market_read.detectors.calibration import CalibrationError, load_cal
 from traders_market_read.detectors.catalog import CatalogError, DetectorCatalog, load_catalog
 from traders_market_read.detectors.output import find_forbidden_fields, validate_output_payload
 from traders_market_read.detectors.runtime import run
+from traders_market_read.input.market_snapshot import (
+    MarketSnapshotInputError,
+    runtime_market_context_from_file,
+)
 from traders_market_read.reporting.runtime_summary import (
     RuntimeSummaryError,
     build_runtime_summary,
@@ -62,23 +66,10 @@ class MarketReadPacketResult:
 
 
 def _load_market_context(path: Path) -> dict[str, Any]:
-    if not path.exists():
-        raise MarketReadPacketError(f"input file not found: {path}")
     try:
-        raw = json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as exc:
-        raise MarketReadPacketError(f"input file is not valid JSON: {exc}") from exc
-    except OSError as exc:
-        raise MarketReadPacketError(f"could not read input file {path}: {exc}") from exc
-
-    if not isinstance(raw, dict):
-        raise MarketReadPacketError("input fixture must be a JSON object")
-    if "market_context" in raw:
-        market_context = raw["market_context"]
-        if not isinstance(market_context, dict):
-            raise MarketReadPacketError("input fixture 'market_context' must be a JSON object")
-        return market_context
-    return raw
+        return runtime_market_context_from_file(path)
+    except MarketSnapshotInputError as exc:
+        raise MarketReadPacketError(str(exc)) from exc
 
 
 def _write_json(path: Path, payload: Any) -> None:
